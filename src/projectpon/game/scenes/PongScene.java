@@ -154,7 +154,7 @@ public class PongScene extends GameScene {
 		if (winner.score >= SessionConfiguration.maximumWinScore) {
 			controller.win(winner);
 		} else if (winner.score >= SessionConfiguration.minimumWinScore) {
-			if ((winner.score - other.score) > 1) {
+			if ((winner.score - other.score) >= SessionConfiguration.minimumWinDiff) {
 				controller.win(winner);
 			}
 		}

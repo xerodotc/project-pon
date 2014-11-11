@@ -52,6 +52,13 @@ public final class Configuration {
 		defaultIni.add("soundOptions", "musicVolume", "100");
 		defaultIni.add("soundOptions", "soundsEnabled", "true");
 		defaultIni.add("soundOptions", "soundsVolume", "100");
+		
+		/*
+		 * Default settings for initial session configuration
+		 */
+		defaultIni.add("lastSession", "minPoints", "5");
+		defaultIni.add("lastSession", "maxPoints", "9");
+		defaultIni.add("lastSession", "diffPoints", "2");
 	}
 	
 	public static boolean isLoaded() {
@@ -199,6 +206,33 @@ public final class Configuration {
 			}
 		}
 		
+		if (isOutOfBound("lastSession", "minPoints") || 
+				isOutOfBound("lastSession", "maxPoints") ||
+				isOutOfBound("lastSession", "diffPoints")) {
+			valid = false;
+			if (resetOnInvalid) {
+				reset("lastSession", "minPoints");
+				reset("lastSession", "maxPoints");
+				reset("lastSession", "diffPoints");
+			}
+		}
+		
+		int minPoints = getInt("lastSession", "minPoints");
+		int maxPoints = getInt("lastSession", "maxPoints");
+		int diffPoints = getInt("lastSession", "minPoints");
+		
+		boolean validCondition1 = (minPoints <= maxPoints);
+		boolean validCondition2 = (diffPoints <= minPoints);
+		
+		if (!(validCondition1 && validCondition2)) {
+			valid = false;
+			if (resetOnInvalid) {
+				reset("lastSession", "minPoints");
+				reset("lastSession", "maxPoints");
+				reset("lastSession", "diffPoints");
+			}
+		}
+		
 		return valid;
 	}
 	
@@ -231,6 +265,14 @@ public final class Configuration {
 			case "musicVolume":
 			case "soundsVolume":
 				return 0;
+			}
+			
+		case "lastSession":
+			switch (key) {
+			case "minPoints":
+			case "maxPoints":
+			case "diffPoints":
+				return 1;
 			}
 		}
 		
@@ -266,6 +308,14 @@ public final class Configuration {
 			case "musicVolume":
 			case "soundsVolume":
 				return 100;
+			}
+			
+		case "lastSession":
+			switch (key) {
+			case "minPoints":
+			case "maxPoints":
+			case "diffPoints":
+				return 50;
 			}
 		}
 		

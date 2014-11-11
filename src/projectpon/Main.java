@@ -2,6 +2,7 @@ package projectpon;
 
 import projectpon.engine.*;
 import projectpon.game.Configuration;
+import projectpon.game.SessionConfiguration;
 import projectpon.game.scenes.Loader;
 import projectpon.game.scenes.TitleScene;
 
@@ -35,6 +36,12 @@ public class Main {
 						Configuration.getBoolean("soundOptions", "globalEnabled"));
 				GameSound.setSoundsVolume(
 						Configuration.getInt("soundOptions", "globalVolume"));
+				SessionConfiguration.minimumWinScore = 
+						Configuration.getInt("lastSession", "minPoints");
+				SessionConfiguration.maximumWinScore = 
+						Configuration.getInt("lastSession", "maxPoints");
+				SessionConfiguration.minimumWinDiff = 
+						Configuration.getInt("lastSession", "diffPoints");
 			}
 		};
 		

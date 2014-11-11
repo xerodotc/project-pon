@@ -253,9 +253,10 @@ public class TitleMenu extends GameObject {
 									InputStream in = remote.getInputStream();
 									
 									out.write(
-											String.format("%d %d",
+											String.format("%d %d %d",
 													SessionConfiguration.minimumWinScore,
-													SessionConfiguration.maximumWinScore).getBytes());
+													SessionConfiguration.maximumWinScore,
+													SessionConfiguration.minimumWinDiff).getBytes());
 									out.flush();
 									
 									byte[] buffer = new byte[256];
@@ -314,8 +315,9 @@ public class TitleMenu extends GameObject {
 									
 									String conditionsString = "Game conditions\n";
 									conditionsString += "-------------------------\n";
-									conditionsString += "Minimum winning score: " + score[0] + "\n";
-									conditionsString += "Maximum winning score: " + score[1] + "\n";
+									conditionsString += "Minimum winning score: " + score[0];
+									conditionsString += "Maximum winning score: " + score[1];
+									conditionsString += "Required score difference: " + score[2];
 									conditionsString += "-------------------------\n";
 								
 									int confirm = JOptionPane.showConfirmDialog(
