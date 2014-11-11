@@ -20,12 +20,12 @@ public class ConnectionLostOverlay extends Overlay {
 		boolean dismiss = false;
 		switch (Configuration.get("inputPrimaryPlayer", "type")) {
 		case "mouse":
-			dismiss = input.isMousePressed(
+			dismiss = input.isMouseReleased(
 					Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
 			break;
 			
 		case "keyboard":
-			dismiss = input.isKeyPressed(
+			dismiss = input.isKeyReleased(
 					Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
 			break;
 		}

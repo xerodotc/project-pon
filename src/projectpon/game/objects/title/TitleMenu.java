@@ -7,8 +7,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -17,7 +22,11 @@ import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
 import projectpon.engine.GameWindow;
+import projectpon.engine.exceptions.NetworkException;
+import projectpon.engine.exceptions.NetworkLockException;
+import projectpon.engine.net.NetworkManager;
 import projectpon.game.Configuration;
+import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.Paddle;
 import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
@@ -90,7 +99,7 @@ public class TitleMenu extends GameObject {
 		
 		switch (Configuration.get("inputPrimaryPlayer", "type")) {
 		case "mouse":
-			triggered = input.isMousePressed(
+			triggered = input.isMouseReleased(
 					Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
 			
 			if (activated) {
@@ -108,7 +117,7 @@ public class TitleMenu extends GameObject {
 			break;
 			
 		case "keyboard":
-			triggered = input.isKeyPressed(
+			triggered = input.isKeyReleased(
 					Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
 			
 			if (activated) {
@@ -210,65 +219,153 @@ public class TitleMenu extends GameObject {
 		/**
 		 * TODO: Actual menu action, options, help
 		 */
+
+		final PongScene pscene;
+		Socket remote = null;
 		
-		try {
-			PongScene pscene;
-			Socket remote = null;
+		switch (choice) {
+		case CHOICE_VS_1P:
+			pscene = new PongScene();
+			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
+			pscene.setRightPlayer(Paddle.PLAYER_AI, false);
+			GameEngine.setScene(pscene);
+			break;
 			
-			switch (choice) {
-			case CHOICE_VS_1P:
-				pscene = new PongScene();
-				pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
-				pscene.setRightPlayer(Paddle.PLAYER_AI, false);
-				GameEngine.setScene(pscene);
-				break;
-				
-			case CHOICE_VS_2P:
-				pscene = new PongScene();
-				pscene.setLeftPlayer(Paddle.PLAYER_LOCAL);
-				pscene.setRightPlayer(Paddle.PLAYER_LOCAL);
-				GameEngine.setScene(pscene);
-				break;
-				
-			case CHOICE_SERVER:
-				ServerSocket server = new ServerSocket(10215);
-				remote = server.accept();
-				server.close();
-				pscene = new PongScene();
-				pscene.setSocket(remote);
-				pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
-				pscene.setRightPlayer(Paddle.PLAYER_REMOTE, false);
-				GameEngine.setScene(pscene);
-				break;
-				
-			case CHOICE_CLIENT:
-				String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
-				try {
-					remote = new Socket(host, 10215);
-					pscene = new ShadowPongScene();
-					pscene.setSocket(remote);
-					pscene.setLeftPlayer(Paddle.PLAYER_SHADOW, false);
-					pscene.setRightPlayer(Paddle.PLAYER_SHADOW, true);
-					GameEngine.setScene(pscene);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Can't connect to server!",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
-				break;
-				
-			case CHOICE_OPTIONS:
-				break;
-				
-			case CHOICE_HELP:
-				break;
+		case CHOICE_VS_2P:
+			pscene = new PongScene();
+			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL);
+			pscene.setRightPlayer(Paddle.PLAYER_LOCAL);
+			GameEngine.setScene(pscene);
+			break;
 			
-			case CHOICE_EXIT:
-				GameEngine.exit();
-				break;
+		case CHOICE_SERVER:
+			pscene = new PongScene();
+			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
+			pscene.setRightPlayer(Paddle.PLAYER_REMOTE, false);
+			GameEngine.pause();
+			try {
+				NetworkManager.Server.addOnAcceptedListener(
+						new NetworkManager.Server.AcceptListener() {
+							@Override
+							public void onAccepted(Socket remote) {
+								try {
+									OutputStream out = remote.getOutputStream();
+									InputStream in = remote.getInputStream();
+									
+									out.write(
+											String.format("%d %d",
+													SessionConfiguration.minimumWinScore,
+													SessionConfiguration.maximumWinScore).getBytes());
+									out.flush();
+									
+									byte[] buffer = new byte[256];
+									in.read(buffer);
+									String response = new String(buffer).trim();
+									if (Boolean.parseBoolean(response)) {
+										NetworkManager.setSocket(remote);
+										GameEngine.setScene(pscene);
+										GameEngine.unpause();
+									} else {
+										NetworkManager.Server.reacceptClient();
+									}
+								} catch (IOException e) {
+									e.printStackTrace();
+									NetworkManager.Server.reacceptClient();
+								}
+							}
+						});
+				
+				NetworkManager.Server.start(10215);
+				NetworkManager.Server.acceptClient();
+			} catch (NetworkException | NetworkLockException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			break;
+			
+		case CHOICE_CLIENT:
+			pscene = new ShadowPongScene();
+			pscene.setLeftPlayer(Paddle.PLAYER_SHADOW, false);
+			pscene.setRightPlayer(Paddle.PLAYER_SHADOW, true);
+			GameEngine.pause();
+			String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
+			if (host == null) {
+				GameEngine.unpause();
+				return;
+			}
+			
+			try {
+				NetworkManager.Client.addOnConnectedListener(
+						new NetworkManager.Client.ConnectListener() {
+							@Override
+							public void onConnected(Socket remote) {
+								try {
+									InputStream in = remote.getInputStream();
+									OutputStream out = remote.getOutputStream();
+									
+									byte[] buffer = new byte[256];
+									in.read(buffer);
+									String data = new String(buffer).trim();
+									String[] score = data.split(" ");
+									
+									if (score.length < 2) {
+										out.write("false".getBytes());
+										throw new Exception();
+									}
+									
+									String conditionsString = "Game conditions\n";
+									conditionsString += "-------------------------\n";
+									conditionsString += "Minimum winning score: " + score[0] + "\n";
+									conditionsString += "Maximum winning score: " + score[1] + "\n";
+									conditionsString += "-------------------------\n";
+								
+									int confirm = JOptionPane.showConfirmDialog(
+											null, conditionsString + "\nAccept this server's conditions?", "Confirmation",
+											JOptionPane.OK_CANCEL_OPTION);
+									
+									switch (confirm) {
+									case JOptionPane.OK_OPTION:
+										out.write("true".getBytes());
+										NetworkManager.setSocket(remote);
+										GameEngine.setScene(pscene);
+										GameEngine.unpause();
+										break;
+										
+									case JOptionPane.CANCEL_OPTION:
+										try {
+											GameEngine.unpause();
+											out.write("false".getBytes());
+											NetworkManager.Client.disconnect();
+										} catch (NetworkException | IOException e) {
+											e.printStackTrace();
+										}
+										break;
+									}
+								} catch (Exception e1) {
+									JOptionPane.showMessageDialog(null, "Can't connect to server!",
+											"Error", JOptionPane.ERROR_MESSAGE);
+									GameEngine.unpause();
+								}
+							}
+						});
+				NetworkManager.Client.connect(host, 10215);
+			} catch (NetworkException e) {
+				JOptionPane.showMessageDialog(null, "Can't connect to server!",
+						"Error", JOptionPane.ERROR_MESSAGE);
+				GameEngine.unpause();
+			} catch (NetworkLockException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		case CHOICE_OPTIONS:
+			break;
+			
+		case CHOICE_HELP:
+			break;
+		
+		case CHOICE_EXIT:
 			GameEngine.exit();
+			break;
 		}
 	}
 }

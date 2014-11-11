@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import projectpon.engine.GameEngine;
+import projectpon.engine.exceptions.NetworkException;
+import projectpon.engine.net.NetworkManager;
 import projectpon.game.objects.ClientController;
 import projectpon.game.objects.Paddle;
 import projectpon.game.objects.shadow.ShadowBall;
@@ -21,14 +23,14 @@ public class ShadowPongScene extends PongScene {
 	
 	@Override
 	public void initialize() {
-		if (remote == null) {
+		if (!useSocket) {
 			System.err.println("Error");
 			GameEngine.exit();
 			return;
 		}
 		
 		ball = new ShadowBall();
-		controller = new ClientController(remote);
+		controller = new ClientController(NetworkManager.getSocket());
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
 				WALL_INIT_Y, Paddle.SIDE_LEFT);
 		wallRight = new ShadowWall(RIGHT_WALL_INIT_X,
@@ -36,6 +38,10 @@ public class ShadowPongScene extends PongScene {
 		
 		super.initialize();
 		this.objectAdd(new ShadowItems());
+	}
+	
+	public void setLeftPlayer() {
+		this.setLeftPlayer(Paddle.PLAYER_SHADOW);
 	}
 	
 	@Override
@@ -50,6 +56,10 @@ public class ShadowPongScene extends PongScene {
 					Paddle.SIDE_LEFT);
 		}
 		super.setLeftPlayer(type, my);
+	}
+	
+	public void setRightPlayer() {
+		this.setRightPlayer(Paddle.PLAYER_SHADOW);
 	}
 	
 	@Override

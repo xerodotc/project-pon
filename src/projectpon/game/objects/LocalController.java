@@ -33,7 +33,7 @@ public class LocalController extends Controller {
 		
 		if (!networked) {
 			paused = nextPaused;
-			if (input.isKeyPressed(KeyEvent.VK_ESCAPE)) {
+			if (input.isKeyReleased(KeyEvent.VK_ESCAPE)) {
 				togglePause();
 			}
 		}
@@ -50,61 +50,61 @@ public class LocalController extends Controller {
 	}
 	
 	private void debugKeyListener() {
-		if (input.isKeyPressed(KeyEvent.VK_Q)) {
+		if (input.isKeyReleased(KeyEvent.VK_Q)) {
 			pscene.playerLeft.setStatus(Paddle.STATUS_STICKY);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_W)) {
+		if (input.isKeyReleased(KeyEvent.VK_W)) {
 			pscene.playerRight.setStatus(Paddle.STATUS_STICKY);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_A)) {
+		if (input.isKeyReleased(KeyEvent.VK_A)) {
 			pscene.playerLeft.setStatus(Paddle.STATUS_BLIND);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_S)) {
+		if (input.isKeyReleased(KeyEvent.VK_S)) {
 			pscene.playerRight.setStatus(Paddle.STATUS_BLIND);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_Z)) {
+		if (input.isKeyReleased(KeyEvent.VK_Z)) {
 			pscene.playerLeft.setStatus(Paddle.STATUS_INVERT);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_X)) {
+		if (input.isKeyReleased(KeyEvent.VK_X)) {
 			pscene.playerRight.setStatus(Paddle.STATUS_INVERT);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_1)) {
+		if (input.isKeyReleased(KeyEvent.VK_1)) {
 			pscene.playerLeft.setStatus(Paddle.STATUS_WALL);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_2)) {
+		if (input.isKeyReleased(KeyEvent.VK_2)) {
 			pscene.playerRight.setStatus(Paddle.STATUS_WALL);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_3)) {
+		if (input.isKeyReleased(KeyEvent.VK_3)) {
 			pscene.playerLeft.shrink();
 		}
-		if (input.isKeyPressed(KeyEvent.VK_4)) {
+		if (input.isKeyReleased(KeyEvent.VK_4)) {
 			pscene.playerRight.shrink();
 		}
-		if (input.isKeyPressed(KeyEvent.VK_E)) {
+		if (input.isKeyReleased(KeyEvent.VK_E)) {
 			pscene.playerLeft.expand();
 		}
-		if (input.isKeyPressed(KeyEvent.VK_R)) {
+		if (input.isKeyReleased(KeyEvent.VK_R)) {
 			pscene.playerRight.expand();
 		}
-		if (input.isKeyPressed(KeyEvent.VK_I)) {
+		if (input.isKeyReleased(KeyEvent.VK_I)) {
 			pscene.spawnItem();
 		}
-		if (input.isKeyPressed(KeyEvent.VK_D)) {
+		if (input.isKeyReleased(KeyEvent.VK_D)) {
 			pscene.spawnItem(Item.ITEM_EXPAND);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_F)) {
+		if (input.isKeyReleased(KeyEvent.VK_F)) {
 			pscene.spawnItem(Item.ITEM_WALL);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_G)) {
+		if (input.isKeyReleased(KeyEvent.VK_G)) {
 			pscene.spawnItem(Item.ITEM_STICKY);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_C)) {
+		if (input.isKeyReleased(KeyEvent.VK_C)) {
 			pscene.spawnItem(Item.ITEM_SHRINK);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_V)) {
+		if (input.isKeyReleased(KeyEvent.VK_V)) {
 			pscene.spawnItem(Item.ITEM_BLIND);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_B)) {
+		if (input.isKeyReleased(KeyEvent.VK_B)) {
 			pscene.spawnItem(Item.ITEM_INVERT);
 		}
 	}

@@ -44,7 +44,7 @@ public class PausedOverlay extends Overlay {
 						contains(input.getMouseCoordinate())) {
 					selectedOption = RETURN_TO_TITLE;
 				}
-				select = input.isMousePressed(
+				select = input.isMouseReleased(
 						Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
 				break;
 				
@@ -65,7 +65,7 @@ public class PausedOverlay extends Overlay {
 					selectedOption = 0;
 				}
 				
-				select = input.isKeyPressed(
+				select = input.isKeyReleased(
 						Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
 				break;
 			}

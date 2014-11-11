@@ -144,7 +144,7 @@ public class Paddle extends GameObject {
 						this.y = pscene.getHeight() - this.y;
 					}
 					if (!pscene.ball.launched && this == pscene.starting) {
-						if (input.isMousePressed(MouseEvent.BUTTON1)) {
+						if (input.isMouseReleased(MouseEvent.BUTTON1)) {
 							pscene.ball.launch();
 						}
 					}
@@ -156,7 +156,7 @@ public class Paddle extends GameObject {
 						this.y += invert * scontroller.getRemoteKeySpeed();
 					}
 					if (!pscene.ball.launched && this == pscene.starting) {
-						if (input.isKeyPressed(KeyEvent.VK_SPACE)) {
+						if (input.isKeyReleased(KeyEvent.VK_SPACE)) {
 							pscene.ball.launch();
 						}
 					}
@@ -202,7 +202,7 @@ public class Paddle extends GameObject {
 					this.y = pscene.getHeight() - this.y;
 				}
 				if (!pscene.ball.launched && this == pscene.starting) {
-					if (input.isMousePressed(mbLaunch)) {
+					if (input.isMouseReleased(mbLaunch)) {
 						pscene.ball.launch();
 					}
 				}
@@ -221,7 +221,7 @@ public class Paddle extends GameObject {
 					this.y += invert * keySpeed;
 				}
 				if (!pscene.ball.launched && this == pscene.starting) {
-					if (input.isKeyPressed(keyLaunch)) {
+					if (input.isKeyReleased(keyLaunch)) {
 						pscene.ball.launch();
 					}
 				}

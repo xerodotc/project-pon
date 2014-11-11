@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 
@@ -43,6 +45,17 @@ public final class GameEngine {
 			super(title, DO_NOTHING_ON_CLOSE);
 			
 			component = new MainComponent();
+			this.addFocusListener(new FocusListener() {
+				@Override
+				public void focusLost(FocusEvent arg0) {
+					// do nothing
+				}
+				
+				@Override
+				public void focusGained(FocusEvent arg0) {
+					component.requestFocus();
+				}
+			});
 			this.add(component);
 			this.pack();
 			component.requestFocus();

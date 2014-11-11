@@ -10,6 +10,8 @@ import java.util.Random;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameScene;
+import projectpon.engine.exceptions.NetworkException;
+import projectpon.engine.net.NetworkManager;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.*;
 import projectpon.game.objects.overlay.ConnectionLostOverlay;
@@ -26,7 +28,8 @@ public class PongScene extends GameScene {
 	public Ball ball;
 	public Controller controller;
 	
-	protected Socket remote = null;
+	//protected Socket remote = null;
+	protected boolean useSocket = false;
 	
 	public static final int TOP_BOUNDARY = 128;
 	public static final int BOTTOM_BOUNDARY = 128;
@@ -74,13 +77,19 @@ public class PongScene extends GameScene {
 			return;
 		}
 		
+		if (useSocket && NetworkManager.getSocket() == null) {
+			System.err.println("Error");
+			goToTitle();
+			return;
+		}
+		
 		if (ball == null) {
 			ball = new Ball();
 		}
 		
 		if (controller == null) {
-			if (remote != null) {
-				controller = new ServerController(remote);
+			if (useSocket) {
+				controller = new ServerController(NetworkManager.getSocket());
 			} else {
 				controller = new LocalController();
 			}
@@ -88,7 +97,7 @@ public class PongScene extends GameScene {
 		
 		starting = playerLeft; // always left first
 		
-		if (remote != null) {
+		if (useSocket) {
 			GameEngine.disableExitOnClose(); // prevent leaver
 		}
 		
@@ -110,16 +119,16 @@ public class PongScene extends GameScene {
 		this.objectAdd(playerRight);
 		this.objectAdd(ball);
 		
-		if (remote == null) {
+		if (!useSocket) {
 			this.objectAdd(new PausedOverlay());
 		}
 	}
 	
 	public void exit() {
-		if (remote != null) {
+		if (useSocket) {
 			try {
-				remote.close();
-			} catch (IOException e) {
+				NetworkManager.clearSocket();
+			} catch (NetworkException e) {
 				e.printStackTrace();
 			}
 		}
@@ -181,6 +190,10 @@ public class PongScene extends GameScene {
 		if (my) {
 			myPlayer = playerLeft;
 		}
+		
+		if (type >= Paddle.PLAYER_REMOTE) {
+			useSocket = true;
+		}
 	}
 	
 	public void setLeftPlayer(int type) {
@@ -197,14 +210,14 @@ public class PongScene extends GameScene {
 		if (my) {
 			myPlayer = playerRight;
 		}
+		
+		if (type >= Paddle.PLAYER_REMOTE) {
+			useSocket = true;
+		}
 	}
 	
 	public void setRightPlayer(int type) {
 		setRightPlayer(type, false);
-	}
-	
-	public void setSocket(Socket socket) {
-		this.remote = socket;
 	}
 	
 	public void goToTitle() {
