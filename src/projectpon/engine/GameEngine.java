@@ -239,7 +239,7 @@ public final class GameEngine {
 	 * 
 	 * @param newScene	New game scene	
 	 */
-	public static void replaceScene(GameScene newScene) {
+	private static void replaceScene(GameScene newScene) {
 		if (scene != null) {
 			scene.exit();
 		}

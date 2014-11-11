@@ -11,7 +11,6 @@ import projectpon.engine.GameScene;
 import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.SessionConfiguration;
-import projectpon.game.objects.*;
 import projectpon.game.objects.ingame.Ball;
 import projectpon.game.objects.ingame.Boundary;
 import projectpon.game.objects.ingame.HUD;
