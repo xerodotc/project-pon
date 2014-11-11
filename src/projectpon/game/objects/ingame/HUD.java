@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -68,9 +68,9 @@ public class HUD extends GameObject {
 				+ STATUSES_GAP;
 		startingX = STATUSES_GAP;
 		
-		if (pscene.playerLeft.getStatus(Paddle.STATUS_STICKY)) {
+		if (pscene.playerLeft.getStatus(Player.STATUS_STICKY)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerLeft.getTimer(Paddle.STATUS_STICKY));
+					pscene.playerLeft.getTimer(Player.STATUS_STICKY));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);
@@ -88,9 +88,9 @@ public class HUD extends GameObject {
 			startingX += deltaNextX;
 		}
 		
-		if (pscene.playerLeft.getStatus(Paddle.STATUS_BLIND)) {
+		if (pscene.playerLeft.getStatus(Player.STATUS_BLIND)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerLeft.getTimer(Paddle.STATUS_BLIND));
+					pscene.playerLeft.getTimer(Player.STATUS_BLIND));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);
@@ -108,9 +108,9 @@ public class HUD extends GameObject {
 			startingX += deltaNextX;
 		}
 		
-		if (pscene.playerLeft.getStatus(Paddle.STATUS_INVERT)) {
+		if (pscene.playerLeft.getStatus(Player.STATUS_INVERT)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerLeft.getTimer(Paddle.STATUS_INVERT));
+					pscene.playerLeft.getTimer(Player.STATUS_INVERT));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);
@@ -134,9 +134,9 @@ public class HUD extends GameObject {
 				+ STATUSES_GAP;
 		startingX = pscene.getWidth() - STATUSES_GAP;
 		
-		if (pscene.playerRight.getStatus(Paddle.STATUS_INVERT)) {
+		if (pscene.playerRight.getStatus(Player.STATUS_INVERT)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerRight.getTimer(Paddle.STATUS_INVERT));
+					pscene.playerRight.getTimer(Player.STATUS_INVERT));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);
@@ -155,9 +155,9 @@ public class HUD extends GameObject {
 			startingX -= deltaNextX;
 		}
 		
-		if (pscene.playerRight.getStatus(Paddle.STATUS_BLIND)) {
+		if (pscene.playerRight.getStatus(Player.STATUS_BLIND)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerRight.getTimer(Paddle.STATUS_BLIND));
+					pscene.playerRight.getTimer(Player.STATUS_BLIND));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);
@@ -176,9 +176,9 @@ public class HUD extends GameObject {
 			startingX -= deltaNextX;
 		}
 		
-		if (pscene.playerRight.getStatus(Paddle.STATUS_STICKY)) {
+		if (pscene.playerRight.getStatus(Player.STATUS_STICKY)) {
 			int msec = GameEngine.Util.updatesToMs(
-					pscene.playerRight.getTimer(Paddle.STATUS_STICKY));
+					pscene.playerRight.getTimer(Player.STATUS_STICKY));
 			int secs = (int) Math.ceil(msec / 1000.0);
 			String text = "" + secs;
 			Rectangle2D bound = canvas.getFontMetrics().getStringBounds(text, canvas);

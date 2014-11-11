@@ -1,4 +1,4 @@
-package projectpon.game.objects.shadow;
+package projectpon.game.objects.ingame.shadow;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,8 +8,8 @@ import java.util.Map;
 
 import projectpon.engine.GameImage;
 import projectpon.engine.GameObject;
-import projectpon.game.objects.Item;
-import projectpon.game.objects.Paddle;
+import projectpon.game.objects.ingame.Item;
+import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class ShadowItems extends GameObject {
@@ -34,7 +34,7 @@ public class ShadowItems extends GameObject {
 		boolean blind = false;
 		
 		if (spscene.myPlayer != null) {
-			if (spscene.myPlayer.getStatus(Paddle.STATUS_BLIND)) {
+			if (spscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
 				blind = true;
 			}
 		}

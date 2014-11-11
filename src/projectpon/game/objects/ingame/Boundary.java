@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

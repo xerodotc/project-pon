@@ -1,12 +1,12 @@
-package projectpon.game.objects.shadow;
+package projectpon.game.objects.ingame.shadow;
 
 import java.util.Map;
 
-import projectpon.game.objects.Paddle;
+import projectpon.game.objects.ingame.Player;
 
-public class ShadowPaddle extends Paddle {
+public class ShadowPlayer extends Player {
 
-	public ShadowPaddle(int x, int y, int side) {
+	public ShadowPlayer(int x, int y, int side) {
 		super(x, y, 0, side);
 		this.setPlayerType(PLAYER_SHADOW);
 	}

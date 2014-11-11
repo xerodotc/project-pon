@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,9 +11,10 @@ import java.util.Map;
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameObject;
 import projectpon.game.Configuration;
+import projectpon.game.objects.ingame.controllers.ServerController;
 import projectpon.game.scenes.PongScene;
 
-public class Paddle extends GameObject {
+public class Player extends GameObject {
 	public static final int PADDLE_WIDTH = 8;
 	public static final int PADDLE_INITSIZE = 64;
 	public static final int PADDLE_SIZEDELTA = 16;
@@ -56,7 +57,7 @@ public class Paddle extends GameObject {
 	private int colorAlternationTick = 0;
 	private Color colorAlternationCurrent = Color.GREEN;
 	
-	public Paddle(int x, int y, int size, int side) {
+	public Player(int x, int y, int size, int side) {
 		super(x, y);
 		
 		this.z = 0;
@@ -117,7 +118,7 @@ public class Paddle extends GameObject {
 	
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
-			if (pscene.myPlayer.getStatus(Paddle.STATUS_BLIND)
+			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)
 					&& this != pscene.myPlayer) {
 				this.visible = false;
 			} else {

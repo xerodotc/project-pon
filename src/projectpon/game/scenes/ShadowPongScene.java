@@ -5,12 +5,12 @@ import java.util.Map;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameNetwork;
-import projectpon.game.objects.ClientController;
-import projectpon.game.objects.Paddle;
-import projectpon.game.objects.shadow.ShadowBall;
-import projectpon.game.objects.shadow.ShadowItems;
-import projectpon.game.objects.shadow.ShadowPaddle;
-import projectpon.game.objects.shadow.ShadowWall;
+import projectpon.game.objects.ingame.Player;
+import projectpon.game.objects.ingame.controllers.ClientController;
+import projectpon.game.objects.ingame.shadow.ShadowBall;
+import projectpon.game.objects.ingame.shadow.ShadowItems;
+import projectpon.game.objects.ingame.shadow.ShadowPlayer;
+import projectpon.game.objects.ingame.shadow.ShadowWall;
 
 public class ShadowPongScene extends PongScene {
 	
@@ -31,16 +31,16 @@ public class ShadowPongScene extends PongScene {
 		ball = new ShadowBall();
 		controller = new ClientController(GameNetwork.getSocket());
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
-				WALL_INIT_Y, Paddle.SIDE_LEFT);
+				WALL_INIT_Y, Player.SIDE_LEFT);
 		wallRight = new ShadowWall(RIGHT_WALL_INIT_X,
-				WALL_INIT_Y, Paddle.SIDE_RIGHT);
+				WALL_INIT_Y, Player.SIDE_RIGHT);
 		
 		super.initialize();
 		this.objectAdd(new ShadowItems());
 	}
 	
 	public void setLeftPlayer() {
-		this.setLeftPlayer(Paddle.PLAYER_SHADOW);
+		this.setLeftPlayer(Player.PLAYER_SHADOW);
 	}
 	
 	@Override
@@ -51,14 +51,14 @@ public class ShadowPongScene extends PongScene {
 	@Override
 	public void setLeftPlayer(int type, boolean my) {
 		if (playerLeft == null) {
-			playerLeft = new ShadowPaddle(LEFT_PADDLE_INIT_X, PADDLE_INIT_Y,
-					Paddle.SIDE_LEFT);
+			playerLeft = new ShadowPlayer(LEFT_PADDLE_INIT_X, PADDLE_INIT_Y,
+					Player.SIDE_LEFT);
 		}
 		super.setLeftPlayer(type, my);
 	}
 	
 	public void setRightPlayer() {
-		this.setRightPlayer(Paddle.PLAYER_SHADOW);
+		this.setRightPlayer(Player.PLAYER_SHADOW);
 	}
 	
 	@Override
@@ -69,8 +69,8 @@ public class ShadowPongScene extends PongScene {
 	@Override
 	public void setRightPlayer(int type, boolean my) {
 		if (playerRight == null) {
-			playerRight = new ShadowPaddle(RIGHT_PADDLE_INIT_X, PADDLE_INIT_Y,
-					Paddle.SIDE_RIGHT);
+			playerRight = new ShadowPlayer(RIGHT_PADDLE_INIT_X, PADDLE_INIT_Y,
+					Player.SIDE_RIGHT);
 		}
 		super.setRightPlayer(type, my);
 	}

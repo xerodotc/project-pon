@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame.controllers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;

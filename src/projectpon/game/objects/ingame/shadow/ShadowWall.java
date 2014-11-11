@@ -1,6 +1,6 @@
-package projectpon.game.objects.shadow;
+package projectpon.game.objects.ingame.shadow;
 
-import projectpon.game.objects.Wall;
+import projectpon.game.objects.ingame.Wall;
 
 public class ShadowWall extends Wall {
 	public ShadowWall(int x, int y, int side) {

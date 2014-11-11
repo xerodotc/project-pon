@@ -1,4 +1,4 @@
-package projectpon.game.objects.overlay;
+package projectpon.game.objects.ingame.overlays;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,12 +7,14 @@ import java.awt.Graphics2D;
 import projectpon.engine.GameFont;
 import projectpon.game.Configuration;
 
-public class ConnectionLostOverlay extends Overlay {
+public class WinOverlay extends Overlay {
 	private Font font = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 32);
+			deriveFont(Font.PLAIN, 64);
+	private String text;
 	
-	public ConnectionLostOverlay() {
-		super(256, 48);
+	public WinOverlay(String text) {
+		super(512, 96);
+		this.text = text;
 	}
 	
 	@Override
@@ -38,8 +40,8 @@ public class ConnectionLostOverlay extends Overlay {
 	@Override
 	public void draw(Graphics2D canvas) {
 		super.draw(canvas);
-		canvas.setColor(Color.RED);
-		drawCenteredString(canvas, font, "Connection lost!", height / 2, VALIGN_MIDDLE);
+		canvas.setColor(Color.BLACK);
+		drawCenteredString(canvas, font, text, height / 2, VALIGN_MIDDLE);
 	}
 
 }

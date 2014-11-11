@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -56,7 +56,7 @@ public class Ball extends GameObject {
 	
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
-			if (pscene.myPlayer.getStatus(Paddle.STATUS_BLIND)) {
+			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
 				this.visible = true;
 				if (getCoordinate().distance(pscene.myPlayer.getCoordinate()) > 
 						pscene.myPlayer.getSize()) {
@@ -90,7 +90,7 @@ public class Ball extends GameObject {
 			this.y = pscene.starting.getCoordinate().y;
 			this.y += delta;
 			
-			if (pscene.starting.paddleSide == Paddle.SIDE_LEFT) {
+			if (pscene.starting.paddleSide == Player.SIDE_LEFT) {
 				this.x += BALL_SIZE / 2;
 			} else {
 				this.x -= BALL_SIZE / 2;
@@ -111,7 +111,7 @@ public class Ball extends GameObject {
 			if (getDirection() != 0) {
 				for (Item item : items) {
 					if (this.isCollided(item)) {
-						Paddle player = null;
+						Player player = null;
 						if (getDirection() > 0) {
 							player = pscene.playerLeft;
 						} else if (getDirection() < 0) {
@@ -127,19 +127,19 @@ public class Ball extends GameObject {
 							break;
 							
 						case Item.ITEM_WALL:
-							player.setStatus(Paddle.STATUS_WALL);
+							player.setStatus(Player.STATUS_WALL);
 							break;
 							
 						case Item.ITEM_STICKY:
-							player.setStatus(Paddle.STATUS_STICKY);
+							player.setStatus(Player.STATUS_STICKY);
 							break;
 							
 						case Item.ITEM_BLIND:
-							player.setStatus(Paddle.STATUS_BLIND);
+							player.setStatus(Player.STATUS_BLIND);
 							break;
 							
 						case Item.ITEM_INVERT:
-							player.setStatus(Paddle.STATUS_INVERT);
+							player.setStatus(Player.STATUS_INVERT);
 							break;
 						}
 					}
@@ -147,7 +147,7 @@ public class Ball extends GameObject {
 			}
 			
 			if (this.x > scene.getWidth() + BALL_SIZE &&
-					!pscene.playerRight.getStatus(Paddle.STATUS_WALL)) {
+					!pscene.playerRight.getStatus(Player.STATUS_WALL)) {
 				// left-side player win
 				pscene.starting = pscene.playerRight;
 				this.destroy();
@@ -155,7 +155,7 @@ public class Ball extends GameObject {
 				pscene.addScore(pscene.playerLeft);
 				pscene.controller.playSound("boop");
 			} else if (this.x < 0 - BALL_SIZE &&
-					!pscene.playerLeft.getStatus(Paddle.STATUS_WALL)) {
+					!pscene.playerLeft.getStatus(Player.STATUS_WALL)) {
 				// right-side player win
 				pscene.starting = pscene.playerLeft;
 				this.destroy();
@@ -183,7 +183,7 @@ public class Ball extends GameObject {
 				this.delta < -4) {
 			this.actualDy *= -1;
 		}
-		if (pscene.starting.paddleSide == Paddle.SIDE_RIGHT) {
+		if (pscene.starting.paddleSide == Player.SIDE_RIGHT) {
 			this.actualDx *= -1;
 		}
 		this.delta = 0;
@@ -217,7 +217,7 @@ public class Ball extends GameObject {
 		}
 	}
 	
-	public void stick(Paddle stick) {
+	public void stick(Player stick) {
 		launched = false;
 		delta = this.y - stick.getCoordinate().y;
 		pscene.starting = stick;

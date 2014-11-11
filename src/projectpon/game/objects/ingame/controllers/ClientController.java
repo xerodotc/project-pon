@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame.controllers;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameInput;
 import projectpon.engine.GameSound;
 import projectpon.game.Configuration;
-import projectpon.game.objects.shadow.*;
+import projectpon.game.objects.ingame.shadow.*;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class ClientController extends LocalController {
@@ -97,8 +97,8 @@ public class ClientController extends LocalController {
 				try {
 					ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 					ShadowBall sball = (ShadowBall) pscene.ball;
-					ShadowPaddle splayerLeft = (ShadowPaddle) pscene.playerLeft;
-					ShadowPaddle splayerRight = (ShadowPaddle) pscene.playerRight;
+					ShadowPlayer splayerLeft = (ShadowPlayer) pscene.playerLeft;
+					ShadowPlayer splayerRight = (ShadowPlayer) pscene.playerRight;
 					sball.setVisibility(true);
 					while (true) {
 						try {

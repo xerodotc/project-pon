@@ -1,13 +1,15 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame.controllers;
 
 import java.awt.event.KeyEvent;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameSound;
+import projectpon.game.objects.ingame.Item;
+import projectpon.game.objects.ingame.Player;
 
 public class LocalController extends Controller {
 
-	protected Paddle winner = null;
+	protected Player winner = null;
 	protected boolean client = false;
 	protected boolean networked = false;
 	protected int spawnItemTick = 0;
@@ -51,28 +53,28 @@ public class LocalController extends Controller {
 	
 	private void debugKeyListener() {
 		if (input.isKeyReleased(KeyEvent.VK_Q)) {
-			pscene.playerLeft.setStatus(Paddle.STATUS_STICKY);
+			pscene.playerLeft.setStatus(Player.STATUS_STICKY);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_W)) {
-			pscene.playerRight.setStatus(Paddle.STATUS_STICKY);
+			pscene.playerRight.setStatus(Player.STATUS_STICKY);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_A)) {
-			pscene.playerLeft.setStatus(Paddle.STATUS_BLIND);
+			pscene.playerLeft.setStatus(Player.STATUS_BLIND);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_S)) {
-			pscene.playerRight.setStatus(Paddle.STATUS_BLIND);
+			pscene.playerRight.setStatus(Player.STATUS_BLIND);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_Z)) {
-			pscene.playerLeft.setStatus(Paddle.STATUS_INVERT);
+			pscene.playerLeft.setStatus(Player.STATUS_INVERT);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_X)) {
-			pscene.playerRight.setStatus(Paddle.STATUS_INVERT);
+			pscene.playerRight.setStatus(Player.STATUS_INVERT);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_1)) {
-			pscene.playerLeft.setStatus(Paddle.STATUS_WALL);
+			pscene.playerLeft.setStatus(Player.STATUS_WALL);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_2)) {
-			pscene.playerRight.setStatus(Paddle.STATUS_WALL);
+			pscene.playerRight.setStatus(Player.STATUS_WALL);
 		}
 		if (input.isKeyReleased(KeyEvent.VK_3)) {
 			pscene.playerLeft.shrink();
@@ -110,7 +112,7 @@ public class LocalController extends Controller {
 	}
 	
 	@Override
-	public void win(Paddle winner) {
+	public void win(Player winner) {
 		this.winner = winner;
 	}
 	

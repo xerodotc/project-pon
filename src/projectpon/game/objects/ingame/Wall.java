@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -17,12 +17,12 @@ public class Wall extends GameObject {
 		super(x, y);
 		
 		this.z = -1;
-		if (side != Paddle.SIDE_LEFT && side != Paddle.SIDE_RIGHT) {
-			side = Paddle.SIDE_LEFT;
+		if (side != Player.SIDE_LEFT && side != Player.SIDE_RIGHT) {
+			side = Player.SIDE_LEFT;
 		}
 		this.wallSide = side;
 		this.anchorY = 0;
-		if (side == Paddle.SIDE_LEFT) {
+		if (side == Player.SIDE_LEFT) {
 			this.anchorX = WALL_WIDTH;
 		} else {
 			this.anchorX = 0;
@@ -45,7 +45,7 @@ public class Wall extends GameObject {
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
 			if (wallSide != pscene.myPlayer.paddleSide) {
-				if (pscene.myPlayer.getStatus(Paddle.STATUS_BLIND)) {
+				if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
 					this.visible = false;
 				}
 			}
@@ -54,14 +54,14 @@ public class Wall extends GameObject {
 	
 	@Override
 	public void eventPreUpdate() {
-		Paddle ownerPaddle;
-		if (wallSide == Paddle.SIDE_LEFT) {
+		Player ownerPaddle;
+		if (wallSide == Player.SIDE_LEFT) {
 			ownerPaddle = pscene.playerLeft;
 		} else {
 			ownerPaddle = pscene.playerRight;
 		}
 		
-		if (!ownerPaddle.getStatus(Paddle.STATUS_WALL)) {
+		if (!ownerPaddle.getStatus(Player.STATUS_WALL)) {
 			this.visible = false;
 			return;
 		}
@@ -72,14 +72,14 @@ public class Wall extends GameObject {
 	
 	@Override
 	public void eventPostUpdate() {
-		Paddle ownerPaddle;
-		if (wallSide == Paddle.SIDE_LEFT) {
+		Player ownerPaddle;
+		if (wallSide == Player.SIDE_LEFT) {
 			ownerPaddle = pscene.playerLeft;
 		} else {
 			ownerPaddle = pscene.playerRight;
 		}
 		
-		if (!ownerPaddle.getStatus(Paddle.STATUS_WALL)) {
+		if (!ownerPaddle.getStatus(Player.STATUS_WALL)) {
 			return;
 		}
 		

@@ -1,6 +1,6 @@
-package projectpon.game.objects.shadow;
+package projectpon.game.objects.ingame.shadow;
 
-import projectpon.game.objects.Ball;
+import projectpon.game.objects.ingame.Ball;
 
 public class ShadowBall extends Ball {
 	public ShadowBall() {

@@ -1,6 +1,7 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame.controllers;
 
 import projectpon.engine.GameObject;
+import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
 
 public abstract class Controller extends GameObject {
@@ -16,7 +17,7 @@ public abstract class Controller extends GameObject {
 		}
 	}
 	
-	public void win(Paddle winner) {
+	public void win(Player winner) {
 		// do nothing
 	}
 	

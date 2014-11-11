@@ -1,4 +1,4 @@
-package projectpon.game.objects.overlay;
+package projectpon.game.objects.ingame.overlays;
 
 import java.awt.Color;
 import java.awt.Font;

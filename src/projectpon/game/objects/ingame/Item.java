@@ -1,4 +1,4 @@
-package projectpon.game.objects;
+package projectpon.game.objects.ingame;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -49,7 +49,7 @@ public class Item extends GameObject {
 	
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
-			if (pscene.myPlayer.getStatus(Paddle.STATUS_BLIND)) {
+			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
 				this.visible = true;
 				if (getCoordinate().distance(pscene.myPlayer.getCoordinate()) > 
 						pscene.myPlayer.getSize()) {

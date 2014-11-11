@@ -12,15 +12,24 @@ import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.*;
-import projectpon.game.objects.overlay.ConnectionLostOverlay;
-import projectpon.game.objects.overlay.PausedOverlay;
-import projectpon.game.objects.overlay.WinOverlay;
+import projectpon.game.objects.ingame.Ball;
+import projectpon.game.objects.ingame.Boundary;
+import projectpon.game.objects.ingame.HUD;
+import projectpon.game.objects.ingame.Item;
+import projectpon.game.objects.ingame.Player;
+import projectpon.game.objects.ingame.Wall;
+import projectpon.game.objects.ingame.controllers.Controller;
+import projectpon.game.objects.ingame.controllers.LocalController;
+import projectpon.game.objects.ingame.controllers.ServerController;
+import projectpon.game.objects.ingame.overlays.ConnectionLostOverlay;
+import projectpon.game.objects.ingame.overlays.PausedOverlay;
+import projectpon.game.objects.ingame.overlays.WinOverlay;
 
 public class PongScene extends GameScene {
-	public Paddle playerLeft;
-	public Paddle playerRight;
-	public Paddle myPlayer = null;
-	public Paddle starting = null;
+	public Player playerLeft;
+	public Player playerRight;
+	public Player myPlayer = null;
+	public Player starting = null;
 	protected Wall wallLeft;
 	protected Wall wallRight;
 	public Ball ball;
@@ -55,8 +64,8 @@ public class PongScene extends GameScene {
 		int width = this.getWidth();
 		int height = this.getHeight();
 		
-		LEFT_PADDLE_INIT_X = Paddle.PADDLE_WIDTH * 4;
-		RIGHT_PADDLE_INIT_X = width - Paddle.PADDLE_WIDTH * 4;
+		LEFT_PADDLE_INIT_X = Player.PADDLE_WIDTH * 4;
+		RIGHT_PADDLE_INIT_X = width - Player.PADDLE_WIDTH * 4;
 		PADDLE_INIT_Y = WALL_INIT_Y = height / 2;
 		LEFT_WALL_INIT_X = Wall.WALL_WIDTH;
 		RIGHT_WALL_INIT_X = width - Wall.WALL_WIDTH;
@@ -101,11 +110,11 @@ public class PongScene extends GameScene {
 		
 		if (wallLeft == null) {
 			wallLeft = new Wall(LEFT_WALL_INIT_X,
-					WALL_INIT_Y, Paddle.SIDE_LEFT);
+					WALL_INIT_Y, Player.SIDE_LEFT);
 		}
 		if (wallRight == null) {
 			wallRight = new Wall(RIGHT_WALL_INIT_X,
-					WALL_INIT_Y, Paddle.SIDE_RIGHT);
+					WALL_INIT_Y, Player.SIDE_RIGHT);
 		}
 		
 		this.objectAdd(controller);
@@ -137,8 +146,8 @@ public class PongScene extends GameScene {
 		this.objectAdd(ball);
 	}
 	
-	public void addScore(Paddle winner) {
-		Paddle other = playerLeft;
+	public void addScore(Player winner) {
+		Player other = playerLeft;
 		if (winner == playerLeft) {
 			other = playerRight;
 		}
@@ -158,7 +167,7 @@ public class PongScene extends GameScene {
 		}
 	}
 	
-	public void winGame(Paddle winner) {
+	public void winGame(Player winner) {
 		if (myPlayer == null) {
 			if (winner == playerLeft) {
 				this.objectAdd(new WinOverlay("Player 1 win!"));
@@ -180,16 +189,16 @@ public class PongScene extends GameScene {
 	
 	public void setLeftPlayer(int type, boolean my) {
 		if (playerLeft == null) {
-			playerLeft = new Paddle(LEFT_PADDLE_INIT_X,
-					PADDLE_INIT_Y, Paddle.PADDLE_INITSIZE,
-					Paddle.SIDE_LEFT);
+			playerLeft = new Player(LEFT_PADDLE_INIT_X,
+					PADDLE_INIT_Y, Player.PADDLE_INITSIZE,
+					Player.SIDE_LEFT);
 		}
 		playerLeft.setPlayerType(type);
 		if (my) {
 			myPlayer = playerLeft;
 		}
 		
-		if (type >= Paddle.PLAYER_REMOTE) {
+		if (type >= Player.PLAYER_REMOTE) {
 			useSocket = true;
 		}
 	}
@@ -200,16 +209,16 @@ public class PongScene extends GameScene {
 	
 	public void setRightPlayer(int type, boolean my) {
 		if (playerRight == null) {
-			playerRight = new Paddle(RIGHT_PADDLE_INIT_X,
-					PADDLE_INIT_Y, Paddle.PADDLE_INITSIZE, 
-					Paddle.SIDE_RIGHT);
+			playerRight = new Player(RIGHT_PADDLE_INIT_X,
+					PADDLE_INIT_Y, Player.PADDLE_INITSIZE, 
+					Player.SIDE_RIGHT);
 		}
 		playerRight.setPlayerType(type);
 		if (my) {
 			myPlayer = playerRight;
 		}
 		
-		if (type >= Paddle.PLAYER_REMOTE) {
+		if (type >= Player.PLAYER_REMOTE) {
 			useSocket = true;
 		}
 	}

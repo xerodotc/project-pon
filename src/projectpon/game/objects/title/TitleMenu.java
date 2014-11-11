@@ -22,7 +22,7 @@ import projectpon.engine.exceptions.NetworkException;
 import projectpon.engine.exceptions.NetworkLockException;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
-import projectpon.game.objects.Paddle;
+import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
 
@@ -220,22 +220,22 @@ public class TitleMenu extends GameObject {
 		switch (choice) {
 		case CHOICE_VS_1P:
 			pscene = new PongScene();
-			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
-			pscene.setRightPlayer(Paddle.PLAYER_AI, false);
+			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
+			pscene.setRightPlayer(Player.PLAYER_AI, false);
 			GameEngine.setScene(pscene);
 			break;
 			
 		case CHOICE_VS_2P:
 			pscene = new PongScene();
-			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL);
-			pscene.setRightPlayer(Paddle.PLAYER_LOCAL);
+			pscene.setLeftPlayer(Player.PLAYER_LOCAL);
+			pscene.setRightPlayer(Player.PLAYER_LOCAL);
 			GameEngine.setScene(pscene);
 			break;
 			
 		case CHOICE_SERVER:
 			pscene = new PongScene();
-			pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
-			pscene.setRightPlayer(Paddle.PLAYER_REMOTE, false);
+			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
+			pscene.setRightPlayer(Player.PLAYER_REMOTE, false);
 			GameEngine.pause();
 			try {
 				GameNetwork.Server.addOnAcceptedListener(
@@ -285,8 +285,8 @@ public class TitleMenu extends GameObject {
 			
 		case CHOICE_CLIENT:
 			pscene = new ShadowPongScene();
-			pscene.setLeftPlayer(Paddle.PLAYER_SHADOW, false);
-			pscene.setRightPlayer(Paddle.PLAYER_SHADOW, true);
+			pscene.setLeftPlayer(Player.PLAYER_SHADOW, false);
+			pscene.setRightPlayer(Player.PLAYER_SHADOW, true);
 			GameEngine.pause();
 			String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
 			if (host == null) {
