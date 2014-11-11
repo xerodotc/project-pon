@@ -1,7 +1,6 @@
 package projectpon.engine;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayDeque;
@@ -11,11 +10,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Queue;
 
-import javax.swing.JComponent;
-
-import projectpon.engine.exceptions.*;
-
-public abstract class GameScene extends JComponent {
+public abstract class GameScene {
 	/**
 	 * Serial version UID
 	 */
@@ -33,30 +28,8 @@ public abstract class GameScene extends JComponent {
 	
 	/**
 	 * Game scene constructor
-	 * 
-	 * @throws InvalidWindowSize	Thrown when window size is invalid or not set
 	 */
-	public GameScene() throws InvalidWindowSize {
-		this(GameEngine.windowWidth, GameEngine.windowHeight);
-	}
-	
-	/**
-	 * Game scene constructor
-	 * 
-	 * @param	width				Window width
-	 * @param	height				Window height
-	 * @throws	InvalidWindowSize	Thrown when window size is invalid or not set
-	 */
-	public GameScene(int width, int height) throws InvalidWindowSize {
-		if (width < 1 || height < 1) {
-			throw new InvalidWindowSize();
-		}
-		GameEngine.windowWidth = width;
-		GameEngine.windowHeight = height;
-		this.setPreferredSize(new Dimension(width, height));
-		this.validate();
-		this.setDoubleBuffered(true);
-		this.setOpaque(true);
+	public GameScene() {
 		objects = new ArrayList<GameObject>();
 		newObjects = new ArrayDeque<GameObject>();
 	}
@@ -130,10 +103,7 @@ public abstract class GameScene extends JComponent {
 		}
 	}
 	
-	@Override
 	public final void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
 		Graphics2D canvas = (Graphics2D) g;
 		
 		@SuppressWarnings("unchecked")
@@ -201,5 +171,13 @@ public abstract class GameScene extends JComponent {
 				canvas.setColor(oldColor);
 			}
 		}
+	}
+	
+	public final int getWidth() {
+		return GameEngine.windowWidth;
+	}
+	
+	public final int getHeight() {
+		return GameEngine.windowHeight;
 	}
 }

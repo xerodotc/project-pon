@@ -77,11 +77,11 @@ public abstract class GameWindow extends JFrame implements WindowListener {
 	}
 	
 	public void childWindowOpened() {
-		return;
+		this.setFocusable(false);
 	}
 	
 	public void childWindowClosed() {
-		return;
+		this.setFocusable(true);
 	}
 	
 	public final void launchChildWindow(GameWindow w) {

@@ -78,13 +78,13 @@ public final class GameInput {
 	/**
 	 * Bind local input to the game window
 	 * 
-	 * @param frame			Game's JFrame
+	 * @param comp		The main component
 	 */
-	public static void bindLocalInput(JFrame frame) {
+	public static void bindLocalInput(JComponent comp) {
 		/*
 		 * Keyboard listener
 		 */
-		frame.addKeyListener(new KeyListener() {
+		comp.addKeyListener(new KeyListener() {
 			Map<Integer, Thread> keyReleaseTimer = new HashMap<Integer, Thread>();
 			
 			@Override
@@ -140,7 +140,7 @@ public final class GameInput {
 		/*
 		 * Mouse listener
 		 */
-		frame.addMouseListener(new MouseListener() {
+		comp.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				localInput.setMouseReleased(e.getButton());
@@ -170,7 +170,7 @@ public final class GameInput {
 		/*
 		 * Mouse motion listener
 		 */
-		frame.addMouseMotionListener(new MouseMotionListener() {
+		comp.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				localInput.setMouseCoordinate(e.getX(), e.getY());

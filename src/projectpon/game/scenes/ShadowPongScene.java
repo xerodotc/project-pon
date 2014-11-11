@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import projectpon.engine.GameEngine;
-import projectpon.engine.exceptions.InvalidWindowSize;
 import projectpon.game.objects.ClientController;
 import projectpon.game.objects.Paddle;
 import projectpon.game.objects.shadow.ShadowBall;
@@ -16,12 +15,8 @@ public class ShadowPongScene extends PongScene {
 	
 	private List< Map<String,Integer> > shadowItems;
 
-	public ShadowPongScene() throws InvalidWindowSize {
+	public ShadowPongScene() {
 		super();
-	}
-	
-	public ShadowPongScene(int width, int height) throws InvalidWindowSize {
-		super(width, height);
 	}
 	
 	@Override

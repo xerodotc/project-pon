@@ -16,7 +16,7 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
-import projectpon.engine.exceptions.InvalidWindowSize;
+import projectpon.engine.GameWindow;
 import projectpon.game.Configuration;
 import projectpon.game.objects.Paddle;
 import projectpon.game.scenes.PongScene;
@@ -234,7 +234,7 @@ public class TitleMenu extends GameObject {
 				ServerSocket server = new ServerSocket(10215);
 				remote = server.accept();
 				server.close();
-				pscene = new PongScene(800, 600);
+				pscene = new PongScene();
 				pscene.setSocket(remote);
 				pscene.setLeftPlayer(Paddle.PLAYER_LOCAL, true);
 				pscene.setRightPlayer(Paddle.PLAYER_REMOTE, false);
@@ -242,25 +242,31 @@ public class TitleMenu extends GameObject {
 				break;
 				
 			case CHOICE_CLIENT:
-				String host = JOptionPane.showInputDialog(scene, "Host address", "127.0.0.1");
+				String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
 				try {
 					remote = new Socket(host, 10215);
-					pscene = new ShadowPongScene(800, 600);
+					pscene = new ShadowPongScene();
 					pscene.setSocket(remote);
 					pscene.setLeftPlayer(Paddle.PLAYER_SHADOW, false);
 					pscene.setRightPlayer(Paddle.PLAYER_SHADOW, true);
 					GameEngine.setScene(pscene);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(scene, "Can't connect to server!",
+					JOptionPane.showMessageDialog(null, "Can't connect to server!",
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
+				break;
+				
+			case CHOICE_OPTIONS:
+				break;
+				
+			case CHOICE_HELP:
 				break;
 			
 			case CHOICE_EXIT:
 				GameEngine.exit();
 				break;
 			}
-		} catch (InvalidWindowSize | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			GameEngine.exit();
 		}

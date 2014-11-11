@@ -8,11 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameScene;
-import projectpon.engine.exceptions.InvalidWindowSize;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.*;
 import projectpon.game.objects.overlay.ConnectionLostOverlay;
@@ -51,12 +48,11 @@ public class PongScene extends GameScene {
 	
 	private List<Item> fieldItems = new ArrayList<Item>();
 	
-	public PongScene() throws InvalidWindowSize {
-		this(GameEngine.windowWidth, GameEngine.windowHeight);
-	}
-
-	public PongScene(int width, int height) throws InvalidWindowSize {
-		super(width, height);
+	public PongScene()  {
+		super();
+		
+		int width = this.getWidth();
+		int height = this.getHeight();
 		
 		LEFT_PADDLE_INIT_X = Paddle.PADDLE_WIDTH * 4;
 		RIGHT_PADDLE_INIT_X = width - Paddle.PADDLE_WIDTH * 4;
@@ -212,12 +208,7 @@ public class PongScene extends GameScene {
 	}
 	
 	public void goToTitle() {
-		try {
-			GameEngine.setScene(new TitleScene());
-		} catch (InvalidWindowSize e) {
-			e.printStackTrace();
-			GameEngine.exit();
-		}
+		GameEngine.setScene(new TitleScene());
 	}
 	
 	public int getTopBoundary() {

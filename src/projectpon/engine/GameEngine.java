@@ -1,19 +1,24 @@
 package projectpon.engine;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public final class GameEngine {
 	private static GameScene scene = null; // current scene
 	private static GameScene nextScene = null; // next scene
 	private static GameWindow frame; // engine game window
+	private static MainComponent component; // internal component
 	
-	public static int windowWidth = 0; // store current window width
-	public static int windowHeight = 0; // store current window height
+	public static int windowWidth = 800; // store current window width
+	public static int windowHeight = 600; // store current window height
 	
 	private static boolean gameExit = false; // game exit flag
 	// disable exit confirmation on closing window?
@@ -31,18 +36,23 @@ public final class GameEngine {
 	/**
 	 * Main window class for game engine
 	 */
-	public static class GameEngineMainWindow extends GameWindow {
+	private static class MainWindow extends GameWindow {
 		private static final long serialVersionUID = -8516159275209621968L;
 
-		public GameEngineMainWindow(String title) {
+		public MainWindow(String title) {
 			super(title, DO_NOTHING_ON_CLOSE);
+			
+			component = new MainComponent();
+			this.add(component);
+			this.pack();
+			component.requestFocus();
 		}
 		
 		@Override
 		public void windowActivated(WindowEvent arg0) {
 			super.windowActivated(arg0);
-			if (childWindow != null && scene != null) {
-				scene.requestFocus();
+			if (childWindow == null) {
+				component.requestFocus();
 			}
 		}
 		
@@ -67,14 +77,43 @@ public final class GameEngine {
 		
 		@Override
 		public void childWindowOpened() {
+			super.childWindowOpened();
 			pause();
 		}
 		
 		@Override
 		public void childWindowClosed() {
+			super.childWindowClosed();
 			unpause();
 		}
 	}
+	
+	/**
+	 * Internal component for rendering main game
+	 */
+	private static class MainComponent extends JComponent {
+		private static final long serialVersionUID = -4001078712599671771L;
+		
+		public MainComponent() {
+			this.setPreferredSize(new Dimension(windowWidth, windowHeight));
+			this.validate();
+			this.setDoubleBuffered(true);
+			this.setOpaque(true);
+		}
+		
+		@Override
+		protected void paintComponent(Graphics canvas) {
+			super.paintComponent(canvas);
+			if (scene != null) {
+				scene.paintComponent(canvas);
+			} else {
+				this.setBackground(Color.BLACK);
+				((Graphics2D) canvas).clearRect(0, 0, 
+						windowWidth, windowHeight);
+			}
+		}
+	}
+	
 	
 	/**
 	 * Prevent instance initialization
@@ -101,7 +140,7 @@ public final class GameEngine {
 	 */
 	public static void start(GameScene startScene, int updatesPerSec, String title) {
 		updatesPerSecond = updatesPerSec;
-		frame = new GameEngineMainWindow(title);
+		frame = new MainWindow(title);
 		GameImage.init();
 		GameSound.init();
 		GameFont.init();
@@ -112,7 +151,7 @@ public final class GameEngine {
 				frame.setVisible(true);
 			}
 		});
-		GameInput.bindLocalInput(frame);
+		GameInput.bindLocalInput(component);
 		startTime = new Date().getTime(); // set start time
 		update(); // start updating
 	}
@@ -134,7 +173,7 @@ public final class GameEngine {
 			GameInput.updateAllInputs(); // update input data
 			
 			scene.objectsUpdate(); // update scene
-			scene.repaint(); // draw scene
+			component.repaint(); // draw scene
 			
 			try {
 				Thread.sleep(Math.round(1000.0 / updatesPerSecond));
@@ -166,6 +205,16 @@ public final class GameEngine {
 	}
 	
 	/**
+	 * Set main window resolution
+	 */
+	public static void setResolution(int width, int height) {
+		if (width > 0 && height > 0) {
+			windowWidth = width;
+			windowHeight = height;
+		}
+	}
+	
+	/**
 	 * Exit the game
 	 */
 	public static void exit() {
@@ -180,14 +229,9 @@ public final class GameEngine {
 	public static void replaceScene(GameScene newScene) {
 		if (scene != null) {
 			scene.exit();
-			frame.remove(scene);
 		}
 		scene = newScene;
 		scene.initialize();
-		if (scene != null) {
-			frame.add(scene);
-			frame.pack();
-		}
 	}
 	
 	/**
