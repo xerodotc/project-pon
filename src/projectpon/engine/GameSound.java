@@ -44,7 +44,7 @@ public final class GameSound {
 	}
 	
 	public static void playSound(String soundName) {
-		if (!globalEnabled) {
+		if (!globalEnabled || !soundsEnabled) {
 			return;
 		}
 		
@@ -73,7 +73,7 @@ public final class GameSound {
 	}
 	
 	public static void playMusic(String musicName) {
-		if (!globalEnabled) {
+		if (!globalEnabled || !musicEnabled) {
 			return;
 		}
 		
