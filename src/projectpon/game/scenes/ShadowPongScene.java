@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import projectpon.engine.GameEngine;
-import projectpon.engine.net.NetworkManager;
+import projectpon.engine.GameNetwork;
 import projectpon.game.objects.ClientController;
 import projectpon.game.objects.Paddle;
 import projectpon.game.objects.shadow.ShadowBall;
@@ -29,7 +29,7 @@ public class ShadowPongScene extends PongScene {
 		}
 		
 		ball = new ShadowBall();
-		controller = new ClientController(NetworkManager.getSocket());
+		controller = new ClientController(GameNetwork.getSocket());
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
 				WALL_INIT_Y, Paddle.SIDE_LEFT);
 		wallRight = new ShadowWall(RIGHT_WALL_INIT_X,

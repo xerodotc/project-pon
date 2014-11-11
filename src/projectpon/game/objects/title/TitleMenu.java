@@ -17,9 +17,9 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
+import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.engine.exceptions.NetworkLockException;
-import projectpon.engine.net.NetworkManager;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.Paddle;
@@ -238,8 +238,8 @@ public class TitleMenu extends GameObject {
 			pscene.setRightPlayer(Paddle.PLAYER_REMOTE, false);
 			GameEngine.pause();
 			try {
-				NetworkManager.Server.addOnAcceptedListener(
-						new NetworkManager.Server.AcceptListener() {
+				GameNetwork.Server.addOnAcceptedListener(
+						new GameNetwork.Server.AcceptListener() {
 							@Override
 							public void onAccepted(Socket remote) {
 								try {
@@ -257,21 +257,27 @@ public class TitleMenu extends GameObject {
 									in.read(buffer);
 									String response = new String(buffer).trim();
 									if (Boolean.parseBoolean(response)) {
-										NetworkManager.setSocket(remote);
+										GameNetwork.setSocket(remote);
+										try {
+											GameNetwork.Server.stop();
+										} catch (NetworkException e1) {
+											e1.printStackTrace();
+										}
 										GameEngine.setScene(pscene);
 										GameEngine.unpause();
 									} else {
-										NetworkManager.Server.reacceptClient();
+										remote.close();
+										GameNetwork.Server.acceptClient();
 									}
 								} catch (IOException e) {
 									e.printStackTrace();
-									NetworkManager.Server.reacceptClient();
+									GameNetwork.Server.acceptClient();
 								}
 							}
 						});
 				
-				NetworkManager.Server.start(10215);
-				NetworkManager.Server.acceptClient();
+				GameNetwork.Server.start(10215);
+				GameNetwork.Server.acceptClient();
 			} catch (NetworkException | NetworkLockException e) {
 				e.printStackTrace();
 			}
@@ -289,8 +295,8 @@ public class TitleMenu extends GameObject {
 			}
 			
 			try {
-				NetworkManager.Client.addOnConnectedListener(
-						new NetworkManager.Client.ConnectListener() {
+				GameNetwork.Client.addOnConnectedListener(
+						new GameNetwork.Client.ConnectListener() {
 							@Override
 							public void onConnected(Socket remote) {
 								try {
@@ -309,9 +315,9 @@ public class TitleMenu extends GameObject {
 									
 									String conditionsString = "Game conditions\n";
 									conditionsString += "-------------------------\n";
-									conditionsString += "Minimum winning score: " + score[0];
-									conditionsString += "Maximum winning score: " + score[1];
-									conditionsString += "Required score difference: " + score[2];
+									conditionsString += "Minimum winning score: " + score[0] + "\n";
+									conditionsString += "Maximum winning score: " + score[1] + "\n";
+									conditionsString += "Required score difference: " + score[2] + "\n";
 									conditionsString += "-------------------------\n";
 								
 									int confirm = JOptionPane.showConfirmDialog(
@@ -321,7 +327,7 @@ public class TitleMenu extends GameObject {
 									switch (confirm) {
 									case JOptionPane.OK_OPTION:
 										out.write("true".getBytes());
-										NetworkManager.setSocket(remote);
+										GameNetwork.setSocket(remote);
 										GameEngine.setScene(pscene);
 										GameEngine.unpause();
 										break;
@@ -330,7 +336,7 @@ public class TitleMenu extends GameObject {
 										try {
 											GameEngine.unpause();
 											out.write("false".getBytes());
-											NetworkManager.Client.disconnect();
+											GameNetwork.Client.disconnect();
 										} catch (NetworkException | IOException e) {
 											e.printStackTrace();
 										}
@@ -343,7 +349,7 @@ public class TitleMenu extends GameObject {
 								}
 							}
 						});
-				NetworkManager.Client.connect(host, 10215);
+				GameNetwork.Client.connect(host, 10215);
 			} catch (NetworkException e) {
 				JOptionPane.showMessageDialog(null, "Can't connect to server!",
 						"Error", JOptionPane.ERROR_MESSAGE);

@@ -8,8 +8,8 @@ import java.util.Random;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameScene;
+import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
-import projectpon.engine.net.NetworkManager;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.*;
 import projectpon.game.objects.overlay.ConnectionLostOverlay;
@@ -75,7 +75,7 @@ public class PongScene extends GameScene {
 			return;
 		}
 		
-		if (useSocket && NetworkManager.getSocket() == null) {
+		if (useSocket && GameNetwork.getSocket() == null) {
 			System.err.println("Error");
 			goToTitle();
 			return;
@@ -87,7 +87,7 @@ public class PongScene extends GameScene {
 		
 		if (controller == null) {
 			if (useSocket) {
-				controller = new ServerController(NetworkManager.getSocket());
+				controller = new ServerController(GameNetwork.getSocket());
 			} else {
 				controller = new LocalController();
 			}
@@ -125,7 +125,7 @@ public class PongScene extends GameScene {
 	public void exit() {
 		if (useSocket) {
 			try {
-				NetworkManager.clearSocket();
+				GameNetwork.clearSocket();
 			} catch (NetworkException e) {
 				e.printStackTrace();
 			}
