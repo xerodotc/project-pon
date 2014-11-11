@@ -27,6 +27,14 @@ public class Main {
 						Configuration.getBoolean("soundOptions", "globalEnabled"));
 				GameSound.setGlobalVolume(
 						Configuration.getInt("soundOptions", "globalVolume"));
+				GameSound.setMusicEnabled(
+						Configuration.getBoolean("soundOptions", "globalEnabled"));
+				GameSound.setMusicVolume(
+						Configuration.getInt("soundOptions", "globalVolume"));
+				GameSound.setSoundsEnabled(
+						Configuration.getBoolean("soundOptions", "globalEnabled"));
+				GameSound.setSoundsVolume(
+						Configuration.getInt("soundOptions", "globalVolume"));
 			}
 		};
 		

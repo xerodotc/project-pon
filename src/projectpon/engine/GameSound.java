@@ -13,6 +13,10 @@ public final class GameSound {
 	
 	private static boolean globalEnabled = true;
 	private static int globalVolume = 100;
+	private static boolean musicEnabled = true;
+	private static int musicVolume = 100;
+	private static boolean soundsEnabled = true;
+	private static int soundsVolume = 100;
 	
 	/**
 	 * Prevent instance initialization
@@ -46,7 +50,7 @@ public final class GameSound {
 		
 		Sound snd = soundsList.get(soundName);
 		if (snd != null) {
-			snd.play(globalVolumeFactor());
+			snd.play(soundsVolumeFactor());
 			if (GameEngine.isDebugOn()) {
 				System.out.println("soundPlayed: " + soundName);
 			}
@@ -83,7 +87,7 @@ public final class GameSound {
 		}
 		
 		currentBGM = bgm;
-		currentBGM.play(true, globalVolumeFactor());
+		currentBGM.play(true, musicVolumeFactor());
 	}
 	
 	public static void setGlobalVolume(int volume) {
@@ -95,7 +99,7 @@ public final class GameSound {
 		}
 		globalVolume = volume;
 		if (currentBGM != null) {
-			currentBGM.setVolume(globalVolumeFactor());
+			currentBGM.setVolume(musicVolumeFactor());
 		}
 	}
 	
@@ -105,5 +109,44 @@ public final class GameSound {
 	
 	private static double globalVolumeFactor() {
 		return globalVolume / 100.0;
+	}
+	
+	public static void setMusicVolume(int volume) {
+		if (volume < 0) {
+			volume = 0;
+		}
+		if (volume > 100) {
+			volume = 100;
+		}
+		musicVolume = volume;
+		if (currentBGM != null) {
+			currentBGM.setVolume(musicVolumeFactor());
+		}
+	}
+	
+	public static void setMusicEnabled(boolean enable) {
+		musicEnabled = enable;
+	}
+	
+	private static double musicVolumeFactor() {
+		return globalVolumeFactor() * (musicVolume / 100.0);
+	}
+	
+	public static void setSoundsVolume(int volume) {
+		if (volume < 0) {
+			volume = 0;
+		}
+		if (volume > 100) {
+			volume = 100;
+		}
+		soundsVolume = volume;
+	}
+	
+	public static void setSoundsEnabled(boolean enable) {
+		soundsEnabled = enable;
+	}
+	
+	private static double soundsVolumeFactor() {
+		return globalVolumeFactor() * (soundsVolume / 100.0);
 	}
 }

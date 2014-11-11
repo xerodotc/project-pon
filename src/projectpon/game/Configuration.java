@@ -48,6 +48,10 @@ public final class Configuration {
 		 */
 		defaultIni.add("soundOptions", "globalEnabled", "true");
 		defaultIni.add("soundOptions", "globalVolume", "50");
+		defaultIni.add("soundOptions", "musicEnabled", "true");
+		defaultIni.add("soundOptions", "musicVolume", "100");
+		defaultIni.add("soundOptions", "soundsEnabled", "true");
+		defaultIni.add("soundOptions", "soundsVolume", "100");
 	}
 	
 	public static boolean isLoaded() {
@@ -181,6 +185,20 @@ public final class Configuration {
 			}
 		}
 		
+		if (isOutOfBound("soundOptions", "musicVolume")) {
+			valid = false;
+			if (resetOnInvalid) {
+				reset("soundOptions", "musicVolume");
+			}
+		}
+		
+		if (isOutOfBound("soundOptions", "soundsVolume")) {
+			valid = false;
+			if (resetOnInvalid) {
+				reset("soundOptions", "soundsVolume");
+			}
+		}
+		
 		return valid;
 	}
 	
@@ -210,6 +228,8 @@ public final class Configuration {
 		case "soundOptions":
 			switch (key) {
 			case "globalVolume":
+			case "musicVolume":
+			case "soundsVolume":
 				return 0;
 			}
 		}
@@ -243,6 +263,8 @@ public final class Configuration {
 		case "soundOptions":
 			switch (key) {
 			case "globalVolume":
+			case "musicVolume":
+			case "soundsVolume":
 				return 100;
 			}
 		}
