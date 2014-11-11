@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import projectpon.engine.GameEngine;
-import projectpon.engine.exceptions.NetworkException;
 import projectpon.engine.net.NetworkManager;
 import projectpon.game.objects.ClientController;
 import projectpon.game.objects.Paddle;

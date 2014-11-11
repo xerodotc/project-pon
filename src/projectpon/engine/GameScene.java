@@ -12,11 +12,6 @@ import java.util.Queue;
 
 public abstract class GameScene {
 	/**
-	 * Serial version UID
-	 */
-	private static final long serialVersionUID = -4005456185202915012L;
-	
-	/**
 	 * Game scene objects list
 	 */
 	private ArrayList<GameObject> objects;

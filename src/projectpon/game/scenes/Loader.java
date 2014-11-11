@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import projectpon.engine.*;
-import projectpon.game.Configuration;
 
 public class Loader extends GameScene {
 	

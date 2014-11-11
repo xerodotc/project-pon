@@ -8,12 +8,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -21,7 +17,6 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
-import projectpon.engine.GameWindow;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.engine.exceptions.NetworkLockException;
 import projectpon.engine.net.NetworkManager;
@@ -221,7 +216,6 @@ public class TitleMenu extends GameObject {
 		 */
 
 		final PongScene pscene;
-		Socket remote = null;
 		
 		switch (choice) {
 		case CHOICE_VS_1P:

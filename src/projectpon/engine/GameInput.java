@@ -16,7 +16,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 public final class GameInput {
 	/**
