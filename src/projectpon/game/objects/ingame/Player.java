@@ -22,6 +22,7 @@ public class Player extends GameObject {
 	public static final int SIDE_LEFT = -1;
 	public static final int SIDE_RIGHT = 1;
 	
+	public static final int PLAYER_REPLAY = -1;
 	public static final int PLAYER_LOCAL = 0;
 	public static final int PLAYER_AI = 1;
 	public static final int PLAYER_REMOTE = 2;

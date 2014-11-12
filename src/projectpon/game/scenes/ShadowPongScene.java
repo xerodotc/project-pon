@@ -29,7 +29,9 @@ public class ShadowPongScene extends PongScene {
 		}
 		
 		ball = new ShadowBall();
-		controller = new ClientController(GameNetwork.getSocket());
+		if (useSocket) {
+			controller = new ClientController(GameNetwork.getSocket());
+		}
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
 				WALL_INIT_Y, Player.SIDE_LEFT);
 		wallRight = new ShadowWall(RIGHT_WALL_INIT_X,
