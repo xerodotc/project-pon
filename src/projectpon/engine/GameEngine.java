@@ -7,16 +7,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public final class GameEngine {
 	private static GameScene scene = null; // current scene
 	private static GameScene nextScene = null; // next scene
-	private static GameWindow frame; // engine game window
+	private static MainWindow frame; // engine game window
 	private static MainComponent component; // internal component
 	
 	public static int windowWidth = 800; // store current window width
@@ -38,61 +40,84 @@ public final class GameEngine {
 	/**
 	 * Main window class for game engine
 	 */
-	private static class MainWindow extends GameWindow {
+	private static final class MainWindow extends JFrame implements GameWindow {
 		private static final long serialVersionUID = -8516159275209621968L;
+		private GameDialog childDialog;
 
 		public MainWindow(String title) {
-			super(title, DO_NOTHING_ON_CLOSE);
+			super(title);
+			
+			this.setResizable(false);
+			this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			
 			component = new MainComponent();
+			
+			this.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowActivated(WindowEvent arg0) {
+					if (childDialog != null) {
+						component.requestFocus();
+					}
+				}
+				
+				@Override
+				public void windowClosing(WindowEvent arg0) {
+					if (!gameExitOnCloseDisabled) {
+						boolean gameWasPaused = paused;
+						if (!gameWasPaused) {
+							pause();
+						}
+						int status = JOptionPane.showConfirmDialog(frame,
+								"Exit game?", "Exit game?", 
+								JOptionPane.YES_NO_OPTION);
+						if (status == JOptionPane.YES_OPTION) {
+							exit();
+						}
+						if (!gameWasPaused) {
+							unpause();
+						}
+					}
+				}
+			});
 			this.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent arg0) {
 					component.requestFocus();
 				}
 			});
+			
 			this.add(component);
 			this.pack();
 			component.requestFocus();
 		}
 		
 		@Override
-		public void windowActivated(WindowEvent arg0) {
-			super.windowActivated(arg0);
-			if (childWindow == null) {
-				component.requestFocus();
-			}
-		}
-		
-		@Override
-		public void windowClosing(WindowEvent arg0) {
-			if (!gameExitOnCloseDisabled) {
-				boolean gameWasPaused = paused;
-				if (!gameWasPaused) {
-					pause();
-				}
-				int status = JOptionPane.showConfirmDialog(frame,
-						"Exit game?", "Exit game?", 
-						JOptionPane.YES_NO_OPTION);
-				if (status == JOptionPane.YES_OPTION) {
-					exit();
-				}
-				if (!gameWasPaused) {
-					unpause();
-				}
-			}
-		}
-		
-		@Override
 		public void childWindowOpened() {
-			super.childWindowOpened();
 			pause();
 		}
 		
 		@Override
 		public void childWindowClosed() {
-			super.childWindowClosed();
+			this.childDialog = null;
 			unpause();
+		}
+
+		@Override
+		public void setParentWindow(GameWindow w) {
+			// shouldn't be happening
+			return;
+		}
+
+		@Override
+		public void launchChildWindow(GameWindow w) {
+			if (w instanceof GameDialog) {
+				this.childDialog = (GameDialog) w;
+				GameWindowUtil.launchChildWindow(this, w);
+			}
+		}
+		
+		public void launchChildDialog(GameDialog w) {
+			launchChildWindow(w);
 		}
 	}
 	
@@ -206,10 +231,17 @@ public final class GameEngine {
 	}
 	
 	/**
-	 * Launch window
+	 * Launch dialog
 	 */
-	public static void launchWindow(GameWindow w) {
-		frame.launchChildWindow(w);
+	public static void launchDialog(GameDialog w) {
+		frame.launchChildDialog(w);
+	}
+	
+	/**
+	 * Get main game frame
+	 */
+	public static JFrame getFrame() {
+		return frame;
 	}
 	
 	/**
@@ -338,10 +370,10 @@ public final class GameEngine {
 		 * @return			Time elapsed in milliseconds
 		 */
 		public static int updatesToMs(int updates) {
-			if (GameEngine.getUpdatesPerSec() <= 0) {
+			if (updatesPerSecond <= 0) {
 				return 0;
 			}
-			return updates * 1000 / GameEngine.getUpdatesPerSec();
+			return updates * 1000 / updatesPerSecond;
 		}
 	}
 }

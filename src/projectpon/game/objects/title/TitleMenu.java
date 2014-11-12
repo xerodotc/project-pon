@@ -22,10 +22,10 @@ import projectpon.engine.exceptions.NetworkException;
 import projectpon.engine.exceptions.NetworkLockException;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
+import projectpon.game.dialogs.NewGameDialog;
 import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
-import projectpon.game.windows.NewGameWindow;
 
 public class TitleMenu extends GameObject {
 	private boolean activated = false;
@@ -223,14 +223,14 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
 			pscene.setRightPlayer(Player.PLAYER_AI, false);
-			GameEngine.launchWindow(new NewGameWindow(pscene));
+			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
 		case CHOICE_VS_2P:
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL);
 			pscene.setRightPlayer(Player.PLAYER_LOCAL);
-			GameEngine.launchWindow(new NewGameWindow(pscene));
+			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
 		case CHOICE_SERVER:

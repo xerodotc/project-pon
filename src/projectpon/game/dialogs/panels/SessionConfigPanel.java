@@ -1,4 +1,4 @@
-package projectpon.game.windows.panels;
+package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,17 +18,17 @@ import javax.swing.event.ChangeListener;
 
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
-import projectpon.game.windows.NewGameWindow;
+import projectpon.game.dialogs.NewGameDialog;
 
 public class SessionConfigPanel extends JPanel {
 	private static final long serialVersionUID = -6058937613283538217L;
 	
-	private NewGameWindow parentWindow = null;
+	private NewGameDialog parentWindow = null;
 	private JSpinner minPointsSpinner = null;
 	private JSpinner maxPointsSpinner = null;
 	private JSpinner diffPointsSpinner = null;
 	
-	public SessionConfigPanel(NewGameWindow parent) {
+	public SessionConfigPanel(NewGameDialog parent) {
 		parentWindow = parent;
 		this.setLayout(new BorderLayout());
 		JPanel optionsPanel = new JPanel();
