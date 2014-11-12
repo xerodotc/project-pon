@@ -1,11 +1,11 @@
 package projectpon.engine;
 
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,13 +83,8 @@ public final class GameInput {
 		/*
 		 * Keyboard listener
 		 */
-		comp.addKeyListener(new KeyListener() {
+		comp.addKeyListener(new KeyAdapter() {
 			Map<Integer, Thread> keyReleaseTimer = new HashMap<Integer, Thread>();
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				return;
-			}
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -139,7 +134,7 @@ public final class GameInput {
 		/*
 		 * Mouse listener
 		 */
-		comp.addMouseListener(new MouseListener() {
+		comp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				localInput.setMouseReleased(e.getButton());
@@ -159,17 +154,12 @@ public final class GameInput {
 			public void mouseEntered(MouseEvent e) {
 				localInput.mouseOnScreen = true;
 			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				return;
-			}
 		});
 		
 		/*
 		 * Mouse motion listener
 		 */
-		comp.addMouseMotionListener(new MouseMotionListener() {
+		comp.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				localInput.setMouseCoordinate(e.getX(), e.getY());
