@@ -1,15 +1,14 @@
 package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -33,16 +32,21 @@ public class SessionConfigPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		labelPanel.add(new JLabel("<html><u>Game conditions</u></html>"));
+		optionsPanel.add(labelPanel);
 		optionsPanel.add(setupMinPointsPanel());
 		optionsPanel.add(setupMaxPointsPanel());
 		optionsPanel.add(setupDiffPointsPanel());
 		this.add(optionsPanel, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
+		this.setPreferredSize(new Dimension(270, 150));
 	}
 	
 	private JPanel setupMinPointsPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 4));
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		panel.add(new JLabel("Minimum winning score: "));
 		
 		minPointsSpinner = new JSpinner(
@@ -69,7 +73,7 @@ public class SessionConfigPanel extends JPanel {
 	
 	private JPanel setupMaxPointsPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 4));
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		panel.add(new JLabel("Maximum winning score: "));
 		
 		maxPointsSpinner = new JSpinner(
@@ -96,7 +100,7 @@ public class SessionConfigPanel extends JPanel {
 	
 	private JPanel setupDiffPointsPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 4));
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
 		panel.add(new JLabel("Required score difference: "));
 		
 		diffPointsSpinner = new JSpinner(

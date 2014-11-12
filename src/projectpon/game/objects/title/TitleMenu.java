@@ -237,7 +237,7 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
 			pscene.setRightPlayer(Player.PLAYER_REMOTE, false);
-			GameEngine.pause();
+			/*GameEngine.pause();
 			try {
 				GameNetwork.Server.addOnAcceptedListener(
 						new GameNetwork.Server.AcceptListener() {
@@ -281,7 +281,8 @@ public class TitleMenu extends GameObject {
 				GameNetwork.Server.acceptClient();
 			} catch (NetworkException | NetworkLockException e) {
 				e.printStackTrace();
-			}
+			}//*/
+			GameEngine.launchDialog(new NewGameDialog(pscene, true));
 			break;
 			
 		case CHOICE_CLIENT:

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import projectpon.engine.GameDialog;
 import projectpon.engine.GameEngine;
+import projectpon.game.dialogs.panels.ServerConfigPanel;
 import projectpon.game.dialogs.panels.SessionConfigPanel;
 import projectpon.game.scenes.PongScene;
 
@@ -37,9 +38,9 @@ public class NewGameDialog extends GameDialog {
 			this.dispose();
 		} else {
 			this.remove(panel);
-			/**
-			 * TODO: Server option panel next to session options
-			 */
+			panel = new ServerConfigPanel(this, scene);
+			this.add(panel);
+			this.pack();
 		}
 	}
 }
