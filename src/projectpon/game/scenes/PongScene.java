@@ -34,7 +34,6 @@ public class PongScene extends GameScene {
 	public Ball ball;
 	public Controller controller;
 	
-	//protected Socket remote = null;
 	protected boolean useSocket = false;
 	
 	public static final int TOP_BOUNDARY = 128;

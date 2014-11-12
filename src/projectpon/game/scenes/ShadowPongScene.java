@@ -63,7 +63,7 @@ public class ShadowPongScene extends PongScene {
 	
 	@Override
 	public void setRightPlayer(int type) {
-		this.setRightPlayer(type, true);
+		this.setRightPlayer(type, false);
 	}
 	
 	@Override

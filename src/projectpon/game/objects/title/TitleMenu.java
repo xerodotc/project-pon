@@ -20,7 +20,6 @@ import projectpon.engine.GameSound;
 import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.Configuration;
-import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.NewGameDialog;
 import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
@@ -236,51 +235,6 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
 			pscene.setRightPlayer(Player.PLAYER_REMOTE, false);
-			/*GameEngine.pause();
-			try {
-				GameNetwork.Server.addOnAcceptedListener(
-						new GameNetwork.Server.AcceptListener() {
-							@Override
-							public void onAccepted(Socket remote) {
-								try {
-									OutputStream out = remote.getOutputStream();
-									InputStream in = remote.getInputStream();
-									
-									out.write(
-											String.format("%d %d %d",
-													SessionConfiguration.minimumWinScore,
-													SessionConfiguration.maximumWinScore,
-													SessionConfiguration.minimumWinDiff).getBytes());
-									out.flush();
-									
-									byte[] buffer = new byte[256];
-									in.read(buffer);
-									String response = new String(buffer).trim();
-									if (Boolean.parseBoolean(response)) {
-										GameNetwork.setSocket(remote);
-										try {
-											GameNetwork.Server.stop();
-										} catch (NetworkException e1) {
-											e1.printStackTrace();
-										}
-										GameEngine.setScene(pscene);
-										GameEngine.unpause();
-									} else {
-										remote.close();
-										GameNetwork.Server.acceptClient();
-									}
-								} catch (IOException e) {
-									e.printStackTrace();
-									GameNetwork.Server.acceptClient();
-								}
-							}
-						});
-				
-				GameNetwork.Server.start(10215);
-				GameNetwork.Server.acceptClient();
-			} catch (NetworkException | NetworkLockException e) {
-				e.printStackTrace();
-			}//*/
 			GameEngine.launchDialog(new NewGameDialog(pscene, true));
 			break;
 			
