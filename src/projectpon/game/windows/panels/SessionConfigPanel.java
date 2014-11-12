@@ -139,6 +139,7 @@ public class SessionConfigPanel extends JPanel {
 						SessionConfiguration.maximumWinScore);
 				Configuration.set("lastSession", "diffPoints",
 						SessionConfiguration.minimumWinDiff);
+				Configuration.save();
 				parentWindow.next();
 			}
 		});
