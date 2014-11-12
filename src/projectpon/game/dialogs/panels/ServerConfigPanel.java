@@ -18,13 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
-import projectpon.engine.exceptions.NetworkLockException;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.NewGameDialog;
@@ -178,7 +176,7 @@ panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 					portSettingSpinner.setEnabled(false);
 					startButton.setText("Stop server");
 					setServerStatus("Waiting for client...", Color.GREEN);
-				} catch (NetworkException | NetworkLockException e) {
+				} catch (NetworkException e) {
 					JOptionPane.showMessageDialog(parentWindow, e, "Error", JOptionPane.ERROR_MESSAGE);
 					try {
 						GameNetwork.Server.stop();

@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import projectpon.engine.exceptions.NetworkException;
-import projectpon.engine.exceptions.NetworkLockException;
 
 public final class GameNetwork {
 	private static Socket socket = null;
@@ -20,12 +19,7 @@ public final class GameNetwork {
 			public abstract void onAccepted(Socket remote);
 		}
 		
-		public static void start(int port) throws NetworkException, NetworkLockException {
-			if (Client.isStarted()) {
-				throw new NetworkLockException("Attempted to start the server, " +
-						"while being connected to other server");
-			}
-			
+		public static void start(int port) throws NetworkException {
 			try {
 				server = new ServerSocket(port);
 				serverStarted = true;
@@ -84,12 +78,7 @@ public final class GameNetwork {
 			public abstract void onConnected(Socket remote);
 		}
 		
-		public static void connect(String host, int port) throws NetworkException, NetworkLockException {
-			if (Server.isStarted()) {
-				throw new NetworkLockException("Attempted to connect to other server, " +
-						"while the server still running");
-			}
-			
+		public static void connect(String host, int port) throws NetworkException {
 			try {
 				remote = new Socket(host, port);
 				clientStarted = true;

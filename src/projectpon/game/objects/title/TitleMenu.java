@@ -19,7 +19,6 @@ import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
 import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
-import projectpon.engine.exceptions.NetworkLockException;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.NewGameDialog;
@@ -356,8 +355,6 @@ public class TitleMenu extends GameObject {
 				JOptionPane.showMessageDialog(null, "Can't connect to server!",
 						"Error", JOptionPane.ERROR_MESSAGE);
 				GameEngine.unpause();
-			} catch (NetworkLockException e) {
-				e.printStackTrace();
 			}
 			break;
 			
