@@ -14,6 +14,7 @@ import projectpon.engine.GameSound;
 import projectpon.game.Configuration;
 import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
+import projectpon.game.dialogs.OptionsDialog;
 import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
@@ -239,6 +240,7 @@ public class TitleMenu extends GameObject {
 			break;
 			
 		case CHOICE_OPTIONS:
+			GameEngine.launchDialog(new OptionsDialog());
 			break;
 			
 		case CHOICE_HELP:
