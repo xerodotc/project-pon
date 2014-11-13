@@ -6,19 +6,11 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-
-import javax.swing.JOptionPane;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
-import projectpon.engine.GameNetwork;
-import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.Configuration;
 import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
@@ -243,79 +235,6 @@ public class TitleMenu extends GameObject {
 			pscene = new ShadowPongScene();
 			pscene.setLeftPlayer(Player.PLAYER_SHADOW, false);
 			pscene.setRightPlayer(Player.PLAYER_SHADOW, true);
-			/*GameEngine.pause();
-			String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
-			if (host == null) {
-				GameEngine.unpause();
-				return;
-			}
-			
-			try {
-				GameNetwork.Client.addOnConnectedListener(
-						new GameNetwork.Client.ConnectListener() {
-							@Override
-							public void onConnected(Socket remote) {
-								try {
-									InputStream in = remote.getInputStream();
-									OutputStream out = remote.getOutputStream();
-									
-									byte[] buffer = new byte[256];
-									in.read(buffer);
-									String data = new String(buffer).trim();
-									String[] score = data.split(" ");
-									
-									if (score.length < 2) {
-										out.write("false".getBytes());
-										throw new Exception();
-									}
-									
-									String conditionsString = "Game conditions\n";
-									conditionsString += "-------------------------\n";
-									conditionsString += "Minimum winning score: " + score[0] + "\n";
-									conditionsString += "Maximum winning score: " + score[1] + "\n";
-									conditionsString += "Required score difference: " + score[2] + "\n";
-									conditionsString += "-------------------------\n";
-								
-									int confirm = JOptionPane.showConfirmDialog(
-											null, conditionsString + "\nAccept this server's conditions?", "Confirmation",
-											JOptionPane.OK_CANCEL_OPTION);
-									
-									switch (confirm) {
-									case JOptionPane.OK_OPTION:
-										out.write("true".getBytes());
-										GameNetwork.setSocket(remote);
-										GameEngine.setScene(pscene);
-										GameEngine.unpause();
-										break;
-										
-									case JOptionPane.CANCEL_OPTION:
-										try {
-											GameEngine.unpause();
-											out.write("false".getBytes());
-											GameNetwork.Client.disconnect();
-										} catch (NetworkException | IOException e) {
-											e.printStackTrace();
-										}
-										break;
-									}
-								} catch (Exception e1) {
-									JOptionPane.showMessageDialog(null, "Can't connect to server!",
-											"Error", JOptionPane.ERROR_MESSAGE);
-									GameEngine.unpause();
-								}
-							}
-							
-							@Override
-							public void onFailed(NetworkException e) {
-								
-							}
-						});
-				GameNetwork.Client.connect(host, 10215);
-			} catch (NetworkException e) {
-				JOptionPane.showMessageDialog(null, "Can't connect to server!",
-						"Error", JOptionPane.ERROR_MESSAGE);
-				GameEngine.unpause();
-			}//*/
 			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
 			
