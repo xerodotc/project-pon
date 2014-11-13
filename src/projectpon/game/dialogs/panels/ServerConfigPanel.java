@@ -35,6 +35,7 @@ public class ServerConfigPanel extends JPanel {
 	private PongScene pscene = null;
 	private JSpinner portSettingSpinner = null;
 	private JLabel serverStatusLabel = null;
+	private JButton startButton = null;
 	
 	private static final String SERVER_STATUS_STRING_FORMAT =
 			"<html>Server status: <font color=\"%s\">%s</font></html>";
@@ -54,6 +55,7 @@ public class ServerConfigPanel extends JPanel {
 		this.add(topPanel, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(300, 190));
+		parentWindow.getRootPane().setDefaultButton(startButton);
 	}
 	
 	private JPanel setupConditionsPanel() {
@@ -109,7 +111,7 @@ public class ServerConfigPanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		
-		final JButton startButton = new JButton("Start server");
+		startButton = new JButton("Start server");
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Queue;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameInput;
+import projectpon.engine.GameNetwork;
 
 public class ServerController extends LocalController {
 	private Thread outputData;
@@ -31,6 +33,11 @@ public class ServerController extends LocalController {
 	
 	public ServerController(Socket socket) {
 		super();
+		try {
+			socket.setSoTimeout(GameNetwork.DEFAULT_TIMEOUT);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		remoteInput = new GameInput();
 		GameInput.networkInputs.put(socket.hashCode(), remoteInput);
 		this.socket = socket;

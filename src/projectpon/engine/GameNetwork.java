@@ -10,6 +10,8 @@ import projectpon.engine.exceptions.NetworkException;
 public final class GameNetwork {
 	private static Socket socket = null;
 	
+	public static final int DEFAULT_TIMEOUT = 10000;
+	
 	public static class Server {
 		private static ServerSocket server;
 		private static Thread acceptThread;
@@ -88,7 +90,7 @@ public final class GameNetwork {
 					try {
 						remote = new Socket();
 						remote.connect(new InetSocketAddress(host, port),
-								10000);
+								DEFAULT_TIMEOUT);
 						connectListener.onConnected(remote);
 					} catch (IOException e) {
 						connectListener.onFailed(new NetworkException(e));

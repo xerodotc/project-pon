@@ -36,7 +36,6 @@ public class ConnectDialog extends GameDialog {
 	private JTextField addressField;
 	private JSpinner portSettingSpinner;
 	private JButton startButton;
-	private JButton cancelButton;
 	
 	private boolean ok = false;
 	private boolean noWarning = false;
@@ -56,6 +55,7 @@ public class ConnectDialog extends GameDialog {
 		mainPanel.setPreferredSize(new Dimension(320, 100));
 		this.add(mainPanel);
 		this.pack();
+		this.getRootPane().setDefaultButton(startButton);
 	}
 	
 	private JPanel setupAddressPanel() {
@@ -87,7 +87,7 @@ public class ConnectDialog extends GameDialog {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		
 		startButton = new JButton("Connect");
-		cancelButton = new JButton("Cancel");
+		JButton cancelButton = new JButton("Cancel");
 		
 		startButton.addActionListener(new ActionListener() {
 			@Override
@@ -198,15 +198,13 @@ public class ConnectDialog extends GameDialog {
 		}
 		
 		JOptionPane.showMessageDialog(this,
-				"Can't connect to server\n\n" +
-						msg,
-				"Error",
+				"Can't connect to server\n\n" + msg, "Error",
 				JOptionPane.ERROR_MESSAGE);
 	}
 	
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		if (GameNetwork.Client.isConnected() && !ok) {
+		if (!ok) {
 			try {
 				noWarning = true;
 				GameNetwork.Client.disconnect();

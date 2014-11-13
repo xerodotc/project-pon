@@ -27,6 +27,7 @@ public class SessionConfigPanel extends JPanel {
 	private JSpinner minPointsSpinner = null;
 	private JSpinner maxPointsSpinner = null;
 	private JSpinner diffPointsSpinner = null;
+	private JButton startButton = null;
 	
 	public SessionConfigPanel(NewGameDialog parent) {
 		parentWindow = parent;
@@ -44,6 +45,7 @@ public class SessionConfigPanel extends JPanel {
 		this.add(optionsPanel, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(270, 150));
+		parentWindow.getRootPane().setDefaultButton(startButton);
 	}
 	
 	private JPanel setupMinPointsPanel() {
@@ -131,7 +133,7 @@ public class SessionConfigPanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		
-		JButton startButton = new JButton((parentWindow.isServer()) ?
+		startButton = new JButton((parentWindow.isServer()) ?
 				"Next" : "Play");
 		startButton.addActionListener(new ActionListener() {
 			@Override
