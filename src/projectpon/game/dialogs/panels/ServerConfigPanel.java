@@ -107,7 +107,7 @@ public class ServerConfigPanel extends JPanel {
 	
 	private JPanel setupButtonsPanel() {
 		JPanel panel = new JPanel();
-panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		
 		final JButton startButton = new JButton("Start server");
 		startButton.addActionListener(new ActionListener() {
@@ -191,14 +191,6 @@ panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (GameNetwork.Server.isStarted()) {
-					try {
-						GameNetwork.Server.stop();
-					} catch (NetworkException e) {
-						e.printStackTrace();
-					}
-					startButton.setText("Start server");
-				}
 				parentWindow.dispose();
 			}
 		});

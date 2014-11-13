@@ -20,6 +20,7 @@ import projectpon.engine.GameSound;
 import projectpon.engine.GameNetwork;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.Configuration;
+import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
 import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.PongScene;
@@ -242,7 +243,7 @@ public class TitleMenu extends GameObject {
 			pscene = new ShadowPongScene();
 			pscene.setLeftPlayer(Player.PLAYER_SHADOW, false);
 			pscene.setRightPlayer(Player.PLAYER_SHADOW, true);
-			GameEngine.pause();
+			/*GameEngine.pause();
 			String host = JOptionPane.showInputDialog(null, "Host address", "127.0.0.1");
 			if (host == null) {
 				GameEngine.unpause();
@@ -303,13 +304,19 @@ public class TitleMenu extends GameObject {
 									GameEngine.unpause();
 								}
 							}
+							
+							@Override
+							public void onFailed(NetworkException e) {
+								
+							}
 						});
 				GameNetwork.Client.connect(host, 10215);
 			} catch (NetworkException e) {
 				JOptionPane.showMessageDialog(null, "Can't connect to server!",
 						"Error", JOptionPane.ERROR_MESSAGE);
 				GameEngine.unpause();
-			}
+			}//*/
+			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
 			
 		case CHOICE_OPTIONS:

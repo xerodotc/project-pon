@@ -1,6 +1,7 @@
 package projectpon.engine;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -53,6 +54,7 @@ public final class GameNetwork {
 				return;
 			}
 			serverStarted = false;
+			acceptThread = null;
 			try {
 				server.close();
 			} catch (IOException e) {
@@ -72,26 +74,34 @@ public final class GameNetwork {
 	public static class Client {
 		private static Socket remote;
 		private static ConnectListener connectListener = null;
-		private static boolean clientStarted = false;
+		private static Thread connectThread;
 		
 		public static interface ConnectListener {
 			public abstract void onConnected(Socket remote);
+			public abstract void onFailed(NetworkException e);
 		}
 		
-		public static void connect(String host, int port) throws NetworkException {
-			try {
-				remote = new Socket(host, port);
-				clientStarted = true;
-				connectListener.onConnected(remote);
-			} catch (IOException e) {
-				throw new NetworkException(e);
-			}
+		public static void connect(final String host, final int port) {
+			connectThread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						remote = new Socket();
+						remote.connect(new InetSocketAddress(host, port),
+								10000);
+						connectListener.onConnected(remote);
+					} catch (IOException e) {
+						connectListener.onFailed(new NetworkException(e));
+					}
+				}
+			});
+			connectThread.start();
 		}
 		
 		public static void disconnect() throws NetworkException {
-			clientStarted = false;
 			try {
 				remote.close();
+				connectThread = null;
 			} catch (IOException e) {
 				throw new NetworkException(e);
 			}
@@ -99,10 +109,6 @@ public final class GameNetwork {
 		
 		public static void addOnConnectedListener(ConnectListener cl) {
 			connectListener = cl;
-		}
-		
-		public static boolean isStarted() {
-			return clientStarted;
 		}
 	}
 	
