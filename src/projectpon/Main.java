@@ -1,5 +1,7 @@
 package projectpon;
 
+import java.util.Arrays;
+
 import projectpon.engine.*;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
@@ -46,7 +48,9 @@ public class Main {
 		};
 		
 		GameEngine.setResolution(800, 600);
-		GameEngine.setDebugOn();
+		if (Arrays.asList(args).contains("--debug")) {
+			GameEngine.setDebugOn();
+		}
 		GameEngine.start(new Loader(entryScene, load), 50, "Project Pon");
 	}
 }
