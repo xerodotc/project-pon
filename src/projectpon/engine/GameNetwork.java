@@ -110,6 +110,13 @@ public final class GameNetwork {
 		public static void addOnConnectedListener(ConnectListener cl) {
 			connectListener = cl;
 		}
+		
+		public static boolean isConnected() {
+			if (remote == null) {
+				return false;
+			}
+			return remote.isConnected() && !remote.isClosed();
+		}
 	}
 	
 	public static Socket getSocket() {

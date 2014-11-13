@@ -206,7 +206,7 @@ public class ConnectDialog extends GameDialog {
 	
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		if (!ok) {
+		if (GameNetwork.Client.isConnected() && !ok) {
 			try {
 				noWarning = true;
 				GameNetwork.Client.disconnect();
