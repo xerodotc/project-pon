@@ -8,6 +8,7 @@ import projectpon.game.objects.title.*;
 public class TitleScene extends GameScene {
 	
 	private boolean menuPreActivate = false;
+	public TitleMenu menu;
 
 	public TitleScene() {
 		this(false);
@@ -21,7 +22,9 @@ public class TitleScene extends GameScene {
 	public void initialize() {
 		this.objectAdd(new TitleParticles());
 		this.objectAdd(new TitleLogo());
-		this.objectAdd(new TitleMenu(menuPreActivate));
+		menu = new TitleMenu(menuPreActivate);
+		this.objectAdd(menu);
+		this.objectAdd(new CheatKeyListener());
 		GameEngine.enableExitOnClose();
 		GameSound.playMusic("title");
 	}

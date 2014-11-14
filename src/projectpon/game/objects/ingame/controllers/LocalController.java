@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameSound;
+import projectpon.game.Configuration;
+import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.ingame.Item;
 import projectpon.game.objects.ingame.Player;
 
@@ -27,10 +29,9 @@ public class LocalController extends Controller {
 			pscene.winGame(winner);
 		}
 		
-		if (GameEngine.isDebugOn()) {
-			debugKeyListener();
-		} else {
-			//debugKeyListener();
+		if (SessionConfiguration.cheatsEnabled &&
+				!networked && pscene.myPlayer != null) {
+			cheatKeysListener();
 		}
 		
 		if (!networked) {
@@ -51,63 +52,24 @@ public class LocalController extends Controller {
 		}
 	}
 	
-	private void debugKeyListener() {
-		if (input.isKeyReleased(KeyEvent.VK_Q)) {
-			pscene.playerLeft.setStatus(Player.STATUS_STICKY);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_W)) {
-			pscene.playerRight.setStatus(Player.STATUS_STICKY);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_A)) {
-			pscene.playerLeft.setStatus(Player.STATUS_BLIND);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_S)) {
-			pscene.playerRight.setStatus(Player.STATUS_BLIND);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_Z)) {
-			pscene.playerLeft.setStatus(Player.STATUS_INVERT);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_X)) {
-			pscene.playerRight.setStatus(Player.STATUS_INVERT);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_1)) {
-			pscene.playerLeft.setStatus(Player.STATUS_WALL);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_2)) {
-			pscene.playerRight.setStatus(Player.STATUS_WALL);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_3)) {
-			pscene.playerLeft.shrink();
-		}
-		if (input.isKeyReleased(KeyEvent.VK_4)) {
-			pscene.playerRight.shrink();
-		}
-		if (input.isKeyReleased(KeyEvent.VK_E)) {
-			pscene.playerLeft.expand();
-		}
-		if (input.isKeyReleased(KeyEvent.VK_R)) {
-			pscene.playerRight.expand();
-		}
-		if (input.isKeyReleased(KeyEvent.VK_I)) {
+	private void cheatKeysListener() {
+		if (input.isKeyPressed(KeyEvent.VK_I)) {
 			pscene.spawnItem();
 		}
-		if (input.isKeyReleased(KeyEvent.VK_D)) {
-			pscene.spawnItem(Item.ITEM_EXPAND);
+		if (input.isKeyPressed(KeyEvent.VK_S)) {
+			pscene.myPlayer.setStatus(Player.STATUS_STICKY);
 		}
-		if (input.isKeyReleased(KeyEvent.VK_F)) {
-			pscene.spawnItem(Item.ITEM_WALL);
+		if (input.isKeyPressed(KeyEvent.VK_U)) {
+			pscene.myPlayer.unblind();
 		}
-		if (input.isKeyReleased(KeyEvent.VK_G)) {
-			pscene.spawnItem(Item.ITEM_STICKY);
+		if (input.isKeyPressed(KeyEvent.VK_W)) {
+			pscene.myPlayer.setStatus(Player.STATUS_WALL);
 		}
-		if (input.isKeyReleased(KeyEvent.VK_C)) {
-			pscene.spawnItem(Item.ITEM_SHRINK);
+		if (input.isKeyPressed(KeyEvent.VK_1)) {
+			pscene.myPlayer.shrink();
 		}
-		if (input.isKeyReleased(KeyEvent.VK_V)) {
-			pscene.spawnItem(Item.ITEM_BLIND);
-		}
-		if (input.isKeyReleased(KeyEvent.VK_B)) {
-			pscene.spawnItem(Item.ITEM_INVERT);
+		if (input.isKeyPressed(KeyEvent.VK_2)) {
+			pscene.myPlayer.expand();
 		}
 	}
 	

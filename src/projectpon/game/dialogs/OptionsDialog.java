@@ -15,7 +15,9 @@ import javax.swing.JTabbedPane;
 import projectpon.engine.GameDialog;
 import projectpon.engine.GameSound;
 import projectpon.game.Configuration;
+import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.panels.AiOptionsPanel;
+import projectpon.game.dialogs.panels.CheatOptionsPanel;
 import projectpon.game.dialogs.panels.InputOptionsPanel;
 import projectpon.game.dialogs.panels.SoundOptionsPanel;
 
@@ -49,6 +51,8 @@ public class OptionsDialog extends GameDialog {
 	public JSlider secondaryKeySpeedSlider;
 	public int secondaryMbLaunch;
 	
+	public JCheckBox cheatsEnableCheckbox;
+	
 	public OptionsDialog() {
 		super("Options");
 		
@@ -59,6 +63,9 @@ public class OptionsDialog extends GameDialog {
 		optionsTabs.addTab("Sounds", new SoundOptionsPanel(this));
 		inputPanel = new InputOptionsPanel(this);
 		optionsTabs.addTab("Input", inputPanel);
+		if (SessionConfiguration.cheatsActivated) {
+			optionsTabs.addTab("Cheats", new CheatOptionsPanel(this));
+		}
 		
 		this.add(optionsTabs, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
@@ -146,6 +153,10 @@ public class OptionsDialog extends GameDialog {
 				Configuration.getBoolean("soundOptions", "globalEnabled") &&
 				Configuration.getBoolean("soundOptions", "musicEnabled")) {
 			GameSound.playMusic("title");
+		}
+		
+		if (SessionConfiguration.cheatsActivated) {
+			SessionConfiguration.cheatsEnabled = cheatsEnableCheckbox.isSelected();
 		}
 	}
 }

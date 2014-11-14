@@ -251,4 +251,8 @@ public class TitleMenu extends GameObject {
 			break;
 		}
 	}
+	
+	public boolean isActivated() {
+		return activated;
+	}
 }

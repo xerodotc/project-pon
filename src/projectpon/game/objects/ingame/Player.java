@@ -301,6 +301,12 @@ public class Player extends GameObject {
 		resize(this.paddleSize - PADDLE_SIZEDELTA);
 	}
 	
+	public void unblind() {
+		if (getStatus(STATUS_BLIND)) {
+			this.statusTimer[STATUS_BLIND] = 1;
+		}
+	}
+	
 	public void setStatus(int status) {
 		switch (status) {
 		case STATUS_WALL:
