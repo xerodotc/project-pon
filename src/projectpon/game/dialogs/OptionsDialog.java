@@ -5,16 +5,16 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 
 import projectpon.engine.GameDialog;
+import projectpon.engine.GameSound;
+import projectpon.game.Configuration;
 import projectpon.game.dialogs.panels.AiOptionsPanel;
 import projectpon.game.dialogs.panels.InputOptionsPanel;
 import projectpon.game.dialogs.panels.SoundOptionsPanel;
@@ -75,6 +75,7 @@ public class OptionsDialog extends GameDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				saveConfiguration();
+				dispose();
 			}
 		});
 		JButton cancelButton = new JButton("Cancel");
@@ -98,6 +99,45 @@ public class OptionsDialog extends GameDialog {
 	}
 	
 	private void saveConfiguration() {
+		Configuration.set("aiOptions", "speed", aiSpeedSlider.getValue());
+		Configuration.set("soundOptions", "globalEnabled",
+				soundsGlobalCheckbox.isSelected());
+		Configuration.set("soundOptions", "globalVolume",
+				soundsGlobalSlider.getValue());
+		Configuration.set("soundOptions", "musicEnabled",
+				soundsMusicCheckbox.isSelected());
+		Configuration.set("soundOptions", "musicVolume",
+				soundsMusicSlider.getValue());
+		Configuration.set("soundOptions", "soundsEnabled",
+				soundsSfxCheckbox.isSelected());
+		Configuration.set("soundOptions", "soundsVolume",
+				soundsSfxSlider.getValue());
+		Configuration.set("inputPrimaryPlayer", "type",
+				(primaryInputTypeKeyboardRadio.isSelected()) ? "keyboard" : "mouse");
+		Configuration.set("inputPrimaryPlayer", "keyUp", primaryKeyUp);
+		Configuration.set("inputPrimaryPlayer", "keyDown", primaryKeyDown);
+		Configuration.set("inputPrimaryPlayer", "keyLaunch", primaryKeyLaunch);
+		Configuration.set("inputPrimaryPlayer", "mbLaunch", primaryMbLaunch);
+		Configuration.set("inputSecondaryPlayer", "type",
+				(secondaryInputTypeKeyboardRadio.isSelected()) ? "keyboard" : "mouse");
+		Configuration.set("inputSecondaryPlayer", "keyUp", secondaryKeyUp);
+		Configuration.set("inputSecondaryPlayer", "keyDown", secondaryKeyDown);
+		Configuration.set("inputSecondaryPlayer", "keyLaunch", secondaryKeyLaunch);
+		Configuration.set("inputSecondaryPlayer", "mbLaunch", secondaryMbLaunch);
+		Configuration.validate(true);
+		Configuration.save();
 		
+		GameSound.setGlobalEnabled(
+				Configuration.getBoolean("soundOptions", "globalEnabled"));
+		GameSound.setGlobalVolume(
+				Configuration.getInt("soundOptions", "globalVolume"));
+		GameSound.setMusicEnabled(
+				Configuration.getBoolean("soundOptions", "globalEnabled"));
+		GameSound.setMusicVolume(
+				Configuration.getInt("soundOptions", "globalVolume"));
+		GameSound.setSoundsEnabled(
+				Configuration.getBoolean("soundOptions", "globalEnabled"));
+		GameSound.setSoundsVolume(
+				Configuration.getInt("soundOptions", "globalVolume"));
 	}
 }
