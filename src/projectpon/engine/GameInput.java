@@ -206,6 +206,21 @@ public final class GameInput {
 	}
 	
 	/**
+	 * Is any key pressed? (triggered)
+	 * 
+	 * @return	True if any key is pressed
+	 */
+	public boolean isAnyKeyPressed() {
+		for (Boolean status : keyboard.pressed.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Is key released?
 	 * 
 	 * @param keyCode		Key code
@@ -218,6 +233,21 @@ public final class GameInput {
 		}
 		
 		return status;
+	}
+	
+	/**
+	 * Is any key released?
+	 * 
+	 * @return	True if any key is released
+	 */
+	public boolean isAnyKeyReleased() {
+		for (Boolean status : keyboard.released.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -236,6 +266,21 @@ public final class GameInput {
 	}
 	
 	/**
+	 * Is any key held?
+	 * 
+	 * @return	True if any key is held
+	 */
+	public boolean isAnyKeyDown() {
+		for (Boolean status : keyboard.down.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Is mouse button pressed? (clicked)
 	 * 
 	 * @param btnCode		Button code
@@ -248,6 +293,21 @@ public final class GameInput {
 		}
 		
 		return status;
+	}
+	
+	/**
+	 * Is any mouse button pressed? (triggered)
+	 * 
+	 * @return	True if any mouse button is pressed (clicked)
+	 */
+	public boolean isAnyMousePressed() {
+		for (Boolean status : mouse.pressed.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -266,6 +326,21 @@ public final class GameInput {
 	}
 	
 	/**
+	 * Is any mouse button released?
+	 * 
+	 * @return	True if any mouse button is released
+	 */
+	public boolean isAnyMouseReleased() {
+		for (Boolean status : mouse.released.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Is mouse button held?
 	 * 
 	 * @param btnCode		Button code
@@ -278,6 +353,21 @@ public final class GameInput {
 		}
 		
 		return status;
+	}
+	
+	/**
+	 * Is any mouse button held?
+	 * 
+	 * @return	True if any mouse button is held
+	 */
+	public boolean isAnyMouseDown() {
+		for (Boolean status : mouse.down.values()) {
+			if (status == true) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
