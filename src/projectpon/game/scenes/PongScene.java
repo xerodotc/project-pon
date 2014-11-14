@@ -9,6 +9,7 @@ import java.util.Random;
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameScene;
 import projectpon.engine.GameNetwork;
+import projectpon.engine.GameSound;
 import projectpon.engine.exceptions.NetworkException;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.objects.ingame.Ball;
@@ -127,6 +128,8 @@ public class PongScene extends GameScene {
 		if (!useSocket) {
 			this.objectAdd(new PausedOverlay());
 		}
+		
+		GameSound.playMusic("ingame");
 	}
 	
 	public void exit() {

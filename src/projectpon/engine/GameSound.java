@@ -126,6 +126,10 @@ public final class GameSound {
 	
 	public static void setMusicEnabled(boolean enable) {
 		musicEnabled = enable;
+		if (!musicEnabled && currentBGM != null) {
+			currentBGM.stop();
+			currentBGM = null;
+		}
 	}
 	
 	private static double musicVolumeFactor() {

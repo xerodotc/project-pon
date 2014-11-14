@@ -14,6 +14,8 @@ public class Main {
 		Runnable load = new Runnable() {
 			@Override
 			public void run() {
+				GameSound.loadMusic("title", "res/bgm/title.ogg");
+				GameSound.loadMusic("ingame", "res/bgm/ingame.ogg");
 				GameSound.loadSound("baap", "res/sfx/pong_baap.wav");
 				GameSound.loadSound("beep", "res/sfx/pong_beep.wav");
 				GameSound.loadSound("boop", "res/sfx/pong_boop.wav");

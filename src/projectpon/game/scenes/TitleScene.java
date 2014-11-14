@@ -2,6 +2,7 @@ package projectpon.game.scenes;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameScene;
+import projectpon.engine.GameSound;
 import projectpon.game.objects.title.*;
 
 public class TitleScene extends GameScene {
@@ -22,5 +23,6 @@ public class TitleScene extends GameScene {
 		this.objectAdd(new TitleLogo());
 		this.objectAdd(new TitleMenu(menuPreActivate));
 		GameEngine.enableExitOnClose();
+		GameSound.playMusic("title");
 	}
 }
