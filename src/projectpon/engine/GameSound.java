@@ -105,6 +105,10 @@ public final class GameSound {
 	
 	public static void setGlobalEnabled(boolean enable) {
 		globalEnabled = enable;
+		if (!globalEnabled && currentBGM != null) {
+			currentBGM.stop();
+			currentBGM = null;
+		}
 	}
 	
 	private static double globalVolumeFactor() {
@@ -152,5 +156,9 @@ public final class GameSound {
 	
 	private static double soundsVolumeFactor() {
 		return globalVolumeFactor() * (soundsVolume / 100.0);
+	}
+	
+	public static boolean isBGMPlaying() {
+		return (currentBGM != null && currentBGM.playing());
 	}
 }

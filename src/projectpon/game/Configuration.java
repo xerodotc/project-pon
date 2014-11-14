@@ -18,9 +18,9 @@ public final class Configuration {
 		 * Default settings for input configuration
 		 */
 		defaultIni.add("inputPrimaryPlayer", "type", "mouse");
-		defaultIni.add("inputPrimaryPlayer", "keyUp", "");
-		defaultIni.add("inputPrimaryPlayer", "keyDown", "");
-		defaultIni.add("inputPrimaryPlayer", "keyLaunch", "");
+		defaultIni.add("inputPrimaryPlayer", "keyUp", "" + KeyEvent.VK_UP);
+		defaultIni.add("inputPrimaryPlayer", "keyDown", "" + KeyEvent.VK_DOWN);
+		defaultIni.add("inputPrimaryPlayer", "keyLaunch", "" + KeyEvent.VK_SPACE);
 		defaultIni.add("inputPrimaryPlayer", "keySpeed", "10");
 		defaultIni.add("inputPrimaryPlayer", "mbLaunch", "" + MouseEvent.BUTTON1);
 		defaultIni.add("inputSecondaryPlayer", "type", "keyboard");
@@ -28,7 +28,7 @@ public final class Configuration {
 		defaultIni.add("inputSecondaryPlayer", "keyDown", "" + KeyEvent.VK_DOWN);
 		defaultIni.add("inputSecondaryPlayer", "keyLaunch", "" + KeyEvent.VK_SPACE);
 		defaultIni.add("inputSecondaryPlayer", "keySpeed", "10");
-		defaultIni.add("inputSecondaryPlayer", "mbLaunch", "");
+		defaultIni.add("inputSecondaryPlayer", "mbLaunch", "" + MouseEvent.BUTTON1);
 		
 		/*
 		 * Default settings for computer player
@@ -51,7 +51,7 @@ public final class Configuration {
 		defaultIni.add("soundOptions", "musicEnabled", "true");
 		defaultIni.add("soundOptions", "musicVolume", "100");
 		defaultIni.add("soundOptions", "soundsEnabled", "true");
-		defaultIni.add("soundOptions", "soundsVolume", "100");
+		defaultIni.add("soundOptions", "soundsVolume", "50");
 		
 		/*
 		 * Default settings for initial session configuration

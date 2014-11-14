@@ -62,7 +62,7 @@ public class OptionsDialog extends GameDialog {
 		
 		this.add(optionsTabs, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
-		this.setSize(380, 600);
+		this.setSize(380, 560);
 	}
 	
 	private JPanel setupButtonsPanel() {
@@ -117,12 +117,14 @@ public class OptionsDialog extends GameDialog {
 		Configuration.set("inputPrimaryPlayer", "keyUp", primaryKeyUp);
 		Configuration.set("inputPrimaryPlayer", "keyDown", primaryKeyDown);
 		Configuration.set("inputPrimaryPlayer", "keyLaunch", primaryKeyLaunch);
+		Configuration.set("inputPrimaryPlayer", "keySpeed", primaryKeySpeedSlider.getValue());
 		Configuration.set("inputPrimaryPlayer", "mbLaunch", primaryMbLaunch);
 		Configuration.set("inputSecondaryPlayer", "type",
 				(secondaryInputTypeKeyboardRadio.isSelected()) ? "keyboard" : "mouse");
 		Configuration.set("inputSecondaryPlayer", "keyUp", secondaryKeyUp);
 		Configuration.set("inputSecondaryPlayer", "keyDown", secondaryKeyDown);
 		Configuration.set("inputSecondaryPlayer", "keyLaunch", secondaryKeyLaunch);
+		Configuration.set("inputSecondaryPlayer", "keySpeed", secondaryKeySpeedSlider.getValue());
 		Configuration.set("inputSecondaryPlayer", "mbLaunch", secondaryMbLaunch);
 		Configuration.validate(true);
 		Configuration.save();
@@ -132,12 +134,18 @@ public class OptionsDialog extends GameDialog {
 		GameSound.setGlobalVolume(
 				Configuration.getInt("soundOptions", "globalVolume"));
 		GameSound.setMusicEnabled(
-				Configuration.getBoolean("soundOptions", "globalEnabled"));
+				Configuration.getBoolean("soundOptions", "musicEnabled"));
 		GameSound.setMusicVolume(
-				Configuration.getInt("soundOptions", "globalVolume"));
+				Configuration.getInt("soundOptions", "musicVolume"));
 		GameSound.setSoundsEnabled(
-				Configuration.getBoolean("soundOptions", "globalEnabled"));
+				Configuration.getBoolean("soundOptions", "soundsEnabled"));
 		GameSound.setSoundsVolume(
-				Configuration.getInt("soundOptions", "globalVolume"));
+				Configuration.getInt("soundOptions", "soundsVolume"));
+		
+		if (!GameSound.isBGMPlaying() && 
+				Configuration.getBoolean("soundOptions", "globalEnabled") &&
+				Configuration.getBoolean("soundOptions", "musicEnabled")) {
+			GameSound.playMusic("title");
+		}
 	}
 }

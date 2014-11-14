@@ -33,13 +33,13 @@ public class Main {
 				GameSound.setGlobalVolume(
 						Configuration.getInt("soundOptions", "globalVolume"));
 				GameSound.setMusicEnabled(
-						Configuration.getBoolean("soundOptions", "globalEnabled"));
+						Configuration.getBoolean("soundOptions", "musicEnabled"));
 				GameSound.setMusicVolume(
-						Configuration.getInt("soundOptions", "globalVolume"));
+						Configuration.getInt("soundOptions", "musicVolume"));
 				GameSound.setSoundsEnabled(
-						Configuration.getBoolean("soundOptions", "globalEnabled"));
+						Configuration.getBoolean("soundOptions", "soundsEnabled"));
 				GameSound.setSoundsVolume(
-						Configuration.getInt("soundOptions", "globalVolume"));
+						Configuration.getInt("soundOptions", "soundsVolume"));
 				SessionConfiguration.minimumWinScore = 
 						Configuration.getInt("lastSession", "minPoints");
 				SessionConfiguration.maximumWinScore = 

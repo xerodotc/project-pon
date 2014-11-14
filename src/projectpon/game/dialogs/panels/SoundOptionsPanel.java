@@ -113,9 +113,9 @@ public class SoundOptionsPanel extends JPanel {
 		volumePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		volumePanel.add(new JLabel("Volume: "));
 		parent.soundsSfxSlider = new JSlider(
-				Configuration.getMinBound("soundOptions", "musicVolume"),
-				Configuration.getMaxBound("soundOptions", "musicVolume"),
-				Configuration.getInt("soundOptions", "musicVolume"));
+				Configuration.getMinBound("soundOptions", "soundsVolume"),
+				Configuration.getMaxBound("soundOptions", "soundsVolume"),
+				Configuration.getInt("soundOptions", "soundsVolume"));
 		volumePanel.add(parent.soundsSfxSlider);
 		
 		panel.add(enabledPanel);

@@ -56,7 +56,7 @@ public class InputOptionsPanel extends JPanel {
 	
 	private JPanel setupPrimaryInputPanel() {
 		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder("Primary input"));
+		panel.setBorder(BorderFactory.createTitledBorder("Primary input (also used for navigation)"));
 		panel.setLayout(new BorderLayout());
 		
 		JPanel inputTypePanel = new JPanel();
