@@ -23,6 +23,7 @@ public class OptionsDialog extends GameDialog {
 	private static final long serialVersionUID = 149608132079614747L;
 	
 	private JTabbedPane optionsTabs;
+	private InputOptionsPanel inputPanel;
 	
 	public JSlider aiSpeedSlider;
 	
@@ -56,7 +57,8 @@ public class OptionsDialog extends GameDialog {
 		optionsTabs = new JTabbedPane();
 		optionsTabs.addTab("CPU Player", new AiOptionsPanel(this));
 		optionsTabs.addTab("Sounds", new SoundOptionsPanel(this));
-		optionsTabs.addTab("Input", new InputOptionsPanel(this));
+		inputPanel = new InputOptionsPanel(this);
+		optionsTabs.addTab("Input", inputPanel);
 		
 		this.add(optionsTabs, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
@@ -87,6 +89,12 @@ public class OptionsDialog extends GameDialog {
 		panel.add(cancelButton);
 		
 		return panel;
+	}
+	
+	@Override
+	public void childWindowClosed() {
+		super.childWindowClosed();
+		inputPanel.refreshButtonLabel();
 	}
 	
 	private void saveConfiguration() {
