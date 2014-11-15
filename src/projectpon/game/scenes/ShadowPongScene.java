@@ -7,6 +7,7 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameNetwork;
 import projectpon.game.objects.ingame.Player;
 import projectpon.game.objects.ingame.controllers.ClientController;
+import projectpon.game.objects.ingame.controllers.ReplayController;
 import projectpon.game.objects.ingame.shadow.ShadowBall;
 import projectpon.game.objects.ingame.shadow.ShadowItems;
 import projectpon.game.objects.ingame.shadow.ShadowPlayer;
@@ -15,6 +16,8 @@ import projectpon.game.objects.ingame.shadow.ShadowWall;
 public class ShadowPongScene extends PongScene {
 	
 	private List< Map<String,Integer> > shadowItems;
+	private boolean useReplay = false;
+	private String replayFile;
 
 	public ShadowPongScene() {
 		super();
@@ -22,7 +25,7 @@ public class ShadowPongScene extends PongScene {
 	
 	@Override
 	public void initialize() {
-		if (!useSocket) {
+		if (!useSocket && !useReplay) {
 			System.err.println("Error");
 			GameEngine.exit();
 			return;
@@ -31,6 +34,8 @@ public class ShadowPongScene extends PongScene {
 		ball = new ShadowBall();
 		if (useSocket) {
 			controller = new ClientController(GameNetwork.getSocket());
+		} else if (useReplay) {
+			controller = new ReplayController(replayFile);
 		}
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
 				WALL_INIT_Y, Player.SIDE_LEFT);
@@ -75,6 +80,11 @@ public class ShadowPongScene extends PongScene {
 					Player.SIDE_RIGHT);
 		}
 		super.setRightPlayer(type, my);
+	}
+	
+	public void setReplayFile(String file) {
+		useReplay = true;
+		replayFile = file;
 	}
 	
 	public void setShadowItems(List< Map<String,Integer> > sil) {

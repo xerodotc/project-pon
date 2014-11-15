@@ -4,14 +4,11 @@ import java.awt.event.KeyEvent;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameSound;
-import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
-import projectpon.game.objects.ingame.Item;
 import projectpon.game.objects.ingame.Player;
 
 public class LocalController extends Controller {
 
-	protected Player winner = null;
 	protected boolean client = false;
 	protected boolean networked = false;
 	protected int spawnItemTick = 0;
@@ -81,6 +78,8 @@ public class LocalController extends Controller {
 	@Override
 	public void playSound(String sound) {
 		GameSound.playSound(sound);
+		if (saveReplay) {
+			replaySoundQueue.add(sound);
+		}
 	}
-
 }

@@ -247,6 +247,7 @@ public class ClientController extends LocalController {
 	
 	@Override
 	public void draw(Graphics2D canvas) {
+		super.draw(canvas);
 		if (winner != null) {
 			flag = true;
 		}

@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 import projectpon.engine.GameDialog;
 
 public class InputChangeDialog extends GameDialog {
+	private static final long serialVersionUID = 2137221810706374083L;
+
 	public InputChangeDialog(final OptionsDialog parent, final String input, final String key) {
 		super("Assign new input");
 		

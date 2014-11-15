@@ -279,7 +279,7 @@ public class Player extends GameObject {
 				}
 			}
 			canvas.setColor(colorAlternationCurrent);
-			if (!pscene.controller.isPaused()) {
+			if (!pscene.controller.isPaused() || colorAlternationTick == 0) {
 				colorAlternationTick--;
 			}
 			if (colorAlternationTick < 0) {

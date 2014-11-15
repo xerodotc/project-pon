@@ -53,6 +53,9 @@ public class PongScene extends GameScene {
 	protected final int ITEM_SPAWN_MAX_X;
 	protected final int ITEM_SPAWN_MAX_Y;
 	
+	private boolean saveReplay = false;
+	private String saveReplayFile;
+	
 	private Random rand = new Random();
 	
 	private List<Item> fieldItems = new ArrayList<Item>();
@@ -99,6 +102,10 @@ public class PongScene extends GameScene {
 			} else {
 				controller = new LocalController();
 			}
+		}
+		
+		if (saveReplay) {
+			controller.setSaveReplay(saveReplayFile);
 		}
 		
 		starting = playerLeft; // always left first
@@ -182,6 +189,11 @@ public class PongScene extends GameScene {
 				this.objectAdd(new WinOverlay("You lose!"));
 			}
 		}
+	}
+	
+	public void setSaveReplay(String file) {
+		saveReplay = true;
+		saveReplayFile = file;
 	}
 	
 	public void notifyConnectionLost() {

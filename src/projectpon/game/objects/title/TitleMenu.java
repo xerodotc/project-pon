@@ -34,7 +34,7 @@ public class TitleMenu extends GameObject {
 	private int menuCenterX, menuCenterY;
 	
 	private static final int MENU_WIDTH = 500;
-	private static final int MENU_HEIGHT = 380;
+	private static final int MENU_HEIGHT = 340;
 	private static final int MENU_BORDER = 8;
 	
 	private static final int PRESS_TO_ACTIVATE_TICKS_INIT = 10;
@@ -47,7 +47,7 @@ public class TitleMenu extends GameObject {
 			"Local 2-players game",
 			"Host a network game",
 			"Connect to a network game",
-			"Load replay",
+	//		"Load replay",
 			"Options",
 			"Help",
 			"About",
@@ -57,11 +57,11 @@ public class TitleMenu extends GameObject {
 	private static final int CHOICE_VS_2P = 1;
 	private static final int CHOICE_SERVER = 2;
 	private static final int CHOICE_CLIENT = 3;
-	private static final int CHOICE_REPLAY = 4;
-	private static final int CHOICE_OPTIONS = 5;
-	private static final int CHOICE_HELP = 6;
-	private static final int CHOICE_ABOUT = 7;
-	private static final int CHOICE_EXIT = 8;
+	//private static final int CHOICE_REPLAY = 4;
+	private static final int CHOICE_OPTIONS = 4;
+	private static final int CHOICE_HELP = 5;
+	private static final int CHOICE_ABOUT = 6;
+	private static final int CHOICE_EXIT = 7;
 	
 	private boolean flag = false;
 	
@@ -241,8 +241,13 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
 			
-		case CHOICE_REPLAY:
-			break;
+		/*case CHOICE_REPLAY:
+			pscene = new ShadowPongScene();
+			pscene.setLeftPlayer(Player.PLAYER_REPLAY, false);
+			pscene.setRightPlayer(Player.PLAYER_REPLAY, false);
+			((ShadowPongScene) pscene).setReplayFile("replay.dat");
+			GameEngine.setScene(pscene);
+			break;*/
 			
 		case CHOICE_OPTIONS:
 			GameEngine.launchDialog(new OptionsDialog());
