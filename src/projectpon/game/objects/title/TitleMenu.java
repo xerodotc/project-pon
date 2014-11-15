@@ -16,6 +16,8 @@ import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
 import projectpon.game.dialogs.OptionsDialog;
 import projectpon.game.objects.ingame.Player;
+import projectpon.game.scenes.AboutScene;
+import projectpon.game.scenes.HelpScene;
 import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
 
@@ -32,30 +34,34 @@ public class TitleMenu extends GameObject {
 	private int menuCenterX, menuCenterY;
 	
 	private static final int MENU_WIDTH = 500;
-	private static final int MENU_HEIGHT = 300;
+	private static final int MENU_HEIGHT = 380;
 	private static final int MENU_BORDER = 8;
 	
 	private static final int PRESS_TO_ACTIVATE_TICKS_INIT = 10;
 	private int pressToActivateTicks = PRESS_TO_ACTIVATE_TICKS_INIT;
 	
-	private Rectangle[] choiceRect = new Rectangle[7];
-	private Color[] choiceColor = new Color[7];
+	private Rectangle[] choiceRect = new Rectangle[9];
+	private Color[] choiceColor = new Color[9];
 	private int selectedOption = 0;
 	private String[] choiceText = {"Play against computer",
 			"Local 2-players game",
 			"Host a network game",
 			"Connect to a network game",
+			"Load replay",
 			"Options",
 			"Help",
+			"About",
 			"Exit"};
 	
 	private static final int CHOICE_VS_1P = 0;
 	private static final int CHOICE_VS_2P = 1;
 	private static final int CHOICE_SERVER = 2;
 	private static final int CHOICE_CLIENT = 3;
-	private static final int CHOICE_OPTIONS = 4;
-	private static final int CHOICE_HELP = 5;
-	private static final int CHOICE_EXIT = 6;
+	private static final int CHOICE_REPLAY = 4;
+	private static final int CHOICE_OPTIONS = 5;
+	private static final int CHOICE_HELP = 6;
+	private static final int CHOICE_ABOUT = 7;
+	private static final int CHOICE_EXIT = 8;
 	
 	private boolean flag = false;
 	
@@ -204,10 +210,6 @@ public class TitleMenu extends GameObject {
 	}
 	
 	private void action(int choice) {
-		/**
-		 * TODO: Actual menu action, options, help
-		 */
-
 		final PongScene pscene;
 		
 		switch (choice) {
@@ -239,11 +241,19 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
 			
+		case CHOICE_REPLAY:
+			break;
+			
 		case CHOICE_OPTIONS:
 			GameEngine.launchDialog(new OptionsDialog());
 			break;
 			
 		case CHOICE_HELP:
+			GameEngine.setScene(new HelpScene());
+			break;
+			
+		case CHOICE_ABOUT:
+			GameEngine.setScene(new AboutScene());
 			break;
 		
 		case CHOICE_EXIT:

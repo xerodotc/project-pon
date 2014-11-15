@@ -25,6 +25,8 @@ public class Main {
 				GameImage.loadImage("item-sticky", "res/img/item_sticky.png");
 				GameImage.loadImage("item-blind", "res/img/item_blind.png");
 				GameImage.loadImage("item-invert", "res/img/item_invert.png");
+				GameImage.loadImage("help", "res/img/help.png");
+				GameImage.loadImage("about", "res/img/about.png");
 				Configuration.load();
 				Configuration.validate(true);
 				Configuration.save();
