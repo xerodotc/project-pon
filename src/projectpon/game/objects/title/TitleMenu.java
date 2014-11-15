@@ -12,6 +12,7 @@ import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
 import projectpon.game.Configuration;
+import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
 import projectpon.game.dialogs.OptionsDialog;
@@ -47,7 +48,6 @@ public class TitleMenu extends GameObject {
 			"Local 2-players game",
 			"Host a network game",
 			"Connect to a network game",
-	//		"Load replay",
 			"Options",
 			"Help",
 			"About",
@@ -57,7 +57,6 @@ public class TitleMenu extends GameObject {
 	private static final int CHOICE_VS_2P = 1;
 	private static final int CHOICE_SERVER = 2;
 	private static final int CHOICE_CLIENT = 3;
-	//private static final int CHOICE_REPLAY = 4;
 	private static final int CHOICE_OPTIONS = 4;
 	private static final int CHOICE_HELP = 5;
 	private static final int CHOICE_ABOUT = 6;
@@ -217,6 +216,9 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
 			pscene.setRightPlayer(Player.PLAYER_AI, false);
+			if (SessionConfiguration.saveReplayFile != null) {
+				pscene.setSaveReplay(SessionConfiguration.saveReplayFile);
+			}
 			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
@@ -224,6 +226,9 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL);
 			pscene.setRightPlayer(Player.PLAYER_LOCAL);
+			if (SessionConfiguration.saveReplayFile != null) {
+				pscene.setSaveReplay(SessionConfiguration.saveReplayFile);
+			}
 			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
@@ -231,6 +236,9 @@ public class TitleMenu extends GameObject {
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
 			pscene.setRightPlayer(Player.PLAYER_REMOTE, false);
+			if (SessionConfiguration.saveReplayFile != null) {
+				pscene.setSaveReplay(SessionConfiguration.saveReplayFile);
+			}
 			GameEngine.launchDialog(new NewGameDialog(pscene, true));
 			break;
 			
@@ -238,16 +246,11 @@ public class TitleMenu extends GameObject {
 			pscene = new ShadowPongScene();
 			pscene.setLeftPlayer(Player.PLAYER_SHADOW, false);
 			pscene.setRightPlayer(Player.PLAYER_SHADOW, true);
+			if (SessionConfiguration.saveReplayFile != null) {
+				pscene.setSaveReplay(SessionConfiguration.saveReplayFile);
+			}
 			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
-			
-		/*case CHOICE_REPLAY:
-			pscene = new ShadowPongScene();
-			pscene.setLeftPlayer(Player.PLAYER_REPLAY, false);
-			pscene.setRightPlayer(Player.PLAYER_REPLAY, false);
-			((ShadowPongScene) pscene).setReplayFile("replay.dat");
-			GameEngine.setScene(pscene);
-			break;*/
 			
 		case CHOICE_OPTIONS:
 			GameEngine.launchDialog(new OptionsDialog());

@@ -1,11 +1,14 @@
 package projectpon;
 
 import java.util.Arrays;
+import java.util.List;
 
 import projectpon.engine.*;
 import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
+import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.Loader;
+import projectpon.game.scenes.ShadowPongScene;
 import projectpon.game.scenes.TitleScene;
 
 public class Main {
@@ -52,8 +55,26 @@ public class Main {
 		};
 		
 		GameEngine.setResolution(800, 600);
-		if (Arrays.asList(args).contains("--debug")) {
+		List<String> argsList = Arrays.asList(args);
+		if (argsList.contains("--debug")) {
 			GameEngine.setDebugOn();
+		}
+		int iSR = argsList.indexOf("--save-replay");
+		int iLR = argsList.indexOf("--load-replay");
+		if (iSR > -1) {
+			int j = iSR + 1;
+			if (j < args.length) {
+				SessionConfiguration.saveReplayFile = args[j];
+			}
+		} else if (iLR > -1) {
+			int j = iLR + 1;
+			if (j < args.length) {
+				ShadowPongScene pscene = new ShadowPongScene();
+				pscene.setLeftPlayer(Player.PLAYER_REPLAY, false);
+				pscene.setRightPlayer(Player.PLAYER_REPLAY, false);
+				((ShadowPongScene) pscene).setReplayFile(args[j]);
+				entryScene = pscene;
+			}
 		}
 		GameEngine.start(new Loader(entryScene, load), 50, "Project Pon");
 	}

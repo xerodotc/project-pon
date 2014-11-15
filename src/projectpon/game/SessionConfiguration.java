@@ -8,6 +8,5 @@ public final class SessionConfiguration {
 	public static boolean cheatsActivated = false;
 	public static boolean cheatsEnabled = false;
 	
-	public static boolean saveReplay;
-	public static String saveReplayFile;
+	public static String saveReplayFile = null;
 }

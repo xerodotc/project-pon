@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import projectpon.engine.GameEngine;
 import projectpon.engine.GameSound;
 import projectpon.game.objects.ingame.shadow.ShadowBall;
 import projectpon.game.objects.ingame.shadow.ShadowPlayer;
@@ -26,6 +27,7 @@ public class ReplayController extends LocalController {
 			in.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
+			GameEngine.exit();
 		}
 	}
 	
