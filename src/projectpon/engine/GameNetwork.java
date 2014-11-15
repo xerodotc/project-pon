@@ -102,7 +102,9 @@ public final class GameNetwork {
 		
 		public static void disconnect() throws NetworkException {
 			try {
-				remote.close();
+				if (remote != null) {
+					remote.close();
+				}
 				connectThread = null;
 			} catch (IOException e) {
 				throw new NetworkException(e);
