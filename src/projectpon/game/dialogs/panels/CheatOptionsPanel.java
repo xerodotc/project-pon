@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.OptionsDialog;
 
 public class CheatOptionsPanel extends JPanel {
@@ -22,6 +23,7 @@ public class CheatOptionsPanel extends JPanel {
 		
 		this.setLayout(new BorderLayout(0, 16));
 		parent.cheatsEnableCheckbox = new JCheckBox("Enable cheat hotkeys");
+		parent.cheatsEnableCheckbox.setSelected(SessionConfiguration.cheatsEnabled);
 		this.add(parent.cheatsEnableCheckbox, BorderLayout.NORTH);
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));

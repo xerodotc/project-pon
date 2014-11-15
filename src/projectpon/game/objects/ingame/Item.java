@@ -77,9 +77,45 @@ public class Item extends GameObject {
 	
 	@Override
 	public void eventPostUpdate() {
-		if (this.isCollided(pscene.ball)) {
+		if (collisionBox().intersectsLine(pscene.ball.getTrajectory())) {
 			pscene.controller.playSound("baap");
 			this.destroy();
+		}
+		
+		if (pscene.ball.getDirection() != 0) {
+			if (collisionBox().intersectsLine(pscene.ball.getTrajectory())) {
+				Player player = null;
+				if (pscene.ball.getDirection() > 0) {
+					player = pscene.playerLeft;
+				} else if (pscene.ball.getDirection() < 0) {
+					player = pscene.playerRight;
+				}
+				switch (type) {
+				case Item.ITEM_EXPAND:
+					player.expand();
+					break;
+					
+				case Item.ITEM_SHRINK:
+					player.shrink();
+					break;
+					
+				case Item.ITEM_WALL:
+					player.setStatus(Player.STATUS_WALL);
+					break;
+					
+				case Item.ITEM_STICKY:
+					player.setStatus(Player.STATUS_STICKY);
+					break;
+					
+				case Item.ITEM_BLIND:
+					player.setStatus(Player.STATUS_BLIND);
+					break;
+					
+				case Item.ITEM_INVERT:
+					player.setStatus(Player.STATUS_INVERT);
+					break;
+				}
+			}
 		}
 	}
 	

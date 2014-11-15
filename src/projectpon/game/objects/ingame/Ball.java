@@ -106,46 +106,6 @@ public class Ball extends GameObject {
 				pscene.controller.playSound("beep");
 			}
 			
-			List<Item> items = pscene.getFieldItems();
-			
-			if (getDirection() != 0) {
-				for (Item item : items) {
-					if (this.isCollided(item)) {
-						Player player = null;
-						if (getDirection() > 0) {
-							player = pscene.playerLeft;
-						} else if (getDirection() < 0) {
-							player = pscene.playerRight;
-						}
-						switch (item.getType()) {
-						case Item.ITEM_EXPAND:
-							player.expand();
-							break;
-							
-						case Item.ITEM_SHRINK:
-							player.shrink();
-							break;
-							
-						case Item.ITEM_WALL:
-							player.setStatus(Player.STATUS_WALL);
-							break;
-							
-						case Item.ITEM_STICKY:
-							player.setStatus(Player.STATUS_STICKY);
-							break;
-							
-						case Item.ITEM_BLIND:
-							player.setStatus(Player.STATUS_BLIND);
-							break;
-							
-						case Item.ITEM_INVERT:
-							player.setStatus(Player.STATUS_INVERT);
-							break;
-						}
-					}
-				}
-			}
-			
 			if (this.x > scene.getWidth() + BALL_SIZE &&
 					!pscene.playerRight.getStatus(Player.STATUS_WALL)) {
 				// left-side player win
