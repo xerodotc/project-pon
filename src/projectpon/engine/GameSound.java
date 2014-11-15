@@ -10,6 +10,7 @@ public final class GameSound {
 	private static Map<String, Sound> soundsList = new HashMap<String, Sound>();
 	private static Map<String, Music> musicList = new HashMap<String, Music>();
 	private static Music currentBGM = null;
+	private static String currentBGMName = null;
 	
 	private static boolean globalEnabled = true;
 	private static int globalVolume = 100;
@@ -77,6 +78,10 @@ public final class GameSound {
 			return;
 		}
 		
+		if (musicName.equals(currentBGMName)) {
+			return;
+		}
+		
 		Music bgm = musicList.get(musicName);
 		if (bgm == null) {
 			return;
@@ -87,6 +92,7 @@ public final class GameSound {
 		}
 		
 		currentBGM = bgm;
+		currentBGMName = musicName;
 		currentBGM.play(true, musicVolumeFactor());
 	}
 	
