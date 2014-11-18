@@ -3,7 +3,6 @@ package projectpon.game.objects.ingame;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.util.List;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameObject;
