@@ -6,7 +6,6 @@ import java.awt.geom.Line2D;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameObject;
@@ -22,7 +21,7 @@ public class TitleParticles extends GameObject {
 		}
 	}
 	
-	private Set<Line> lines = new HashSet<Line>();
+	private HashSet<Line> lines = new HashSet<Line>();
 	private Random rand = new Random();
 	private static final int LINES_GEN_INIT_TICKS = 2;
 	private int linesGenTick;
@@ -69,7 +68,8 @@ public class TitleParticles extends GameObject {
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.DARK_GRAY);
-		for (Line line : lines) {
+		HashSet<Line> linesDraw = (HashSet<Line>) lines.clone();
+		for (Line line : linesDraw) {
 			canvas.draw(line.l);
 		}
 	}
