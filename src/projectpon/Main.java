@@ -1,3 +1,11 @@
+/**
+ * Main.java
+ * 
+ * A main class for launching the game.
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon;
 
 import java.util.Arrays;
@@ -12,8 +20,19 @@ import projectpon.game.scenes.ShadowPongScene;
 import projectpon.game.scenes.TitleScene;
 
 public class Main {
+	/**
+	 * Main method
+	 * 
+	 * @param args		Command line options
+	 */
 	public static void main(String[] args) {
+		// Initialize title scene
 		GameScene entryScene = new TitleScene(true);
+		
+		/*
+		 * Create a runnable for loading resources and initial
+		 * configuration
+		 */
 		Runnable load = new Runnable() {
 			@Override
 			public void run() {
@@ -54,7 +73,22 @@ public class Main {
 			}
 		};
 		
+		// Set game resolution
 		GameEngine.setResolution(800, 600);
+		
+		/*
+		 * Read and process command line options
+		 * 
+		 * AVAILABLE OPTIONS
+		 * 		--debug
+		 * 			Display debug informations
+		 * 		
+		 * 		--save-replay FILE
+		 * 			Save latest game session replay to FILE
+		 * 
+		 * 		--load-replay FILE
+		 * 			Launch the game and load replay from FILE
+		 */
 		List<String> argsList = Arrays.asList(args);
 		if (argsList.contains("--debug")) {
 			GameEngine.setDebugOn();
@@ -76,6 +110,8 @@ public class Main {
 				entryScene = pscene;
 			}
 		}
+		
+		// Start the game engine!
 		GameEngine.start(new Loader(entryScene, load), 50, "Project Pon");
 	}
 }

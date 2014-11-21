@@ -1,3 +1,11 @@
+/**
+ * SessionConfigPanel.java
+ * 
+ * A JPanel for new game to be started settings
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
@@ -23,12 +31,17 @@ import projectpon.game.dialogs.NewGameDialog;
 public class SessionConfigPanel extends JPanel {
 	private static final long serialVersionUID = -6058937613283538217L;
 	
-	private NewGameDialog parentWindow = null;
-	private JSpinner minPointsSpinner = null;
-	private JSpinner maxPointsSpinner = null;
-	private JSpinner diffPointsSpinner = null;
-	private JButton startButton = null;
+	private NewGameDialog parentWindow = null; // parent NewGameDialog
+	private JSpinner minPointsSpinner = null; // minimum winning score
+	private JSpinner maxPointsSpinner = null; // maximum winning score
+	private JSpinner diffPointsSpinner = null; // required score difference
+	private JButton startButton = null; // the start button
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param parent	Parent NewGameDialog
+	 */
 	public SessionConfigPanel(NewGameDialog parent) {
 		parentWindow = parent;
 		this.setLayout(new BorderLayout());
@@ -48,6 +61,11 @@ public class SessionConfigPanel extends JPanel {
 		parentWindow.getRootPane().setDefaultButton(startButton);
 	}
 	
+	/**
+	 * Setup minimum winning score setting panel
+	 * 
+	 * @return JPanel for minimum winning score setting
+	 */
 	private JPanel setupMinPointsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 1));
@@ -57,6 +75,8 @@ public class SessionConfigPanel extends JPanel {
 				new SpinnerNumberModel(SessionConfiguration.minimumWinScore,
 						Configuration.getMinBound("lastSession", "minPoints"),
 						Configuration.getMaxBound("lastSession", "minPoints"), 1));
+		
+		// reset to previous value, if the value is invalid
 		minPointsSpinner.addChangeListener(new ChangeListener() {
 			int prevValue = SessionConfiguration.minimumWinScore;
 			
@@ -75,6 +95,11 @@ public class SessionConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup maximum winning score setting panel
+	 * 
+	 * @return JPanel for maximum winning score setting
+	 */
 	private JPanel setupMaxPointsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 1));
@@ -84,6 +109,7 @@ public class SessionConfigPanel extends JPanel {
 				new SpinnerNumberModel(SessionConfiguration.maximumWinScore,
 						Configuration.getMinBound("lastSession", "maxPoints"),
 						Configuration.getMaxBound("lastSession", "maxPoints"), 1));
+		// reset to previous value, if the value is invalid
 		maxPointsSpinner.addChangeListener(new ChangeListener() {
 			int prevValue = SessionConfiguration.maximumWinScore;
 			
@@ -102,6 +128,11 @@ public class SessionConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup required score difference setting panel
+	 * 
+	 * @return JPanel for required score difference setting
+	 */
 	private JPanel setupDiffPointsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 1));
@@ -111,6 +142,7 @@ public class SessionConfigPanel extends JPanel {
 				new SpinnerNumberModel(SessionConfiguration.minimumWinDiff,
 						Configuration.getMinBound("lastSession", "diffPoints"),
 						Configuration.getMaxBound("lastSession", "diffPoints"), 1));
+		// reset to previous value, if the value is invalid
 		diffPointsSpinner.addChangeListener(new ChangeListener() {
 			int prevValue = SessionConfiguration.minimumWinDiff;
 			
@@ -129,6 +161,11 @@ public class SessionConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup buttons panel
+	 * 
+	 * @return JPanel for buttons
+	 */
 	private JPanel setupButtonsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
@@ -138,6 +175,7 @@ public class SessionConfigPanel extends JPanel {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				// save to SessionConfiguration
 				SessionConfiguration.minimumWinScore = getIntValue(minPointsSpinner);
 				SessionConfiguration.maximumWinScore = getIntValue(maxPointsSpinner);
 				SessionConfiguration.minimumWinDiff = getIntValue(diffPointsSpinner);
@@ -148,7 +186,7 @@ public class SessionConfigPanel extends JPanel {
 				Configuration.set("lastSession", "diffPoints",
 						SessionConfiguration.minimumWinDiff);
 				Configuration.save();
-				parentWindow.next();
+				parentWindow.next(); // perform next action
 			}
 		});
 		JButton cancelButton = new JButton("Cancel");
@@ -165,11 +203,22 @@ public class SessionConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Check are the settings is valid
+	 * 
+	 * @return True if settings are valid
+	 */
 	private boolean isValuesValid() {
 		return getIntValue(minPointsSpinner) <= getIntValue(maxPointsSpinner) &&
 				getIntValue(diffPointsSpinner) <= getIntValue(minPointsSpinner); 
 	}
 	
+	/**
+	 * Get spinner's integer value
+	 * 
+	 * @param spinner	JSpinner
+	 * @return			Integer value of specified JSpinner
+	 */
 	private int getIntValue(JSpinner spinner) {
 		return (int) spinner.getValue();
 	}

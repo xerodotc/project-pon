@@ -61,7 +61,7 @@ public class TitleParticles extends GameObject {
 		}
 		
 		if (GameEngine.isDebugOn()) {
-			//System.out.println("Total line particles on screen: " + lines.size());
+			System.out.println("Total line particles on screen: " + lines.size());
 		}
 	}
 	

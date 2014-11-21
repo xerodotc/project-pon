@@ -1,3 +1,11 @@
+/**
+ * CheatOptionsPanel.java
+ * 
+ * A JPanel for cheat settings tab
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
@@ -14,8 +22,13 @@ import projectpon.game.dialogs.OptionsDialog;
 public class CheatOptionsPanel extends JPanel {
 	private static final long serialVersionUID = 2485963170473411523L;
 	
-	private OptionsDialog parent;
+	private OptionsDialog parent; // parent OptionDialog
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param o		Parent OptionDialog
+	 */
 	public CheatOptionsPanel(OptionsDialog o) {
 		parent = o;
 		

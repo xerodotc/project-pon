@@ -1,3 +1,11 @@
+/**
+ * GameNetwork.java
+ * 
+ * A class for managing network system
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.engine;
 
 import java.io.IOException;
@@ -8,20 +16,34 @@ import java.net.Socket;
 import projectpon.engine.exceptions.NetworkException;
 
 public final class GameNetwork {
+	// a socket object to be used in game
 	private static Socket socket = null;
 	
+	// default timeout for socket
 	public static final int DEFAULT_TIMEOUT = 10000;
 	
+	/**
+	 * A class for manager server subsystem
+	 */
 	public static class Server {
-		private static ServerSocket server;
-		private static Thread acceptThread;
-		private static AcceptListener acceptListener = null;
-		private static boolean serverStarted = false;
+		private static ServerSocket server; // server socket
+		private static Thread acceptThread; // thread for accepting client
+		private static AcceptListener acceptListener = null; // accept listener
+		private static boolean serverStarted = false; // is server started
 		
+		/**
+		 * AcceptListener interface
+		 */
 		public static interface AcceptListener {
 			public abstract void onAccepted(Socket remote);
 		}
 		
+		/**
+		 * Start the server
+		 * 
+		 * @param port		Server port
+		 * @throws NetworkException
+		 */
 		public static void start(int port) throws NetworkException {
 			try {
 				server = new ServerSocket(port);
@@ -31,6 +53,9 @@ public final class GameNetwork {
 			}
 		}
 		
+		/**
+		 * Start accepting new client
+		 */
 		public static void acceptClient() {
 			acceptThread = new Thread(new Runnable() {
 				@Override
@@ -51,6 +76,11 @@ public final class GameNetwork {
 			acceptThread.start();
 		}
 		
+		/**
+		 * Stop the server
+		 * 
+		 * @throws NetworkException
+		 */
 		public static void stop() throws NetworkException {
 			if (!serverStarted) {
 				return;
@@ -64,25 +94,47 @@ public final class GameNetwork {
 			}
 		}
 		
+		/**
+		 * Bind an AcceptListener
+		 * 
+		 * @param al	Accept listener
+		 */
 		public static void addOnAcceptedListener(AcceptListener al) {
 			acceptListener = al;
 		}
 		
+		/**
+		 * Is server started
+		 * 
+		 * @return True if server is started
+		 */
 		public static boolean isStarted() {
 			return serverStarted;
 		}
 	}
 	
+	/**
+	 * A class for managing client subsystem
+	 */
 	public static class Client {
-		private static Socket remote;
-		private static ConnectListener connectListener = null;
-		private static Thread connectThread;
+		private static Socket remote; // socket connected to server
+		private static ConnectListener connectListener = null; // connect listener
+		private static Thread connectThread; // thread for connecting to server
 		
+		/**
+		 * ConnectListener interface
+		 */
 		public static interface ConnectListener {
 			public abstract void onConnected(Socket remote);
 			public abstract void onFailed(NetworkException e);
 		}
 		
+		/**
+		 * Connect to server
+		 * 
+		 * @param host		Server hostname/IP
+		 * @param port		Server port
+		 */
 		public static void connect(final String host, final int port) {
 			connectThread = new Thread(new Runnable() {
 				@Override
@@ -100,6 +152,11 @@ public final class GameNetwork {
 			connectThread.start();
 		}
 		
+		/**
+		 * Disconnect from server
+		 * 
+		 * @throws NetworkException
+		 */
 		public static void disconnect() throws NetworkException {
 			try {
 				if (remote != null) {
@@ -111,10 +168,20 @@ public final class GameNetwork {
 			}
 		}
 		
+		/**
+		 * Bind a ConnectListener
+		 * 
+		 * @param cl	Connect listener
+		 */
 		public static void addOnConnectedListener(ConnectListener cl) {
 			connectListener = cl;
 		}
 		
+		/**
+		 * Is client connected?
+		 * 
+		 * @return		True if connected to server
+		 */
 		public static boolean isConnected() {
 			if (remote == null) {
 				return false;
@@ -123,14 +190,29 @@ public final class GameNetwork {
 		}
 	}
 	
+	/**
+	 * Get a socket object
+	 * 
+	 * @return	A socket object
+	 */
 	public static Socket getSocket() {
 		return socket;
 	}
 	
+	/**
+	 * Set a socket object
+	 * 
+	 * @param sock		A socket object
+	 */
 	public static void setSocket(Socket sock) {
 		socket = sock;
 	}
 	
+	/**
+	 * Disconnect and clear the socket
+	 * 
+	 * @throws NetworkException
+	 */
 	public static void clearSocket() throws NetworkException {
 		if (socket != null) {
 			try {

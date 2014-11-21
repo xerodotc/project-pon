@@ -1,3 +1,11 @@
+/**
+ * GameFont.java
+ * 
+ * A class for managing in-game fonts
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.engine;
 
 import java.awt.Font;
@@ -10,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class GameFont {
+	// fonts list map
 	private static Map<String,Font> fontsList = new HashMap<String,Font>();
 	
 	/**
@@ -18,10 +27,19 @@ public final class GameFont {
 	private GameFont() {
 	}
 	
+	/**
+	 * Initialize the fonts system
+	 */
 	public static void init() {
 		// hmmm... nothing to initialize
 	}
 	
+	/**
+	 * Load font from the file
+	 * 
+	 * @param fontName		Font name to be identified
+	 * @param resPath		Font resource path
+	 */
 	public static void loadFont(String fontName, String resPath) {
 		while (resPath.substring(0, 1).equals("/")) {
 			resPath = resPath.substring(1);
@@ -41,6 +59,12 @@ public final class GameFont {
 		}
 	}
 	
+	/**
+	 * Get loaded font
+	 * 
+	 * @param fontName		Font name
+	 * @return	Font object for specified font
+	 */
 	public static Font getFont(String fontName) {
 		return fontsList.get(fontName);
 	}

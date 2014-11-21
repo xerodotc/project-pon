@@ -1,3 +1,11 @@
+/**
+ * InputOptionsPanel.java
+ * 
+ * A JPanel for input settings tab
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
@@ -27,20 +35,35 @@ import projectpon.game.dialogs.OptionsDialog;
 public class InputOptionsPanel extends JPanel {
 	private static final long serialVersionUID = 3653085506607854000L;
 	
-	private OptionsDialog parent;
+	private OptionsDialog parent; // parent OptionDialog
+	
+	/*
+	 * Input configuration panel for primary and secondary input
+	 */
 	private JPanel primaryInputConfigPanel;
 	private JPanel secondaryInputConfigPanel;
 	
+	/*
+	 * Button for primary input
+	 */
 	private JButton primaryInputKeyUpButton;
 	private JButton primaryInputKeyDownButton;
 	private JButton primaryInputKeyLaunchButton;
 	private JButton primaryInputMbLaunchButton;
 	
+	/*
+	 * Button for secondary input
+	 */
 	private JButton secondaryInputKeyUpButton;
 	private JButton secondaryInputKeyDownButton;
 	private JButton secondaryInputKeyLaunchButton;
 	private JButton secondaryInputMbLaunchButton; 
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param o		Parent OptionDialog
+	 */
 	public InputOptionsPanel(OptionsDialog o) {
 		parent = o;
 		
@@ -54,11 +77,19 @@ public class InputOptionsPanel extends JPanel {
 		refreshButtonLabel();
 	}
 	
+	/**
+	 * Setup primary input config panel
+	 * 
+	 * @return JPanel for primary input configurations
+	 */
 	private JPanel setupPrimaryInputPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Primary input (also used for navigation)"));
 		panel.setLayout(new BorderLayout());
 		
+		/*
+		 * Input device section
+		 */
 		JPanel inputTypePanel = new JPanel();
 		inputTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
 		inputTypePanel.add(new JLabel("Input device: "));
@@ -81,9 +112,16 @@ public class InputOptionsPanel extends JPanel {
 			parent.primaryInputTypeKeyboardRadio.setSelected(true);
 		}
 		
+		/*
+		 * Use CardLayout for ability to switch back and forth between
+		 * mouse section and keyboard section
+		 */
 		primaryInputConfigPanel = new JPanel();
 		primaryInputConfigPanel.setLayout(new CardLayout());
 		
+		/*
+		 * Mouse settings section
+		 */
 		JPanel inputMousePanel = new JPanel();
 		inputMousePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
 		inputMousePanel.add(new JLabel("Launch button: "));
@@ -94,6 +132,9 @@ public class InputOptionsPanel extends JPanel {
 				new InputChangePopupTrigger(primaryInputMbLaunchButton));
 		inputMousePanel.add(primaryInputMbLaunchButton);
 		
+		/*
+		 * Keyboard settings section
+		 */
 		JPanel inputKeyboardPanel = new JPanel();
 		inputKeyboardPanel.setLayout(new GridLayout(5, 1, 0, 1));
 		
@@ -148,11 +189,19 @@ public class InputOptionsPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup secondary input config panel
+	 * 
+	 * @return JPanel for secondary input configurations
+	 */
 	private JPanel setupSecondaryInputPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Secondary input (Player 2)"));
 		panel.setLayout(new BorderLayout());
 		
+		/*
+		 * Input devices section
+		 */
 		JPanel inputTypePanel = new JPanel();
 		inputTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
 		inputTypePanel.add(new JLabel("Input device: "));
@@ -175,9 +224,16 @@ public class InputOptionsPanel extends JPanel {
 			parent.secondaryInputTypeKeyboardRadio.setSelected(true);
 		}
 		
+		/*
+		 * Use CardLayout for ability to switch back and forth between
+		 * mouse section and keyboard section
+		 */
 		secondaryInputConfigPanel = new JPanel();
 		secondaryInputConfigPanel.setLayout(new CardLayout());
 		
+		/*
+		 * Mouse settings section
+		 */
 		JPanel inputMousePanel = new JPanel();
 		inputMousePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 8));
 		inputMousePanel.add(new JLabel("Launch button: "));
@@ -188,6 +244,9 @@ public class InputOptionsPanel extends JPanel {
 				new InputChangePopupTrigger(secondaryInputMbLaunchButton));
 		inputMousePanel.add(secondaryInputMbLaunchButton);
 		
+		/*
+		 * Keyboard settings section
+		 */
 		JPanel inputKeyboardPanel = new JPanel();
 		inputKeyboardPanel.setLayout(new GridLayout(5, 1, 0, 1));
 		
@@ -242,6 +301,9 @@ public class InputOptionsPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * ActionListener for refresh panel state
+	 */
 	private class RefreshStateTrigger implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -249,6 +311,9 @@ public class InputOptionsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Refresh panel state (for CardLayout)
+	 */
 	private void refreshState() {
 		CardLayout clp = (CardLayout) primaryInputConfigPanel.getLayout();
 		if (parent.primaryInputTypeMouseRadio.isSelected()) {
@@ -265,6 +330,12 @@ public class InputOptionsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Get mouse button code as text
+	 * 
+	 * @param mb	Mouse button code
+	 * @return		Mouse button code as text
+	 */
 	private static String getButtonText(int mb) {
 		switch (mb){
 		case MouseEvent.BUTTON1:
@@ -284,6 +355,12 @@ public class InputOptionsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Get key code as text
+	 * 
+	 * @param key	Key code
+	 * @return		Key code as text
+	 */
 	private static String getKeyText(int key) {
 		if (key == 0) {
 			return "NONE";
@@ -292,6 +369,9 @@ public class InputOptionsPanel extends JPanel {
 		return KeyEvent.getKeyText(key);
 	}
 	
+	/**
+	 * Refresh button label
+	 */
 	public void refreshButtonLabel() {
 		primaryInputKeyUpButton.setText(
 				getKeyText(parent.primaryKeyUp));
@@ -312,6 +392,9 @@ public class InputOptionsPanel extends JPanel {
 				getButtonText(parent.secondaryMbLaunch));
 	}
 	
+	/**
+	 * ActionListener for pop up input change dialog
+	 */
 	private class InputChangePopupTrigger implements ActionListener {
 		private JButton caller;
 		
@@ -325,6 +408,11 @@ public class InputOptionsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Pop up input change dialog
+	 * 
+	 * @param caller	JButton that triggered this method
+	 */
 	private void inputChangePopup(JButton caller) {
 		String input = "";
 		String key = "";

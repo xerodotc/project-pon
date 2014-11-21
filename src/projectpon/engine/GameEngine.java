@@ -1,3 +1,10 @@
+/**
+ * GameEngine.java
+ * 
+ * Main game engine class
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
 package projectpon.engine;
 
 import java.awt.Color;
@@ -25,8 +32,10 @@ public final class GameEngine {
 	public static int windowHeight = 600; // store current window height
 	
 	private static boolean gameExit = false; // game exit flag
+	
 	// disable exit confirmation on closing window?
 	private static boolean gameExitOnCloseDisabled = false;
+	
 	private static int updatesPerSecond = 0; // updates per second
 	
 	// default background color
@@ -63,6 +72,7 @@ public final class GameEngine {
 				
 				@Override
 				public void windowClosing(WindowEvent arg0) {
+					// confirm exit, if exit on close is enabled
 					if (!gameExitOnCloseDisabled) {
 						boolean gameWasPaused = paused;
 						if (!gameWasPaused) {
@@ -80,6 +90,7 @@ public final class GameEngine {
 					}
 				}
 			});
+			
 			this.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent arg0) {
@@ -94,13 +105,13 @@ public final class GameEngine {
 		
 		@Override
 		public void childWindowOpened() {
-			pause();
+			pause(); // pause the game on child window opened
 		}
 		
 		@Override
 		public void childWindowClosed() {
 			this.childDialog = null;
-			unpause();
+			unpause(); // unpause the game on child window closed
 		}
 
 		@Override
@@ -137,6 +148,11 @@ public final class GameEngine {
 		
 		@Override
 		protected void paintComponent(Graphics canvas) {
+			/*
+			 * Render the scene, if applicable
+			 * otherwise, render black screen
+			 */
+			
 			super.paintComponent(canvas);
 			if (scene != null) {
 				scene.paintComponent(canvas);
@@ -185,7 +201,7 @@ public final class GameEngine {
 				frame.setVisible(true);
 			}
 		});
-		GameInput.bindLocalInput(component);
+		GameInput.bindLocalInput(component); // bind local input to the game
 		startTime = new Date().getTime(); // set start time
 		update(); // start updating
 	}
@@ -198,7 +214,7 @@ public final class GameEngine {
 			synchronized (pausedLock) {
 				while (paused) {
 					try {
-						pausedLock.wait();
+						pausedLock.wait(); // wait for unpause
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -222,14 +238,15 @@ public final class GameEngine {
 			}
 			
 			if (paused) {
-				GameInput.clearAllInputs();
+				GameInput.clearAllInputs(); // clear all input if paused
 			}
 		}
 		
 		if (scene != null) {
-			scene.exit();
+			scene.exit(); // call exit scene event
 		}
-		System.exit(0);
+		
+		System.exit(0); // quit the program
 	}
 	
 	/**
@@ -270,7 +287,7 @@ public final class GameEngine {
 	 */
 	private static void replaceScene(GameScene newScene) {
 		if (scene != null) {
-			scene.exit();
+			scene.exit(); // call the exit scene event
 		}
 		scene = newScene;
 		scene.initialize();
@@ -298,7 +315,7 @@ public final class GameEngine {
 	public static void unpause() {
 		paused = false;
 		synchronized (pausedLock) {
-			pausedLock.notifyAll();
+			pausedLock.notifyAll(); // notify the waited game loop
 		}
 	}
 	

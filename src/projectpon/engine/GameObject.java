@@ -1,7 +1,9 @@
 /**
  * GameObject.java
  * 
- * A prototype of game object
+ * An abstract class for all in-game object
+ * 
+ * @author Visatouch Deeying [5631083121]
  */
 
 package projectpon.engine;

@@ -1,3 +1,11 @@
+/**
+ * InputChangeDialog.java
+ * 
+ * A dialog for listen newinput binding for changing input
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs;
 
 import java.awt.FlowLayout;
@@ -15,11 +23,22 @@ import projectpon.engine.GameDialog;
 public class InputChangeDialog extends GameDialog {
 	private static final long serialVersionUID = 2137221810706374083L;
 
+	/**
+	 * Setup the whole dialog
+	 * 
+	 * @param parent		Parent OptionDialog
+	 * @param input			Input to be changed
+	 * @param key			Key to be changed
+	 */
 	public InputChangeDialog(final OptionsDialog parent, final String input, final String key) {
 		super("Assign new input");
 		
 		String noun = "key";
 		
+		/*
+		 * If input type is mouse
+		 * also listen for mouse input
+		 */
 		if (key.equals("mbLaunch")) {
 			noun = "button";
 			this.addMouseListener(new MouseAdapter() {
@@ -35,9 +54,11 @@ public class InputChangeDialog extends GameDialog {
 			});
 		}
 		
+		// Add key listener to listen for new input
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				// ESC for cancel
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					dispose();
 					return;

@@ -1,3 +1,11 @@
+/**
+ * SoundOptionsPanel.java
+ * 
+ * A JPanel for sound settings tab
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.FlowLayout;
@@ -18,11 +26,16 @@ import projectpon.game.dialogs.OptionsDialog;
 public class SoundOptionsPanel extends JPanel {
 	private static final long serialVersionUID = 6529134613388052291L;
 	
-	private OptionsDialog parent;
+	private OptionsDialog parent; // parent OptionDialog
 	
-	private JPanel musicPanel;
-	private JPanel soundsPanel;
+	private JPanel musicPanel; // music settings panel
+	private JPanel soundsPanel; // sounds settings panel
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param o		Parent OptionDialog
+	 */
 	public SoundOptionsPanel(OptionsDialog o) {
 		parent = o;
 		
@@ -38,6 +51,11 @@ public class SoundOptionsPanel extends JPanel {
 		refreshState();
 	}
 	
+	/**
+	 * Setup global sound settings panel
+	 * 
+	 * @return JPanel for global sound settings
+	 */
 	private JPanel setupGlobalPanel() {
 		JPanel panel = new JPanel();
 		
@@ -66,6 +84,11 @@ public class SoundOptionsPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup music settings panel
+	 * 
+	 * @return JPanel for music settings
+	 */
 	private JPanel setupMusicPanel() {
 		JPanel panel = new JPanel();
 		
@@ -95,6 +118,11 @@ public class SoundOptionsPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup sound effects settings panel
+	 * 
+	 * @return JPanel for sound effects settings
+	 */
 	private JPanel setupSoundsPanel() {
 		JPanel panel = new JPanel();
 		
@@ -124,6 +152,9 @@ public class SoundOptionsPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * ActionListener for refreshing state
+	 */
 	private class RefreshStateTrigger implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -131,6 +162,9 @@ public class SoundOptionsPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Refresh checkboxes/sliders state
+	 */
 	private void refreshState() {
 		if (!parent.soundsGlobalCheckbox.isSelected()) {
 			parent.soundsGlobalSlider.setEnabled(false);

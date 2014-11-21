@@ -1,3 +1,11 @@
+/**
+ * ConnectDialog.java
+ * 
+ * A dialog for connect to a network game
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs;
 
 import java.awt.BorderLayout;
@@ -30,16 +38,22 @@ import projectpon.game.scenes.PongScene;
 public class ConnectDialog extends GameDialog {
 	private static final long serialVersionUID = 2371553969727612471L;
 	
+	// reference to this object for using in anonymous class
 	private final ConnectDialog THIS = this;
-	private PongScene pscene;
-	private JPanel mainPanel;
-	private JTextField addressField;
-	private JSpinner portSettingSpinner;
-	private JButton startButton;
+	private PongScene pscene; // PongScene to be switched to
+	private JPanel mainPanel; // main dialog panel
+	private JTextField addressField; // address field
+	private JSpinner portSettingSpinner; // port number spinner
+	private JButton startButton; // a start button
 	
-	private boolean ok = false;
-	private boolean noWarning = false;
+	private boolean ok = false; // ready to play?
+	private boolean noWarning = false; // don't warning about connection error
 	
+	/**
+	 * Setup the whole dialog
+	 * 
+	 * @param scene		PongScene instance
+	 */
 	public ConnectDialog(PongScene scene) {
 		super("Connect to a network game");
 		pscene = scene;
@@ -58,6 +72,11 @@ public class ConnectDialog extends GameDialog {
 		this.getRootPane().setDefaultButton(startButton);
 	}
 	
+	/**
+	 * Setup address field panel
+	 * 
+	 * @return JPanel for address field
+	 */
 	private JPanel setupAddressPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 0));
@@ -69,6 +88,11 @@ public class ConnectDialog extends GameDialog {
 		return panel;
 	}
 	
+	/**
+	 * Setup port spinner panel
+	 * 
+	 * @return JPanel for port number spinner
+	 */
 	private JPanel setupPortPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 0));
@@ -82,6 +106,11 @@ public class ConnectDialog extends GameDialog {
 		return panel;
 	}
 	
+	/**
+	 * Setup buttons panel
+	 * 
+	 * @return JPanel for buttons
+	 */
 	private JPanel setupButtonsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
@@ -111,6 +140,7 @@ public class ConnectDialog extends GameDialog {
 							
 							@Override
 							public void onConnected(Socket remote) {
+								// save last connection infos to configurations
 								Configuration.set("networkOptions", "lastRemoteServerAddr",
 										addr);
 								Configuration.set("networkOptions", "lastRemoteServerPort",
@@ -118,6 +148,9 @@ public class ConnectDialog extends GameDialog {
 								Configuration.save();
 								
 								try {
+									/*
+									 * Retrieve game conditions from server
+									 */
 									InputStream in = remote.getInputStream();
 									OutputStream out = remote.getOutputStream();
 									
@@ -141,6 +174,9 @@ public class ConnectDialog extends GameDialog {
 											THIS, "<html>" + conditionsString + "Accept this server's conditions?</html>", "Confirmation",
 											JOptionPane.OK_CANCEL_OPTION);
 									
+									/**
+									 * Send a response to server
+									 */
 									switch (confirm) {
 									case JOptionPane.OK_OPTION:
 										out.write("true".getBytes());
@@ -164,6 +200,7 @@ public class ConnectDialog extends GameDialog {
 						}
 					);
 				
+				// Connect to server!
 				GameNetwork.Client.connect(addr, port);
 				setConnecting(false);
 			}
@@ -181,6 +218,9 @@ public class ConnectDialog extends GameDialog {
 		return panel;
 	}
 	
+	/**
+	 * Set form status
+	 */
 	private void setConnecting(boolean en) {
 		addressField.setEnabled(en);
 		portSettingSpinner.setEnabled(en);
@@ -192,6 +232,11 @@ public class ConnectDialog extends GameDialog {
 		}
 	}
 	
+	/**
+	 * Notify an error about connecting to server
+	 * 
+	 * @param msg		Error messages
+	 */
 	private void errorNotify(String msg) {
 		if (noWarning) {
 			return;
@@ -202,6 +247,10 @@ public class ConnectDialog extends GameDialog {
 				JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * Disconnect if window is closed
+	 * (except when ready to play)
+	 */
 	@Override
 	public void windowClosed(WindowEvent arg0) {
 		if (!ok) {

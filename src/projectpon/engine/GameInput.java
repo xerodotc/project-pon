@@ -1,3 +1,11 @@
+/**
+ * GameInput.java
+ * 
+ * A class for managing input system
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.engine;
 
 import java.awt.Point;

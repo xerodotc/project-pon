@@ -1,3 +1,11 @@
+/**
+ * GameScene.java
+ * 
+ * An abstract class for all in-game scene
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.engine;
 
 import java.awt.Color;
@@ -98,6 +106,11 @@ public abstract class GameScene {
 		}
 	}
 	
+	/**
+	 * Draw the scene
+	 * 
+	 * @param g		Graphics canvas
+	 */
 	public final void paintComponent(Graphics g) {
 		Graphics2D canvas = (Graphics2D) g;
 		
@@ -168,10 +181,20 @@ public abstract class GameScene {
 		}
 	}
 	
+	/**
+	 * Get window width
+	 * 
+	 * @return		Window width
+	 */
 	public final int getWidth() {
 		return GameEngine.windowWidth;
 	}
 	
+	/**
+	 * Get window height
+	 * 
+	 * @return		Window height
+	 */
 	public final int getHeight() {
 		return GameEngine.windowHeight;
 	}

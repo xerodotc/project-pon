@@ -1,3 +1,11 @@
+/**
+ * ServerConfigPanel.java
+ * 
+ * A JPanel for server settings
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.BorderLayout;
@@ -31,15 +39,22 @@ import projectpon.game.scenes.PongScene;
 public class ServerConfigPanel extends JPanel {
 	private static final long serialVersionUID = -751758399016257989L;
 
-	private NewGameDialog parentWindow = null;
-	private PongScene pscene = null;
-	private JSpinner portSettingSpinner = null;
-	private JLabel serverStatusLabel = null;
-	private JButton startButton = null;
+	private NewGameDialog parentWindow = null; // parent NewGameDialog
+	private PongScene pscene = null; // the PongScene to be switched to
+	private JSpinner portSettingSpinner = null; // port number spinner
+	private JLabel serverStatusLabel = null; // server status label
+	private JButton startButton = null; // start button
 	
+	// server status string format
 	private static final String SERVER_STATUS_STRING_FORMAT =
 			"<html>Server status: <font color=\"%s\">%s</font></html>";
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param parent		Parent NewGameDialog
+	 * @param scene			PongScene to be switched to
+	 */
 	public ServerConfigPanel(NewGameDialog parent, PongScene scene) {
 		parentWindow = parent;
 		pscene = scene;
@@ -58,6 +73,11 @@ public class ServerConfigPanel extends JPanel {
 		parentWindow.getRootPane().setDefaultButton(startButton);
 	}
 	
+	/**
+	 * Setup game condition label panel
+	 * 
+	 * @return JPanel for game condition label
+	 */
 	private JPanel setupConditionsPanel() {
 		JPanel panel = new JPanel();
 		JPanel subpanel1 = new JPanel();
@@ -84,6 +104,11 @@ public class ServerConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup port number spinner panel
+	 * 
+	 * @return JPanel for port number spinner
+	 */
 	private JPanel setupPortSettingPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
@@ -98,6 +123,11 @@ public class ServerConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup server status label panel
+	 * 
+	 * @return JPanel for server status panel
+	 */
 	private JPanel setupServerStatusPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 4, 4));
@@ -107,6 +137,11 @@ public class ServerConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Setup buttons panel
+	 * 
+	 * @return JPanel for buttons
+	 */
 	private JPanel setupButtonsPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
@@ -115,6 +150,9 @@ public class ServerConfigPanel extends JPanel {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				/*
+				 * Stop the server
+				 */
 				if (GameNetwork.Server.isStarted()) {
 					try {
 						GameNetwork.Server.stop();
@@ -127,6 +165,9 @@ public class ServerConfigPanel extends JPanel {
 					return;
 				}
 				
+				/*
+				 * Save the settings
+				 */
 				Configuration.set("networkOptions", "localPort",
 						(int) portSettingSpinner.getValue());
 				Configuration.save();
@@ -137,6 +178,9 @@ public class ServerConfigPanel extends JPanel {
 								@Override
 								public void onAccepted(Socket remote) {
 									try {
+										/*
+										 * Send game conditions to client
+										 */
 										setServerStatus("Client connected", Color.BLUE);
 										
 										OutputStream out = remote.getOutputStream();
@@ -151,6 +195,11 @@ public class ServerConfigPanel extends JPanel {
 										
 										byte[] buffer = new byte[256];
 										in.read(buffer);
+										
+										/*
+										 * Start the game if client accepted the conditions
+										 * Else, accept new client
+										 */
 										String response = new String(buffer).trim();
 										if (Boolean.parseBoolean(response)) {
 											GameNetwork.setSocket(remote);
@@ -173,6 +222,7 @@ public class ServerConfigPanel extends JPanel {
 								}
 							});
 					
+					// Start the server and accept client!
 					GameNetwork.Server.start(Configuration.getInt("networkOptions", "localPort"));
 					GameNetwork.Server.acceptClient();
 					portSettingSpinner.setEnabled(false);
@@ -203,10 +253,22 @@ public class ServerConfigPanel extends JPanel {
 		return panel;
 	}
 	
+	/**
+	 * Set server status label
+	 * 
+	 * @param status	Server status
+	 * @param color		Server status color
+	 */
 	private void setServerStatus(String status, Color color) {
 		serverStatusLabel.setText(getServerStatusString(status, color));
 	}
 	
+	/**
+	 * Get formatted server status string
+	 * 
+	 * @param status	Server status
+	 * @param color		Server status color (java.awt.Color)
+	 */
 	private String getServerStatusString(String status, Color color) {
 		String colorString = "black";
 		if (color == Color.RED) {
@@ -221,6 +283,12 @@ public class ServerConfigPanel extends JPanel {
 		return getServerStatusString(status, colorString);
 	}
 	
+	/**
+	 * Get formatted server status string
+	 * 
+	 * @param status	Server status
+	 * @param color		Server status color
+	 */
 	private String getServerStatusString(String status, String color) {
 		return String.format(SERVER_STATUS_STRING_FORMAT, color, status);
 	}

@@ -1,3 +1,11 @@
+/**
+ * GameSound.java
+ * 
+ * A class for managing in-game sounds
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.engine;
 
 import java.io.File;
@@ -7,11 +15,20 @@ import java.util.Map;
 import kuusisto.tinysound.*;
 
 public final class GameSound {
+	// sounds list map
 	private static Map<String, Sound> soundsList = new HashMap<String, Sound>();
+	// music list map
 	private static Map<String, Music> musicList = new HashMap<String, Music>();
+	
+	/*
+	 * Current BGM informations
+	 */
 	private static Music currentBGM = null;
 	private static String currentBGMName = null;
 	
+	/*
+	 * Volume settings
+	 */
 	private static boolean globalEnabled = true;
 	private static int globalVolume = 100;
 	private static boolean musicEnabled = true;
@@ -25,10 +42,19 @@ public final class GameSound {
 	private GameSound() {
 	}
 	
+	/**
+	 * Initialize sounds system
+	 */
 	public static void init() {
 		TinySound.init();
 	}
 	
+	/**
+	 * Load sound from file
+	 * 
+	 * @param soundName		Sound name identifier
+	 * @param resPath		Sound resource path
+	 */
 	public static void loadSound(String soundName, String resPath) {
 		if (soundsList.containsKey(soundName)) {
 			soundsList.get(soundName).unload();
@@ -44,6 +70,11 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Play a sound
+	 * 
+	 * @param soundName		Sound name identifier
+	 */
 	public static void playSound(String soundName) {
 		if (!globalEnabled || !soundsEnabled) {
 			return;
@@ -58,6 +89,12 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Load music from file
+	 * 
+	 * @param musicName		Music name identifier
+	 * @param resPath		Music resource path
+	 */
 	public static void loadMusic(String musicName, String resPath) {
 		if (musicList.containsKey(musicName)) {
 			musicList.get(musicName).unload();
@@ -73,11 +110,17 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Play a music
+	 * 
+	 * @param musicName		Music name identifier
+	 */
 	public static void playMusic(String musicName) {
 		if (!globalEnabled || !musicEnabled) {
 			return;
 		}
 		
+		// Don't replay the music, if it's the same BGM
 		if (musicName.equals(currentBGMName)) {
 			return;
 		}
@@ -96,6 +139,11 @@ public final class GameSound {
 		currentBGM.play(true, musicVolumeFactor());
 	}
 	
+	/**
+	 * Set global sounds volume
+	 * 
+	 * @param volume	Volume
+	 */
 	public static void setGlobalVolume(int volume) {
 		if (volume < 0) {
 			volume = 0;
@@ -109,6 +157,11 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Set global sounds enabled flag
+	 * 
+	 * @param enable	Enabled?
+	 */
 	public static void setGlobalEnabled(boolean enable) {
 		globalEnabled = enable;
 		if (!globalEnabled && currentBGM != null) {
@@ -118,10 +171,20 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Get global volume factor
+	 * 
+	 * @return Global volume factor
+	 */
 	private static double globalVolumeFactor() {
 		return globalVolume / 100.0;
 	}
 	
+	/**
+	 * Set music volume
+	 * 
+	 * @param volume	Volume
+	 */
 	public static void setMusicVolume(int volume) {
 		if (volume < 0) {
 			volume = 0;
@@ -135,6 +198,11 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Set music enabled flag
+	 * 
+	 * @param enable	Enabled?
+	 */
 	public static void setMusicEnabled(boolean enable) {
 		musicEnabled = enable;
 		if (!musicEnabled && currentBGM != null) {
@@ -144,10 +212,20 @@ public final class GameSound {
 		}
 	}
 	
+	/**
+	 * Get music volume factor (also factored by global volume factor)
+	 * 
+	 * @return Music volume factor
+	 */
 	private static double musicVolumeFactor() {
 		return globalVolumeFactor() * (musicVolume / 100.0);
 	}
 	
+	/**
+	 * Set sound effects volume
+	 * 
+	 * @param volume	Volume
+	 */
 	public static void setSoundsVolume(int volume) {
 		if (volume < 0) {
 			volume = 0;
@@ -158,14 +236,29 @@ public final class GameSound {
 		soundsVolume = volume;
 	}
 	
+	/**
+	 * Set sound effects enabled flag
+	 * 
+	 * @param enable	Enabled?
+	 */
 	public static void setSoundsEnabled(boolean enable) {
 		soundsEnabled = enable;
 	}
 	
+	/**
+	 * Get sound effects volume factor (also factored by global volume factor)
+	 * 
+	 * @return Sound effects volume factor
+	 */
 	private static double soundsVolumeFactor() {
 		return globalVolumeFactor() * (soundsVolume / 100.0);
 	}
 	
+	/**
+	 * Is background music playing?
+	 * 
+	 * @return	True if background music is playing
+	 */
 	public static boolean isBGMPlaying() {
 		return (currentBGM != null && currentBGM.playing());
 	}

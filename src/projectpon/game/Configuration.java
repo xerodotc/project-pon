@@ -1,3 +1,11 @@
+/**
+ * Configuration.java
+ * 
+ * A class for managing persistent game configurations
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game;
 
 import java.awt.event.KeyEvent;
@@ -6,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ini4j.*;
-
 
 public final class Configuration {
 	private static Ini ini = null;
@@ -61,14 +68,28 @@ public final class Configuration {
 		defaultIni.add("lastSession", "diffPoints", "2");
 	}
 	
+	/**
+	 * Is configuration file loaded
+	 * 
+	 * @return	True if loaded
+	 */
 	public static boolean isLoaded() {
 		return ini != null;
 	}
 	
+	/**
+	 * Load the configurations from default file
+	 */
 	public static void load() {
 		load(iniFileName);
 	}
 	
+	/**
+	 * Load the configuration from specified file
+	 * If not available, load default configuration
+	 * 
+	 * @param iniFileName		Configuration file name
+	 */
 	public static void load(String iniFileName) {
 		try {
 			ini = new Ini(new File(iniFileName));
@@ -83,6 +104,9 @@ public final class Configuration {
 		}
 	}
 	
+	/**
+	 * Save the configuration
+	 */
 	public static void save() {
 		try {
 			if (ini != defaultIni) {
@@ -93,6 +117,13 @@ public final class Configuration {
 		}
 	}
 	
+	/**
+	 * Get the value of specified key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return	Value as string
+	 */
 	public static String get(String section, String key) {
 		if (ini.get(section, key) == null) {
 			if (defaultIni.get(section, key) != null) {
@@ -102,6 +133,13 @@ public final class Configuration {
 		return ini.get(section, key);
 	}
 	
+	/**
+	 * Get the value of specified key as integer
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return	Value as integer
+	 */
 	public static int getInt(String section, String key) {
 		try {
 			return Integer.parseInt(get(section, key));
@@ -111,26 +149,65 @@ public final class Configuration {
 		}
 	}
 	
+	/**
+	 * Get the value of specified key as boolean
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return	Value as boolean
+	 */
 	public static boolean getBoolean(String section, String key) {
 		return Boolean.parseBoolean(get(section, key));
 	}
 	
+	/**
+	 * Set the value for specified key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @param value			Configuration value
+	 */
 	public static void set(String section, String key, String value) {
 		ini.put(section, key, value);
 	}
 	
+	/**
+	 * Set the value for specified key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @param value			Configuration value
+	 */
 	public static void set(String section, String key, int value) {
 		set(section, key, Integer.toString(value));
 	}
 	
+	/**
+	 * Set the value for specified key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @param value			Configuration value
+	 */
 	public static void set(String section, String key, boolean value) {
 		set(section, key, Boolean.toString(value));
 	}
 	
+	/**
+	 * Validate the configuration
+	 * 
+	 * @return True if configuration is valid
+	 */
 	public static boolean validate() {
 		return validate(false);
 	}
 	
+	/**
+	 * Validate the configuration
+	 * 
+	 * @param	resetOnInvalid		Automatically reset value on invalid
+	 * @return True if configuration is valid
+	 */
 	public static boolean validate(boolean resetOnInvalid) {
 		boolean valid = true;
 		
@@ -236,6 +313,13 @@ public final class Configuration {
 		return valid;
 	}
 	
+	/**
+	 * Get the lower bound of specified configuration key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return Lower bound of specified configuration key
+	 */
 	public static int getMinBound(String section, String key) {
 		switch (section) {
 		case "inputPrimaryPlayer":
@@ -279,6 +363,13 @@ public final class Configuration {
 		return 0;
 	}
 	
+	/**
+	 * Get the upper bound of specified configuration key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return Upper bound of specified configuration key
+	 */
 	public static int getMaxBound(String section, String key) {
 		switch (section) {
 		case "inputPrimaryPlayer":
@@ -322,11 +413,24 @@ public final class Configuration {
 		return 0;
 	}
 	
+	/**
+	 * Check if current configuration is out of bound for specified key
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 * @return True if out of bound
+	 */
 	public static boolean isOutOfBound(String section, String key) {
 		return (getInt(section, key) < getMinBound(section, key) ||
 				getInt(section, key) > getMaxBound(section, key));
 	}
 	
+	/**
+	 * Reset specified configuration key to default value
+	 * 
+	 * @param section		Configuration section
+	 * @param key			Configuration key
+	 */
 	public static void reset(String section, String key) {
 		set(section, key, defaultIni.get(section, key));
 	}

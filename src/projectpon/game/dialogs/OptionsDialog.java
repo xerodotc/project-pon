@@ -1,3 +1,11 @@
+/**
+ * NewGameDialog.java
+ * 
+ * A dialog for adjusting configurations
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs;
 
 import java.awt.BorderLayout;
@@ -24,11 +32,20 @@ import projectpon.game.dialogs.panels.SoundOptionsPanel;
 public class OptionsDialog extends GameDialog {
 	private static final long serialVersionUID = 149608132079614747L;
 	
+	/*
+	 * Main options panel
+	 */
 	private JTabbedPane optionsTabs;
 	private InputOptionsPanel inputPanel;
 	
+	/*
+	 * For AI setting tab
+	 */
 	public JSlider aiSpeedSlider;
 	
+	/*
+	 * For sounds setting tab
+	 */
 	public JCheckBox soundsGlobalCheckbox;
 	public JSlider soundsGlobalSlider;
 	public JCheckBox soundsMusicCheckbox;
@@ -36,6 +53,9 @@ public class OptionsDialog extends GameDialog {
 	public JCheckBox soundsSfxCheckbox;
 	public JSlider soundsSfxSlider;
 	
+	/*
+	 * For input setting tab
+	 */
 	public JRadioButton primaryInputTypeMouseRadio;
 	public JRadioButton primaryInputTypeKeyboardRadio;
 	public int primaryKeyUp;
@@ -51,8 +71,14 @@ public class OptionsDialog extends GameDialog {
 	public JSlider secondaryKeySpeedSlider;
 	public int secondaryMbLaunch;
 	
+	/*
+	 * For cheat setting tab
+	 */
 	public JCheckBox cheatsEnableCheckbox;
 	
+	/**
+	 * Setup the whole dialog
+	 */
 	public OptionsDialog() {
 		super("Options");
 		
@@ -72,6 +98,11 @@ public class OptionsDialog extends GameDialog {
 		this.setSize(380, 560);
 	}
 	
+	/**
+	 * Setup buttons panel
+	 * 
+	 * @return JPanel for buttons
+	 */
 	private JPanel setupButtonsPanel() {
 		JPanel panel = new JPanel();
 		
@@ -99,12 +130,18 @@ public class OptionsDialog extends GameDialog {
 		return panel;
 	}
 	
+	/**
+	 * Refresh the data on child window closed
+	 */
 	@Override
 	public void childWindowClosed() {
 		super.childWindowClosed();
 		inputPanel.refreshButtonLabel();
 	}
 	
+	/**
+	 * Save the configuration
+	 */
 	private void saveConfiguration() {
 		Configuration.set("aiOptions", "speed", aiSpeedSlider.getValue());
 		Configuration.set("soundOptions", "globalEnabled",
@@ -133,9 +170,12 @@ public class OptionsDialog extends GameDialog {
 		Configuration.set("inputSecondaryPlayer", "keyLaunch", secondaryKeyLaunch);
 		Configuration.set("inputSecondaryPlayer", "keySpeed", secondaryKeySpeedSlider.getValue());
 		Configuration.set("inputSecondaryPlayer", "mbLaunch", secondaryMbLaunch);
+		
+		// validate and save the configurations
 		Configuration.validate(true);
 		Configuration.save();
 		
+		// re-setup sounds
 		GameSound.setGlobalEnabled(
 				Configuration.getBoolean("soundOptions", "globalEnabled"));
 		GameSound.setGlobalVolume(
@@ -149,6 +189,7 @@ public class OptionsDialog extends GameDialog {
 		GameSound.setSoundsVolume(
 				Configuration.getInt("soundOptions", "soundsVolume"));
 		
+		// replay the music, if not currently playing
 		if (!GameSound.isBGMPlaying() && 
 				Configuration.getBoolean("soundOptions", "globalEnabled") &&
 				Configuration.getBoolean("soundOptions", "musicEnabled")) {

@@ -1,3 +1,11 @@
+/**
+ * AiOptionsPanel.java
+ * 
+ * A JPanel for AI settings tab
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.dialogs.panels;
 
 import java.awt.FlowLayout;
@@ -13,8 +21,13 @@ import projectpon.game.dialogs.OptionsDialog;
 public class AiOptionsPanel extends JPanel {
 	private static final long serialVersionUID = -6842047110373517916L;
 
-	private OptionsDialog parent = null;
+	private OptionsDialog parent = null; // parent OptionDialog
 	
+	/**
+	 * Setup the whole panel
+	 * 
+	 * @param o		Parent OptionDialog
+	 */
 	public AiOptionsPanel(OptionsDialog o) {
 		parent = o;
 		
@@ -24,6 +37,11 @@ public class AiOptionsPanel extends JPanel {
 		this.add(setupAiSpeedPanel());
 	}
 	
+	/**
+	 * Setup AI speed setting panel 
+	 * 
+	 * @return JPanel for AI speed setting
+	 */
 	private JPanel setupAiSpeedPanel() {
 		JPanel panel = new JPanel();
 		
