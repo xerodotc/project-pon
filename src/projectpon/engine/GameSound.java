@@ -114,6 +114,7 @@ public final class GameSound {
 		if (!globalEnabled && currentBGM != null) {
 			currentBGM.stop();
 			currentBGM = null;
+			currentBGMName = null;
 		}
 	}
 	
@@ -139,6 +140,7 @@ public final class GameSound {
 		if (!musicEnabled && currentBGM != null) {
 			currentBGM.stop();
 			currentBGM = null;
+			currentBGMName = null;
 		}
 	}
 	
