@@ -36,6 +36,7 @@ public final class GameEngine {
 	protected static long startTime; // store game engine start time
 	
 	private static boolean paused = false; // pause flag
+	private static Object pausedLock = new Object(); // pause flag lock object
 	
 	/**
 	 * Main window class for game engine
@@ -194,13 +195,14 @@ public final class GameEngine {
 	 */
 	public static void update() {
 		while (!gameExit) {
-			if (paused) {
-				try {
-					Thread.sleep(Math.round(1000.0 / updatesPerSecond));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			synchronized (pausedLock) {
+				while (paused) {
+					try {
+						pausedLock.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				continue;
 			}
 			
 			GameInput.updateAllInputs(); // update input data
@@ -295,6 +297,9 @@ public final class GameEngine {
 	 */
 	public static void unpause() {
 		paused = false;
+		synchronized (pausedLock) {
+			pausedLock.notifyAll();
+		}
 	}
 	
 	/**
