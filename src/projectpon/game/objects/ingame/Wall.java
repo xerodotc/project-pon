@@ -1,3 +1,11 @@
+/**
+ * Wall.java
+ * 
+ * A class for wall objects
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame;
 
 import java.awt.Color;
@@ -8,11 +16,18 @@ import projectpon.engine.GameObject;
 import projectpon.game.scenes.PongScene;
 
 public class Wall extends GameObject {
-	public static final int WALL_WIDTH = 8;
+	public static final int WALL_WIDTH = 8; // wall width
 	
-	protected int wallSide;
-	protected PongScene pscene = null;
+	protected int wallSide; // side of the wall
+	protected PongScene pscene = null; // the PongScene
 	
+	/**
+	 * Initialize the wall object
+	 * 
+	 * @param x		x-position
+	 * @param y		y-position
+	 * @param side	Side of the wall
+	 */
 	public Wall(int x, int y, int side) {
 		super(x, y);
 		
@@ -28,9 +43,12 @@ public class Wall extends GameObject {
 			this.anchorX = 0;
 		}
 		this.collisionRect.width = WALL_WIDTH;
-		this.visible = false;
+		this.visible = false; // hide the wall at first
 	}
 	
+	/**
+	 * Assign PongScene and expand the wall to fit the boundary
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -42,6 +60,9 @@ public class Wall extends GameObject {
 		this.anchorY = this.collisionRect.height / 2;
 	}
 	
+	/**
+	 * Set wall visibility (in case of blinding)
+	 */
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
 			if (wallSide != pscene.myPlayer.paddleSide) {
@@ -52,6 +73,9 @@ public class Wall extends GameObject {
 		}
 	}
 	
+	/**
+	 * Pre-update event
+	 */
 	@Override
 	public void eventPreUpdate() {
 		Player ownerPaddle;
@@ -61,6 +85,7 @@ public class Wall extends GameObject {
 			ownerPaddle = pscene.playerRight;
 		}
 		
+		// hide the wall, if the player doesn't have the wall
 		if (!ownerPaddle.getStatus(Player.STATUS_WALL)) {
 			this.visible = false;
 			return;
@@ -70,6 +95,9 @@ public class Wall extends GameObject {
 		setVisibility();
 	}
 	
+	/**
+	 * Post-update event
+	 */
 	@Override
 	public void eventPostUpdate() {
 		Player ownerPaddle;
@@ -79,12 +107,16 @@ public class Wall extends GameObject {
 			ownerPaddle = pscene.playerRight;
 		}
 		
+		// do nothing, if player doesn't have the wall
 		if (!ownerPaddle.getStatus(Player.STATUS_WALL)) {
 			return;
 		}
 		
 		Line2D trajectory = pscene.ball.getTrajectory();
 		
+		/*
+		 * Bounce back the ball and destroy/hide the wall
+		 */
 		if (wallSide * pscene.ball.getCoordinate().x >= wallSide * this.x && 
 				pscene.ball.getDirection() == wallSide) {
 			int targetX = this.x;
@@ -103,6 +135,9 @@ public class Wall extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the wall
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.WHITE);

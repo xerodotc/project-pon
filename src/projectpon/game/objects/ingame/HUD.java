@@ -1,3 +1,11 @@
+/**
+ * HUD.java
+ * 
+ * A class for drawing head-up display
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame;
 
 import java.awt.Color;
@@ -13,19 +21,25 @@ import projectpon.engine.GameObject;
 import projectpon.game.scenes.PongScene;
 
 public class HUD extends GameObject {
-	protected PongScene pscene;
+	protected PongScene pscene; // the PongScene
 	private Font scoreFont = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 64);
+			deriveFont(Font.PLAIN, 64); // font for score text
 	private Font statusFont = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 28);
+			deriveFont(Font.PLAIN, 28); // font for status text
 	
-	private static final int STATUSES_GAP = 16;
+	private static final int STATUSES_GAP = 16; // space between each status
 	
+	/**
+	 * Initialize HUD
+	 */
 	public HUD() {
 		this.visible = true;
-		this.z = -100;
+		this.z = -100; // bring to front
 	}
 	
+	/**
+	 * Assign PongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -33,6 +47,9 @@ public class HUD extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the HUD
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		int middle = pscene.getWidth() / 2;
@@ -49,10 +66,10 @@ public class HUD extends GameObject {
 				Boundary.HBORDER_THICKNESS - 8);
 		canvas.drawString(leftScore, middle - 16 - Math.round(leftScoreBound.getWidth()),
 				pscene.getTopBoundary() - Boundary.HBORDER_THICKNESS - 
-				Math.round(leftScoreBound.getHeight()) / 2);
+				Math.round(leftScoreBound.getHeight()) / 2); // left player's score
 		canvas.drawString(rightScore, middle + 16,
 				pscene.getTopBoundary() - Boundary.HBORDER_THICKNESS - 
-				Math.round(rightScoreBound.getHeight()) / 2);
+				Math.round(rightScoreBound.getHeight()) / 2); // right player's score
 		
 		// Draw status
 		
@@ -68,6 +85,9 @@ public class HUD extends GameObject {
 				+ STATUSES_GAP;
 		startingX = STATUSES_GAP;
 		
+		/*
+		 * Sticky
+		 */
 		if (pscene.playerLeft.getStatus(Player.STATUS_STICKY)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerLeft.getTimer(Player.STATUS_STICKY));
@@ -88,6 +108,9 @@ public class HUD extends GameObject {
 			startingX += deltaNextX;
 		}
 		
+		/*
+		 * Blind
+		 */
 		if (pscene.playerLeft.getStatus(Player.STATUS_BLIND)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerLeft.getTimer(Player.STATUS_BLIND));
@@ -108,6 +131,9 @@ public class HUD extends GameObject {
 			startingX += deltaNextX;
 		}
 		
+		/*
+		 * Invert
+		 */
 		if (pscene.playerLeft.getStatus(Player.STATUS_INVERT)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerLeft.getTimer(Player.STATUS_INVERT));
@@ -134,6 +160,9 @@ public class HUD extends GameObject {
 				+ STATUSES_GAP;
 		startingX = pscene.getWidth() - STATUSES_GAP;
 		
+		/*
+		 * Invert
+		 */
 		if (pscene.playerRight.getStatus(Player.STATUS_INVERT)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerRight.getTimer(Player.STATUS_INVERT));
@@ -155,6 +184,9 @@ public class HUD extends GameObject {
 			startingX -= deltaNextX;
 		}
 		
+		/*
+		 * Blind
+		 */
 		if (pscene.playerRight.getStatus(Player.STATUS_BLIND)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerRight.getTimer(Player.STATUS_BLIND));
@@ -176,6 +208,9 @@ public class HUD extends GameObject {
 			startingX -= deltaNextX;
 		}
 		
+		/*
+		 * Sticky
+		 */
 		if (pscene.playerRight.getStatus(Player.STATUS_STICKY)) {
 			int msec = GameEngine.Util.updatesToMs(
 					pscene.playerRight.getTimer(Player.STATUS_STICKY));

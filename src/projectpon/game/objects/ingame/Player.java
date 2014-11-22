@@ -1,3 +1,11 @@
+/**
+ * Player.java
+ * 
+ * A class for player/paddle objects
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame;
 
 import java.awt.Color;
@@ -15,49 +23,62 @@ import projectpon.game.objects.ingame.controllers.ServerController;
 import projectpon.game.scenes.PongScene;
 
 public class Player extends GameObject {
-	public static final int PADDLE_WIDTH = 8;
-	public static final int PADDLE_INITSIZE = 64;
+	public static final int PADDLE_WIDTH = 8; // paddle width
+	public static final int PADDLE_INITSIZE = 64; // paddle initial size
+	// paddle size difference when expanding or shrinking
 	public static final int PADDLE_SIZEDELTA = 16;
 	
+	// define player side
 	public static final int SIDE_LEFT = -1;
 	public static final int SIDE_RIGHT = 1;
 	
+	// define player type
 	public static final int PLAYER_REPLAY = -1;
 	public static final int PLAYER_LOCAL = 0;
 	public static final int PLAYER_AI = 1;
 	public static final int PLAYER_REMOTE = 2;
 	public static final int PLAYER_SHADOW = 3;
 	
-	public static final int MIN_SIZE = 16;
-	public static final int MAX_SIZE = 256;
+	public static final int MIN_SIZE = 16; // minimum paddle size
+	public static final int MAX_SIZE = 256; // maximum paddle size
 	
+	// define player status
 	public static final int STATUS_WALL = -1;
 	public static final int STATUS_STICKY = 0;
 	public static final int STATUS_BLIND = 1;
 	public static final int STATUS_INVERT = 2;
 	
+	// default status effects duration in seconds
 	public static final int STATUS_SECONDS = 10;
 	
-	protected int paddleSize = 128;
-	protected int paddleSide;
-	protected PongScene pscene = null;
+	protected int paddleSize; // storing paddle size
+	protected int paddleSide; // storing paddle side
+	protected PongScene pscene = null; // the PongScene
 	
-	private boolean remoteControlled = false;
-	private int aiLaunchTick = -1;
-	private boolean aiControlled = false;
+	private boolean remoteControlled = false; // is this player controlled by remote
+	private int aiLaunchTick = -1; // AI player launch delay
+	private boolean aiControlled = false; // is this player controlled by computer
 	
-	public int score = 0;
+	public int score = 0; // the player score
 	
-	protected boolean sticky = false;
-	protected boolean blind = false;
-	protected int invert = 1;
-	protected boolean wall = false;
+	protected boolean sticky = false; // sticky status
+	protected boolean blind = false; // blind status
+	protected int invert = 1; // invert status
+	protected boolean wall = false; // wall status
 	
-	protected int[] statusTimer = new int[3];
+	protected int[] statusTimer = new int[3]; // each status timers
 	
-	private int colorAlternationTick = 0;
-	private Color colorAlternationCurrent = Color.GREEN;
+	private int colorAlternationTick = 0; // color alternation tick
+	private Color colorAlternationCurrent = Color.GREEN; // current color
 	
+	/**
+	 * Initialize player
+	 * 
+	 * @param x		x-position
+	 * @param y		y-position
+	 * @param size	Paddle size
+	 * @param side	Side of paddle
+	 */
 	public Player(int x, int y, int size, int side) {
 		super(x, y);
 		
@@ -67,18 +88,25 @@ public class Player extends GameObject {
 		}
 		this.paddleSide = side;
 		this.paddleSize = size;
+		// setup paddle anchor point
 		this.anchorY = this.paddleSize / 2;
 		if (side == SIDE_LEFT) {
 			this.anchorX = PADDLE_WIDTH;
 		} else {
 			this.anchorX = 0;
 		}
+		// setup paddle collision box
 		this.collisionRect.width = PADDLE_WIDTH;
 		this.collisionRect.height = this.paddleSize;
 		this.visible = true;
 		this.score = 0;
 	}
 	
+	/**
+	 * Set player type
+	 * 
+	 * @param playerType	Player type
+	 */
 	public void setPlayerType(int playerType) {
 		if (playerType == PLAYER_REMOTE) {
 			this.remoteControlled = true;
@@ -87,6 +115,9 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Assign PongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -94,14 +125,29 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Get paddle top boundary
+	 * 
+	 * @return Paddle top boundary
+	 */
 	private int getTop() {
 		return this.y - this.paddleSize / 2;
 	}
 	
+	/**
+	 * Get paddle bottom boundary
+	 * 
+	 * @return Paddle bottom boundary
+	 */
 	private int getBottom() {
 		return this.y + this.paddleSize / 2;
 	}
 	
+	/**
+	 * Resize the paddle
+	 * 
+	 * @param size		New size of paddle
+	 */
 	public void resize(int size) {
 		if (size < MIN_SIZE) {
 			size = MIN_SIZE;
@@ -113,10 +159,18 @@ public class Player extends GameObject {
 		this.anchorY = this.paddleSize / 2;
 	}
 	
+	/**
+	 * Get current size of paddle
+	 * 
+	 * @return Size of paddle
+	 */
 	public int getSize() {
 		return this.paddleSize;
 	}
 	
+	/**
+	 * Set paddle visibility (in case of blinding)
+	 */
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
 			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)
@@ -128,16 +182,26 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Pre-update event
+	 * (Update status tick, set visibility and polling user input)
+	 */
 	@Override
 	public void eventPreUpdate() {
 		if (pscene.controller.isPaused()) {
 			return;
 		}
 		
-		tickStatus();
-		setVisibility();
+		tickStatus(); // update status tick
+		setVisibility(); // set paddle visibility
 		
+		/*
+		 * Poll the input
+		 */
 		if (this.remoteControlled) {
+			/*
+			 * Remote controlled
+			 */
 			if (pscene.controller instanceof ServerController) {
 				ServerController scontroller = (ServerController) pscene.controller;
 				if (scontroller.isRemoteUseMouse()) {
@@ -165,6 +229,9 @@ public class Player extends GameObject {
 				}
 			}
 		} else if (this.aiControlled) {
+			/*
+			 * Controlled by computer
+			 */
 			if (!pscene.ball.launched && this == pscene.starting) {
 				if (aiLaunchTick < 0) {
 					aiLaunchTick = 30;
@@ -191,6 +258,9 @@ public class Player extends GameObject {
 				}
 			}
 		} else {
+			/*
+			 * Controlled by local player
+			 */
 			String inputOwner = "Primary";
 			if (paddleSide == SIDE_RIGHT) {
 				inputOwner = "Secondary";
@@ -198,6 +268,9 @@ public class Player extends GameObject {
 			
 			switch (Configuration.get("input" + inputOwner + "Player", "type")) {
 			case "mouse":
+				/*
+				 * Mouse
+				 */
 				int mbLaunch = Configuration.getInt("input" + inputOwner + "Player", "mbLaunch");
 				this.y = input.getMouseY();
 				if (invert < 0) {
@@ -211,6 +284,9 @@ public class Player extends GameObject {
 				break;
 				
 			case "keyboard":
+				/*
+				 * Keyboard
+				 */
 				int keyUp = Configuration.getInt("input" + inputOwner + "Player", "keyUp");
 				int keyDown = Configuration.getInt("input" + inputOwner + "Player", "keyDown");
 				int keyLaunch = Configuration.getInt("input" + inputOwner + "Player", "keyLaunch");
@@ -231,6 +307,9 @@ public class Player extends GameObject {
 			}
 		}
 		
+		/*
+		 * Block the paddle going beyond the boundary
+		 */
 		if (getTop() < pscene.getTopBoundary()) {
 			this.y = pscene.getTopBoundary() + this.paddleSize / 2;
 		} else if (getBottom() > pscene.getBottomBoundary()) {
@@ -238,10 +317,17 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Post-update event
+	 */
 	@Override
 	public void eventPostUpdate() {
-		Line2D trajectory = pscene.ball.getTrajectory();
+		Line2D trajectory = pscene.ball.getTrajectory(); // get ball trajectory
 		
+		/*
+		 * If the ball collided with the paddle,
+		 * bounce back the ball
+		 */
 		if (this.collisionBox().intersectsLine(trajectory)) {
 			int targetX = this.x;
 			targetX += -this.paddleSide * Ball.BALL_SIZE / 2;
@@ -267,6 +353,9 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the paddle
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.WHITE);
@@ -293,20 +382,34 @@ public class Player extends GameObject {
 		canvas.fill(this.collisionBox());
 	}
 	
+	/**
+	 * Expand the paddle
+	 */
 	public void expand() {
 		resize(this.paddleSize + PADDLE_SIZEDELTA);
 	}
 	
+	/**
+	 * Shirnk the paddle
+	 */
 	public void shrink() {
 		resize(this.paddleSize - PADDLE_SIZEDELTA);
 	}
 	
+	/**
+	 * Unblind the player (cheat)
+	 */
 	public void unblind() {
 		if (getStatus(STATUS_BLIND)) {
 			this.statusTimer[STATUS_BLIND] = 1;
 		}
 	}
 	
+	/**
+	 * Set the player status
+	 * 
+	 * @param status	Player status
+	 */
 	public void setStatus(int status) {
 		switch (status) {
 		case STATUS_WALL:
@@ -330,10 +433,16 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * To flag that the wall is destroyed
+	 */
 	public void wallDestroyed() {
 		this.wall = false;
 	}
 	
+	/**
+	 * Update status tick/timer
+	 */
 	public void tickStatus() {
 		for (int i = 0; i < this.statusTimer.length; i++) {
 			if (this.statusTimer[i] <= 0 && getStatus(i)) {
@@ -356,6 +465,12 @@ public class Player extends GameObject {
 		}
 	}
 	
+	/**
+	 * Get player's specified status
+	 * 
+	 * @param status	Status
+	 * @return True, if player has specified status
+	 */
 	public boolean getStatus(int status) {
 		switch (status) {
 		case STATUS_WALL:
@@ -374,6 +489,11 @@ public class Player extends GameObject {
 		return false;
 	}
 	
+	/**
+	 * Get player's all statuses
+	 * 
+	 * @return A map of player statuses
+	 */
 	public Map<Integer,Boolean> getAllStatuses() {
 		Map<Integer,Boolean> s = new HashMap<Integer,Boolean>();
 		
@@ -385,6 +505,12 @@ public class Player extends GameObject {
 		return s;
 	}
 	
+	/**
+	 * Get timer of player's specified status
+	 * 
+	 * @param status	Status
+	 * @return Timer of player's specified status
+	 */
 	public int getTimer(int status) {
 		if (status >= 0 && status < this.statusTimer.length) {
 			return (this.statusTimer[status] > 0) ? this.statusTimer[status] : 0;
@@ -393,6 +519,11 @@ public class Player extends GameObject {
 		return 0;
 	}
 	
+	/**
+	 * Get timers of player's all statuses
+	 * 
+	 * @return A map of timers of player's all statuses
+	 */
 	public Map<Integer,Integer> getAllTimers() {
 		Map<Integer,Integer> t = new HashMap<Integer,Integer>();
 		

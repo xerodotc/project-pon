@@ -1,3 +1,11 @@
+/**
+ * Ball.java
+ * 
+ * A class for a ball object
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame;
 
 import java.awt.Color;
@@ -9,19 +17,23 @@ import projectpon.engine.GameObject;
 import projectpon.game.scenes.PongScene;
 
 public class Ball extends GameObject {
-	public static final int BALL_SIZE = 8;
+	public static final int BALL_SIZE = 8; // ball size
 	
-	public boolean launched = false;
+	public boolean launched = false; // is the ball, launched?
 	
-	protected PongScene pscene = null;
+	protected PongScene pscene = null; // the PongScene
 	
-	private int oldX = 0;
-	private int oldY = 0;
-	private int actualDx = 0;
-	private int actualDy = 0;
+	private int oldX = 0; // old x-position
+	private int oldY = 0; // old y-position
+	private int actualDx = 0; // actual x-velocity (backup in case of pausing)
+	private int actualDy = 0; // actual y-velocity (backup in case of pausing)
 	
+	// the difference of y-position of paddle and ball (in case of not launched)
 	private int delta = 0;
 	
+	/**
+	 * Initialize ball properties
+	 */
 	public Ball() {
 		this.z = -1;
 		this.anchorX = BALL_SIZE / 2;
@@ -30,6 +42,9 @@ public class Ball extends GameObject {
 		this.visible = true;
 	}
 	
+	/**
+	 * Assign PongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -37,14 +52,29 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Get ball's top boundary
+	 * 
+	 * @return Ball's top boundary
+	 */
 	private int getTop() {
 		return this.y - BALL_SIZE / 2;
 	}
 	
+	/**
+	 * Get ball's bottom boundary
+	 * 
+	 * @return Ball's bottom boundary
+	 */
 	private int getBottom() {
 		return this.y + BALL_SIZE / 2;
 	}
 	
+	/**
+	 * Get ball's trajectory as line
+	 * 
+	 * @return Ball's trajectory
+	 */
 	public Line2D getTrajectory() {
 		if (!launched) {
 			return new Line2D.Double(this.x, this.y, this.x, this.y);
@@ -53,6 +83,9 @@ public class Ball extends GameObject {
 		return new Line2D.Double(this.oldX, this.oldY, this.x, this.y);
 	}
 	
+	/**
+	 * Set visibility (in case of blinding)
+	 */
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
 			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
@@ -67,12 +100,19 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Pre-update event
+	 */
 	@Override
 	public void eventPreUpdate() {
-		setVisibility();
+		setVisibility(); // set ball visibility
 		
 		this.oldX = this.x;
 		this.oldY = this.y;
+		/*
+		 * If the game is paused or not ready...
+		 * set velocity to zero
+		 */
 		if (!pscene.controller.isReady() || pscene.controller.isPaused()) {
 			this.dx = 0;
 			this.dy = 0;
@@ -82,9 +122,16 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Post-update event
+	 */
 	@Override
 	public void eventPostUpdate() {
 		if (!launched) {
+			/*
+			 * If the ball hasn't launched,
+			 * keep stick to the paddle
+			 */
 			this.x = pscene.starting.getCoordinate().x;
 			this.y = pscene.starting.getCoordinate().y;
 			this.y += delta;
@@ -95,6 +142,9 @@ public class Ball extends GameObject {
 				this.x -= BALL_SIZE / 2;
 			}
 		} else {
+			/*
+			 * Is the ball hit the top or bottom of screen?
+			 */
 			if (getBottom() > pscene.getBottomBoundary()) {
 				this.y = pscene.getBottomBoundary() - BALL_SIZE / 2;
 				reverseY();
@@ -105,6 +155,9 @@ public class Ball extends GameObject {
 				pscene.controller.playSound("beep");
 			}
 			
+			/*
+			 * Is the ball fall of the edge?
+			 */
 			if (this.x > scene.getWidth() + BALL_SIZE &&
 					!pscene.playerRight.getStatus(Player.STATUS_WALL)) {
 				// left-side player win
@@ -125,6 +178,9 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the ball
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.CYAN);
@@ -134,6 +190,9 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Launch the ball
+	 */
 	public void launch() {
 		this.launched = true;
 		this.actualDx = 3;
@@ -149,19 +208,36 @@ public class Ball extends GameObject {
 		pscene.starting = null;
 	}
 	
+	/**
+	 * Reverse ball x-velocity
+	 */
 	public void reverseX() {
 		this.actualDx *= -1;
 	}
 	
+	/**
+	 * Reverse ball y-velocity
+	 */
 	public void reverseY() {
 		this.actualDy *= -1;
 	}
 	
+	/**
+	 * Set the ball coordinate
+	 * 
+	 * @param x		x-coordinate
+	 * @param y		y-coordinate
+	 */
 	public void setCoordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Get the ball direction (-1 or 1)
+	 * 
+	 * @return -1 if moving toward left side, 1 if moving toward right side
+	 */
 	public int getDirection() {
 		if (this.actualDx == 0) {
 			return 0;
@@ -169,6 +245,9 @@ public class Ball extends GameObject {
 		return this.actualDx / Math.abs(this.actualDx);
 	}
 	
+	/**
+	 * Add the speed to the ball (limit is 50)
+	 */
 	public void addSpeed() {
 		if (Math.abs(this.actualDx) < 50) {
 			this.actualDx += (this.actualDx < 0) ? -1 : 1;
@@ -176,6 +255,11 @@ public class Ball extends GameObject {
 		}
 	}
 	
+	/**
+	 * Stick the ball to paddle
+	 * 
+	 * @param stick		Stick to which paddle
+	 */
 	public void stick(Player stick) {
 		launched = false;
 		delta = this.y - stick.getCoordinate().y;

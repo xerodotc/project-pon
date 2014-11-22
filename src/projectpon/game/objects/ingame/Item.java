@@ -1,3 +1,11 @@
+/**
+ * Item.java
+ * 
+ * A class for item objects
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame;
 
 import java.awt.Graphics2D;
@@ -9,8 +17,8 @@ import projectpon.engine.GameObject;
 import projectpon.game.scenes.PongScene;
 
 public class Item extends GameObject {
-	public static final int ITEMBOX_SIZE = 32;
-	public static final int EXPIRE_TIME = 30;
+	public static final int ITEMBOX_SIZE = 32; // item box size
+	public static final int EXPIRE_TIME = 30; // item expire time in seconds
 	
 	public static final int ITEM_EXPAND = 0;
 	public static final int ITEM_SHRINK = 1;
@@ -19,10 +27,17 @@ public class Item extends GameObject {
 	public static final int ITEM_INVERT = 4;
 	public static final int ITEM_BLIND = 5; // won't available in 2-player mode
 	
-	private int type;
-	protected PongScene pscene = null;
-	private int expireTick;
+	private int type; // this instance item type
+	protected PongScene pscene = null; // the PongScene
+	private int expireTick; // item expire tick
 	
+	/**
+	 * Initialize the item
+	 * 
+	 * @param x		x-position
+	 * @param y		y-position
+	 * @param type	Item type
+	 */
 	public Item(int x, int y, int type) {
 		super(x, y);
 		
@@ -34,10 +49,18 @@ public class Item extends GameObject {
 		expireTick = EXPIRE_TIME * GameEngine.getUpdatesPerSec();
 	}
 	
+	/**
+	 * Get item type
+	 * 
+	 * @return Item type
+	 */
 	public int getType() {
 		return type;
 	}
 	
+	/**
+	 * Assign PongScene and register the item to PongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -47,6 +70,9 @@ public class Item extends GameObject {
 		pscene.addItem(this);
 	}
 	
+	/**
+	 * Set item visibility (in case of blinding)
+	 */
 	protected void setVisibility() {
 		if (pscene.myPlayer != null) {
 			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
@@ -61,6 +87,9 @@ public class Item extends GameObject {
 		}
 	}
 	
+	/**
+	 * Pre-update event
+	 */
 	@Override
 	public void eventPreUpdate() {
 		if (pscene.controller.isPaused()) {
@@ -70,18 +99,24 @@ public class Item extends GameObject {
 		setVisibility();
 		
 		if (expireTick <= 0) {
-			this.destroy();
+			this.destroy(); // destroy on item expired
 		}
 		expireTick--;
 	}
 	
+	/**
+	 * Post-update event
+	 */
 	@Override
 	public void eventPostUpdate() {
 		if (collisionBox().intersectsLine(pscene.ball.getTrajectory())) {
 			pscene.controller.playSound("baap");
-			this.destroy();
+			this.destroy(); // if the ball hit the item, destroy itself
 		}
 		
+		/*
+		 * Set a status to player, if the ball was hit
+		 */
 		if (pscene.ball.getDirection() != 0) {
 			if (collisionBox().intersectsLine(pscene.ball.getTrajectory())) {
 				Player player = null;
@@ -119,11 +154,17 @@ public class Item extends GameObject {
 		}
 	}
 	
+	/**
+	 * Unregister the item from PongScene when destroyed
+	 */
 	@Override
 	public void eventOnDestroy() {
 		pscene.removeItem(this);
 	}
 	
+	/**
+	 * Draw the item
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		String imageName = "";
