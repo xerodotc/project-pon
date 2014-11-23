@@ -1,3 +1,11 @@
+/**
+ * Controller.java
+ * 
+ * An abstract class for game controller
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.controllers;
 
 import java.awt.Graphics2D;
@@ -15,18 +23,23 @@ import projectpon.game.replay.ReplayFrame;
 import projectpon.game.scenes.PongScene;
 
 public abstract class Controller extends GameObject {
-	protected Player winner = null;
+	protected Player winner = null; // store winning player
 	
-	protected PongScene pscene = null;
-	protected boolean ready = false;
-	protected boolean paused = false;
-	protected boolean nextPaused = false;
+	protected PongScene pscene = null; // store PongScene
+	protected boolean ready = false; // is the game ready?
+	protected boolean paused = false; // is the game paused?
+	protected boolean nextPaused = false; // is the game to be paused?
 	
-	protected boolean saveReplay = false;
-	protected ReplayData replayData;
+	protected boolean saveReplay = false; // save the replay?
+	protected ReplayData replayData; // object for storing replay data
+	// is the replay has be stopped recording?
 	protected boolean replayFinish = false;
-	protected Queue<String> replaySoundQueue;
+	protected Queue<String> replaySoundQueue; // sound queue for replay
+	private String replayFileName = null;
 	
+	/**
+	 * Assign PongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof PongScene) {
@@ -34,46 +47,89 @@ public abstract class Controller extends GameObject {
 		}
 	}
 	
+	/**
+	 * Trigger win event
+	 * 
+	 * @param winner	The winning player
+	 */
 	public void win(Player winner) {
-		// do nothing
+		// do nothing, to be implemented in subclasses
 	}
 	
+	/**
+	 * Is the game ready?
+	 * 
+	 * @return True if the game is ready
+	 */
 	public boolean isReady() {
 		return ready;
 	}
 	
+	/**
+	 * Is the game paused (or not ready)?
+	 * 
+	 * @return True if the game is paused
+	 */
 	public boolean isPaused() {
 		return paused || !ready;
 	}
 	
+	/**
+	 * Is the game paused by user?
+	 * 
+	 * @return True if the game has been paused by user
+	 */
 	public boolean isUserPaused() {
 		return paused;
 	}
 	
+	/**
+	 * Unpause the game
+	 */
 	public void unpause() {
 		nextPaused = false;
 	}
 	
+	/**
+	 * Pause the game
+	 */
 	public void pause() {
 		nextPaused = true;
 	}
 	
+	/**
+	 * Toggle pause status
+	 */
 	public void togglePause() {
 		nextPaused = !paused;
 	}
 	
+	/**
+	 * Play sound
+	 * 
+	 * @param sound		Sound name
+	 */
 	public void playSound(String sound) {
 		// to be implemented in subclasses
 	}
 	
+	/**
+	 * Set file to be saved for replay
+	 * 
+	 * @param file	File name
+	 */
 	public void setSaveReplay(String file) {
 		this.visible = true;
 		saveReplay = true;
 		replayData = new ReplayData();
 		replayData.version = 1;
 		replaySoundQueue = new ArrayDeque<String>();
+		replayFileName = file;
 	}
 	
+	/**
+	 * Some replay recording code are here...
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		if (!saveReplay || replayFinish) {
@@ -123,7 +179,7 @@ public abstract class Controller extends GameObject {
 		if (replayFinish) {
 			try {
 				ObjectOutputStream out = new ObjectOutputStream(
-						new FileOutputStream(new File("replay.dat")));
+						new FileOutputStream(new File(replayFileName)));
 				out.writeObject(replayData);
 				out.flush();
 				out.close();

@@ -1,3 +1,11 @@
+/**
+ * ClientController.java
+ * 
+ * A class for client session game controller
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.controllers;
 
 import java.awt.Graphics2D;
@@ -21,13 +29,19 @@ import projectpon.game.objects.ingame.shadow.*;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class ClientController extends LocalController {
-	private Thread outputData;
-	private Thread inputData;
-	private Socket socket;
+	private Thread outputData; // output stream thread
+	private Thread inputData; // input stream thread
+	private Socket socket; // socket
 	
+	// flag indicate that is last frame before winning has been drawn
 	private boolean flag = false;
-	private boolean connectionLost = false;
+	private boolean connectionLost = false; // connection lost flag
 	
+	/**
+	 * Initialize and set socket timeout
+	 * 
+	 * @param socket		The socket for this game
+	 */
 	public ClientController(Socket socket) {
 		super();
 		try {
@@ -42,10 +56,16 @@ public class ClientController extends LocalController {
 		this.ready = false;
 	}
 	
+	/**
+	 * Initialize the output and input thread
+	 */
 	@Override
 	public void eventOnCreate() {
 		super.eventOnCreate();
 		
+		/*
+		 * Send input data to server
+		 */
 		outputData = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -98,6 +118,9 @@ public class ClientController extends LocalController {
 			}
 		});
 		
+		/*
+		 * Receive game information from server
+		 */
 		inputData = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -200,6 +223,11 @@ public class ClientController extends LocalController {
 			@Override
 			public void run() {
 				try {
+					/*
+					 * Wait for client and server to ready before
+					 * flooding data
+					 */
+					
 					OutputStream out = socket.getOutputStream();
 					out.write("READY".getBytes());
 					out.flush();
@@ -234,6 +262,10 @@ public class ClientController extends LocalController {
 		}).start();
 	}
 
+	/**
+	 * If winner is determined or connection lost
+	 * notify the player
+	 */
 	@Override
 	public void eventPreUpdate() {
 		if (flag && winner != null) {
@@ -245,6 +277,9 @@ public class ClientController extends LocalController {
 		}
 	}
 	
+	/**
+	 * Flag if last frame after winner determined has been drawn
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		super.draw(canvas);
@@ -253,6 +288,9 @@ public class ClientController extends LocalController {
 		}
 	}
 	
+	/**
+	 * Hide inherited code...
+	 */
 	@Override
 	public void playSound(String sound) {
 		// do nothing
