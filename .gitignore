@@ -16,3 +16,6 @@ hs_err_pid*
 /lib/
 /res/
 /config.ini
+
+# Ignore UML diagram files
+*.ucls
