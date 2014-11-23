@@ -69,7 +69,7 @@ public class ServerConfigPanel extends JPanel {
 		
 		this.add(topPanel, BorderLayout.CENTER);
 		this.add(setupButtonsPanel(), BorderLayout.SOUTH);
-		this.setPreferredSize(new Dimension(300, 190));
+		this.setPreferredSize(new Dimension(300, 200));
 		parentWindow.getRootPane().setDefaultButton(startButton);
 	}
 	
