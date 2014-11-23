@@ -35,7 +35,7 @@ public abstract class Controller extends GameObject {
 	// is the replay has be stopped recording?
 	protected boolean replayFinish = false;
 	protected Queue<String> replaySoundQueue; // sound queue for replay
-	private String replayFileName = null;
+	private String replayFileName = null; // replay file name
 	
 	/**
 	 * Assign PongScene
@@ -136,8 +136,11 @@ public abstract class Controller extends GameObject {
 			return;
 		}
 		
-		ReplayFrame frame = new ReplayFrame();
+		ReplayFrame frame = new ReplayFrame(); // create new replay frame
 		
+		/*
+		 * Save everything in to replay frame
+		 */
 		frame.playerLeftX = pscene.playerLeft.getCoordinate().x;
 		frame.playerLeftY = pscene.playerLeft.getCoordinate().y;
 		frame.playerLeftSize = pscene.playerLeft.getSize();
@@ -174,13 +177,13 @@ public abstract class Controller extends GameObject {
 			frame.winner = null;
 		}
 		
-		replayData.appendFrame(frame);
+		replayData.appendFrame(frame); // add frame to replay data
 		
 		if (replayFinish) {
 			try {
 				ObjectOutputStream out = new ObjectOutputStream(
 						new FileOutputStream(new File(replayFileName)));
-				out.writeObject(replayData);
+				out.writeObject(replayData); // save replay to file
 				out.flush();
 				out.close();
 			} catch (IOException e) {

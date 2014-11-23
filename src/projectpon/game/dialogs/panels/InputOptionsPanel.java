@@ -283,7 +283,7 @@ public class InputOptionsPanel extends JPanel {
 		parent.secondaryKeySpeedSlider = new JSlider(
 				Configuration.getMinBound("inputSecondaryPlayer", "keySpeed"),
 				Configuration.getMaxBound("inputSecondaryPlayer", "keySpeed"),
-				Configuration.getInt("inputPrimaryPlayer", "keySpeed"));
+				Configuration.getInt("inputSecondaryPlayer", "keySpeed"));
 		inputKeyboardSpeedPanel.add(parent.secondaryKeySpeedSlider);
 		
 		inputKeyboardPanel.add(inputKeyboardUpKeyPanel);

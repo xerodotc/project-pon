@@ -41,8 +41,8 @@ public class TitleMenu extends GameObject {
 	private static final int PRESS_TO_ACTIVATE_TICKS_INIT = 10;
 	private int pressToActivateTicks = PRESS_TO_ACTIVATE_TICKS_INIT;
 	
-	private Rectangle[] choiceRect = new Rectangle[9];
-	private Color[] choiceColor = new Color[9];
+	private Rectangle[] choiceRect = new Rectangle[8];
+	private Color[] choiceColor = new Color[8];
 	private int selectedOption = 0;
 	private String[] choiceText = {"Play against computer",
 			"Local 2-players game",
