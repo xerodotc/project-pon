@@ -35,7 +35,7 @@ public class TitleScene extends GameScene {
 	}
 
 	/**
-	 * Initialize and add neccessary objects
+	 * Initialize and add necessary objects
 	 */
 	@Override
 	public void initialize() {
