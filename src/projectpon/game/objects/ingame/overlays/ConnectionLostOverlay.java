@@ -1,3 +1,10 @@
+/**
+ * ConnectionLostOverlay.java
+ * 
+ * An overlay UI for connection lost notification
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
 package projectpon.game.objects.ingame.overlays;
 
 import java.awt.Color;
@@ -9,12 +16,18 @@ import projectpon.game.Configuration;
 
 public class ConnectionLostOverlay extends Overlay {
 	private Font font = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 32);
+			deriveFont(Font.PLAIN, 32); // font for overlay
 	
+	/**
+	 * Setup overlay
+	 */
 	public ConnectionLostOverlay() {
 		super(256, 48);
 	}
 	
+	/**
+	 * Listen for user input and dismiss
+	 */
 	@Override
 	public void eventPreUpdate() {
 		boolean dismiss = false;
@@ -35,6 +48,9 @@ public class ConnectionLostOverlay extends Overlay {
 		}
 	}
 	
+	/**
+	 * Draw the overlay
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		super.draw(canvas);

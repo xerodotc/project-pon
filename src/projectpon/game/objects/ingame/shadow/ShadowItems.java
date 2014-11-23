@@ -1,3 +1,11 @@
+/**
+ * ShadowItems.java
+ * 
+ * A class for drawing on field items
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.shadow;
 
 import java.awt.Graphics2D;
@@ -13,8 +21,11 @@ import projectpon.game.objects.ingame.Player;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class ShadowItems extends GameObject {
-	private ShadowPongScene spscene = null;
+	private ShadowPongScene spscene = null; // the ShadowPongScene
 	
+	/**
+	 * Initialize
+	 */
 	public ShadowItems() {
 		super();
 		
@@ -22,6 +33,9 @@ public class ShadowItems extends GameObject {
 		this.visible = true;
 	}
 	
+	/**
+	 * Assign ShadowPongScene
+	 */
 	@Override
 	public void eventOnCreate() {
 		if (scene instanceof ShadowPongScene) {
@@ -29,6 +43,9 @@ public class ShadowItems extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw all on-field items
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		boolean blind = false;

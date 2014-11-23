@@ -1,3 +1,11 @@
+/**
+ * AboutScene.java
+ * 
+ * A scene for showing "about" page
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.scenes;
 
 import java.awt.Graphics2D;
@@ -17,6 +25,7 @@ public class AboutScene extends GameScene {
 			public void eventPreUpdate() {
 				this.visible = true;
 				
+				// dismiss and return to title, if button pressed
 				switch (Configuration.get("inputPrimaryPlayer", "type")) {
 				case "mouse":
 					if (input.isMouseReleased(
@@ -36,6 +45,7 @@ public class AboutScene extends GameScene {
 			
 			@Override
 			public void draw(Graphics2D canvas) {
+				// draw "about" image
 				canvas.drawImage(GameImage.getImage("about"), null, 0, 0);
 			}
 		});

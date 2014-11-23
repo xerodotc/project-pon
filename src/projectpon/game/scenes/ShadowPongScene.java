@@ -1,3 +1,9 @@
+/**
+ * ShadowPongScene.java
+ * 
+ * A scene for Pong game (without internal physics)
+ */
+
 package projectpon.game.scenes;
 
 import java.util.List;
@@ -15,14 +21,20 @@ import projectpon.game.objects.ingame.shadow.ShadowWall;
 
 public class ShadowPongScene extends PongScene {
 	
-	private List< Map<String,Integer> > shadowItems;
-	private boolean useReplay = false;
-	private String replayFile;
+	private List< Map<String,Integer> > shadowItems; // list of on-field items
+	private boolean useReplay = false; // use replay?
+	private String replayFile; // replay file to be loaded from
 
+	/**
+	 * Constructor
+	 */
 	public ShadowPongScene() {
 		super();
 	}
 	
+	/**
+	 * Initialize the scene
+	 */
 	@Override
 	public void initialize() {
 		if (!useSocket && !useReplay) {
@@ -33,8 +45,10 @@ public class ShadowPongScene extends PongScene {
 		
 		ball = new ShadowBall();
 		if (useSocket) {
+			// as client
 			controller = new ClientController(GameNetwork.getSocket());
 		} else if (useReplay) {
+			// as replay viewer
 			controller = new ReplayController(replayFile);
 		}
 		wallLeft = new ShadowWall(LEFT_WALL_INIT_X,
@@ -46,15 +60,29 @@ public class ShadowPongScene extends PongScene {
 		this.objectAdd(new ShadowItems());
 	}
 	
+	/**
+	 * Setup left player
+	 */
 	public void setLeftPlayer() {
 		this.setLeftPlayer(Player.PLAYER_SHADOW);
 	}
 	
+	/**
+	 * Setup left player
+	 * 
+	 * @param type	Player type
+	 */
 	@Override
 	public void setLeftPlayer(int type) {
 		this.setLeftPlayer(type, false);
 	}
 	
+	/**
+	 * Setup left player
+	 * 
+	 * @param type		Player type
+	 * @param my		Is my player?
+	 */
 	@Override
 	public void setLeftPlayer(int type, boolean my) {
 		if (playerLeft == null) {
@@ -64,15 +92,29 @@ public class ShadowPongScene extends PongScene {
 		super.setLeftPlayer(type, my);
 	}
 	
+	/**
+	 * Setup right player
+	 */
 	public void setRightPlayer() {
 		this.setRightPlayer(Player.PLAYER_SHADOW);
 	}
 	
+	/**
+	 * Setup right player
+	 * 
+	 * @param type		Player type
+	 */
 	@Override
 	public void setRightPlayer(int type) {
 		this.setRightPlayer(type, false);
 	}
 	
+	/**
+	 * Setup right player
+	 * 
+	 * @param type		Player type
+	 * @param my		Is my player?
+	 */
 	@Override
 	public void setRightPlayer(int type, boolean my) {
 		if (playerRight == null) {
@@ -82,15 +124,30 @@ public class ShadowPongScene extends PongScene {
 		super.setRightPlayer(type, my);
 	}
 	
+	/**
+	 * Setup replay file to be loaded
+	 * 
+	 * @param file		File name
+	 */
 	public void setReplayFile(String file) {
 		useReplay = true;
 		replayFile = file;
 	}
 	
+	/**
+	 * Set on-field items
+	 * 
+	 * @param sil		On-field items list
+	 */
 	public void setShadowItems(List< Map<String,Integer> > sil) {
 		shadowItems = sil;
 	}
 	
+	/**
+	 * Get on-field items
+	 * 
+	 * @return On-field items list
+	 */
 	@Override
 	public List< Map<String,Integer> > getShadowItems() {
 		return shadowItems;

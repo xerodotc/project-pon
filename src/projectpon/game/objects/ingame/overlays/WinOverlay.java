@@ -1,3 +1,11 @@
+/**
+ * WinOverlay.java
+ * 
+ * A class for winner notification overlay
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.overlays;
 
 import java.awt.Color;
@@ -9,14 +17,22 @@ import projectpon.game.Configuration;
 
 public class WinOverlay extends Overlay {
 	private Font font = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 64);
-	private String text;
+			deriveFont(Font.PLAIN, 64); // font
+	private String text; // text
 	
+	/**
+	 * Initialize
+	 * 
+	 * @param text	A string to display
+	 */
 	public WinOverlay(String text) {
 		super(512, 96);
 		this.text = text;
 	}
 	
+	/**
+	 * Listen for user input and dismiss
+	 */
 	@Override
 	public void eventPreUpdate() {
 		boolean dismiss = false;
@@ -37,6 +53,9 @@ public class WinOverlay extends Overlay {
 		}
 	}
 	
+	/**
+	 * Draw an overlay
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		super.draw(canvas);

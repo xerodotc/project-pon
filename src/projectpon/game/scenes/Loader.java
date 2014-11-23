@@ -1,3 +1,11 @@
+/**
+ * Loader.java
+ * 
+ * "Now loading..." scene (also load the rest of resources)
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.scenes;
 
 import java.awt.Color;
@@ -8,18 +16,27 @@ import projectpon.engine.*;
 
 public class Loader extends GameScene {
 	
-	private GameScene entryScene = null;
-	private Runnable load;
+	private GameScene entryScene = null; // the scene to be displayed next
+	private Runnable load; // loader runnable
 
+	/**
+	 * Initialize resource loader
+	 * 
+	 * @param entry		Entry scene
+	 * @param load		Loader function
+	 */
 	public Loader(GameScene entry, Runnable load) {
 		super();
 		entryScene = entry;
 		this.load = load;
 	}
 
+	/**
+	 * Show "NOW LOADING..." text and load the resources
+	 */
 	@Override
 	public void initialize() {
-		GameEngine.disableExitOnClose();
+		GameEngine.disableExitOnClose(); // disable exit on close while loading
 		GameFont.loadFont("advocut", "res/fonts/advocut.ttf");
 		this.objectAdd(new GameObject() {
 			private boolean drawed = false;

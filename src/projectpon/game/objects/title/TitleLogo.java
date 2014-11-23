@@ -1,3 +1,11 @@
+/**
+ * TitleLogo.java
+ * 
+ * A class for drawing game title logo
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.title;
 
 import java.awt.Color;
@@ -9,17 +17,21 @@ import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 
 public class TitleLogo extends GameObject {
-	private Font[] font = new Font[256];
+	private Font[] font = new Font[256]; // array for storing each size of font
 	
-	private static final int SIZE_RANGE_MIN = 96;
-	private static final int SIZE_RANGE_MAX = 98;
+	private static final int SIZE_RANGE_MIN = 96; // minimum size
+	private static final int SIZE_RANGE_MAX = 98; // maximum size
 	
-	private int currentSize = SIZE_RANGE_MIN;
-	private int delta = 1;
+	private int currentSize = SIZE_RANGE_MIN; // current font size
+	private int delta = 1; // size difference
 	
+	// size change initial ticks
 	private static final int SIZE_CHANGE_TICKS_INIT = 10;
-	private int sizeChangeTicks = SIZE_CHANGE_TICKS_INIT;
+	private int sizeChangeTicks = SIZE_CHANGE_TICKS_INIT; // size change ticks
 	
+	/**
+	 * Initialize the fonts
+	 */
 	public TitleLogo() {
 		super();
 		
@@ -32,6 +44,9 @@ public class TitleLogo extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the game title (enlarge or shrink if applicable)
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.WHITE);
@@ -47,7 +62,7 @@ public class TitleLogo extends GameObject {
 		if (sizeChangeTicks <= 0) {
 			currentSize += delta;
 			if (currentSize <= SIZE_RANGE_MIN || currentSize >= SIZE_RANGE_MAX) {
-				delta *= -1;
+				delta *= -1; // reverse font size changing direction
 			}
 		}
 		sizeChangeTicks--;

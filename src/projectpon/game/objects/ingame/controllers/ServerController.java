@@ -1,3 +1,11 @@
+/**
+ * ServerController.java
+ * 
+ * A class for server session game controller
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.controllers;
 
 import java.awt.event.KeyEvent;
@@ -19,18 +27,24 @@ import projectpon.engine.GameInput;
 import projectpon.engine.GameNetwork;
 
 public class ServerController extends LocalController {
-	private Thread outputData;
-	private Thread inputData;
-	private GameInput remoteInput;
-	private Socket socket;
+	private Thread outputData; // output stream thread
+	private Thread inputData; // input stream thread
+	private GameInput remoteInput; // remote input
+	private Socket socket; // socket
 	
+	// sound queue for sending to client
 	private Queue<String> soundsQueue = new ArrayDeque<String>();
 	
-	private String remoteInputType = "";
-	private int remoteKeySpeed;
+	private String remoteInputType = ""; // remote input type (mouse/keyboard)
+	private int remoteKeySpeed; // remote keyboard speed
 	
-	private Boolean connectionLost = false;
+	private Boolean connectionLost = false; // connection lost flag
 	
+	/**
+	 * Initialize and set socket timeout
+	 * 
+	 * @param socket	The socket for this game
+	 */
 	public ServerController(Socket socket) {
 		super();
 		try {
@@ -45,12 +59,19 @@ public class ServerController extends LocalController {
 		this.ready = false;
 	}
 	
+	/**
+	 * Initialize the output and input thread
+	 */
 	@Override
 	public void eventOnCreate() {
 		super.eventOnCreate();
 		
+		// set client player to be controlled by networked input
 		pscene.playerRight.setInput(remoteInput);
 		
+		/*
+		 * Send game informations to client
+		 */
 		outputData = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -124,6 +145,9 @@ public class ServerController extends LocalController {
 			}
 		});
 		
+		/*
+		 * Receive input data from client
+		 */
 		inputData = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -209,6 +233,11 @@ public class ServerController extends LocalController {
 			@Override
 			public void run() {
 				try {
+					/*
+					 * Wait for client and server to ready before
+					 * flooding data
+					 */
+					
 					OutputStream out = socket.getOutputStream();
 					out.write("READY".getBytes());
 					out.flush();
@@ -243,6 +272,9 @@ public class ServerController extends LocalController {
 		}).start();
 	}
 	
+	/**
+	 * Check winner and check connection lost
+	 */
 	@Override
 	public void eventPreUpdate() {
 		super.eventPreUpdate();
@@ -252,16 +284,29 @@ public class ServerController extends LocalController {
 		}
 	}
 	
+	/**
+	 * Play the sound and add to queue for client
+	 */
 	@Override
 	public void playSound(String sound) {
 		super.playSound(sound);
 		soundsQueue.add(sound);
 	}
 	
+	/**
+	 * Is client using mouse?
+	 * 
+	 * @return True if client using mouse
+	 */
 	public boolean isRemoteUseMouse() {
 		return (remoteInputType.equalsIgnoreCase("mouse"));
 	}
 	
+	/**
+	 * Get client keyboard speed
+	 * 
+	 * @return Client keyboard speed
+	 */
 	public int getRemoteKeySpeed() {
 		return (remoteInputType.equalsIgnoreCase("keyboard")) ? remoteKeySpeed : 0;
 	}

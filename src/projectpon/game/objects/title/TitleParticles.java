@@ -1,3 +1,11 @@
+/**
+ * TitleParticles.java
+ * 
+ * A class for drawing background line particles
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.title;
 
 import java.awt.Color;
@@ -11,6 +19,9 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameObject;
 
 public class TitleParticles extends GameObject {
+	/**
+	 * Line class with velocity
+	 */
 	private static class Line {
 		public Line2D.Double l;
 		public double dx;
@@ -21,11 +32,16 @@ public class TitleParticles extends GameObject {
 		}
 	}
 	
-	private HashSet<Line> lines = new HashSet<Line>();
-	private Random rand = new Random();
+	private HashSet<Line> lines = new HashSet<Line>(); // store the lines on screen
+	private Random rand = new Random(); // randomizer
+	// line generation initial ticks
 	private static final int LINES_GEN_INIT_TICKS = 2;
+	// line generation ticks
 	private int linesGenTick;
 	
+	/**
+	 * Initialize
+	 */
 	public TitleParticles() {
 		super();
 		
@@ -34,6 +50,10 @@ public class TitleParticles extends GameObject {
 		linesGenTick = LINES_GEN_INIT_TICKS;
 	}
 	
+	/**
+	 * Remove off screen lines and add newly generated lines
+	 * also move the line according to its velocity
+	 */
 	@Override
 	public void eventPreUpdate() {
 		if (linesGenTick <= 0) {
@@ -65,9 +85,16 @@ public class TitleParticles extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the line particles
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		canvas.setColor(Color.DARK_GRAY);
+		/*
+		 * To prevent ConcurrentModificationException
+		 * clone it first
+		 */
 		HashSet<Line> linesDraw = (HashSet<Line>) lines.clone();
 		for (Line line : linesDraw) {
 			canvas.draw(line.l);

@@ -1,3 +1,11 @@
+/**
+ * TitleMenu.java
+ * 
+ * A class for title menu
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.title;
 
 import java.awt.Color;
@@ -23,27 +31,36 @@ import projectpon.game.scenes.PongScene;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class TitleMenu extends GameObject {
-	private boolean activated = false;
+	private boolean activated = false; // is the menu activated
 	
-	private boolean pressToActivateVisible = true;
+	// is "press launch button" text visible
+	private boolean pressToActivateVisible = true; 
 	
+	// "press launch button" text font
 	private Font pressToActivateFont = GameFont.getFont("advocut").
 			deriveFont(Font.PLAIN, 64);
+	// choices font
 	private Font menuFont = GameFont.getFont("advocut").
 			deriveFont(Font.PLAIN, 24);
 	
-	private int menuCenterX, menuCenterY;
+	private int menuCenterX, menuCenterY; // menu center
 	
-	private static final int MENU_WIDTH = 500;
-	private static final int MENU_HEIGHT = 340;
-	private static final int MENU_BORDER = 8;
+	private static final int MENU_WIDTH = 500; // menu width
+	private static final int MENU_HEIGHT = 340; // menu height
+	private static final int MENU_BORDER = 8; // menu border
 	
+	// "press launch button" visibility toggle initial ticks
 	private static final int PRESS_TO_ACTIVATE_TICKS_INIT = 10;
+	// "press launch button" visibility toggle ticks
 	private int pressToActivateTicks = PRESS_TO_ACTIVATE_TICKS_INIT;
 	
+	// choice rectangle bounds
 	private Rectangle[] choiceRect = new Rectangle[8];
+	// choice current color
 	private Color[] choiceColor = new Color[8];
+	// current choice
 	private int selectedOption = 0;
+	// choice texts
 	private String[] choiceText = {"Play against computer",
 			"Local 2-players game",
 			"Host a network game",
@@ -53,6 +70,9 @@ public class TitleMenu extends GameObject {
 			"About",
 			"Exit"};
 	
+	/*
+	 * Define choice ID
+	 */
 	private static final int CHOICE_VS_1P = 0;
 	private static final int CHOICE_VS_2P = 1;
 	private static final int CHOICE_SERVER = 2;
@@ -62,8 +82,11 @@ public class TitleMenu extends GameObject {
 	private static final int CHOICE_ABOUT = 6;
 	private static final int CHOICE_EXIT = 7;
 	
-	private boolean flag = false;
-	
+	/**
+	 * Initialize the menu
+	 * 
+	 * @param preActivate	Is the menu should be already activated?
+	 */
 	public TitleMenu(boolean preActivate) {
 		super();
 		
@@ -71,21 +94,31 @@ public class TitleMenu extends GameObject {
 		this.visible = true;
 		this.activated = preActivate;
 		
+		// initialize menu color
 		for (int i = 0; i < choiceColor.length; i++) {
 			choiceColor[i] = Color.BLACK;
 		}
 	}
 	
+	/**
+	 * Default constructor
+	 */
 	public TitleMenu() {
 		this(true);
 	}
 	
+	/**
+	 * Determine menu center
+	 */
 	@Override
 	public void eventOnCreate() {
 		menuCenterX = scene.getWidth() / 2;
 		menuCenterY = scene.getHeight() / 2 + 64;
 	}
 	
+	/**
+	 * Listen for user input
+	 */
 	@Override
 	public void eventPreUpdate() {
 		boolean triggered = false;
@@ -143,6 +176,12 @@ public class TitleMenu extends GameObject {
 			}
 		}
 		
+		/*
+		 * If menu not activated and "triggered"
+		 * activate the menu
+		 * Else if activated and "triggered"
+		 * perform selected action
+		 */
 		if (triggered) {
 			if (!activated) {
 				activated = true;
@@ -153,6 +192,9 @@ public class TitleMenu extends GameObject {
 		}
 	}
 	
+	/**
+	 * Draw the menu
+	 */
 	@Override
 	public void draw(Graphics2D canvas) {
 		if (!activated) {
@@ -199,19 +241,18 @@ public class TitleMenu extends GameObject {
 					(int) Math.round(bound.getWidth()),
 					(int) Math.round(bound.getHeight()));
 		}
-		
-		if (GameEngine.isDebugOn() && !flag) {
-			Rectangle rect = choiceRect[0];
-			System.out.println(rect.x + " " + rect.y + " " + 
-					(rect.x + rect.width) + " " + (rect.y + rect.width));
-			flag = true;
-		}
 	}
 	
+	/**
+	 * Perform selected choice action
+	 * 
+	 * @param choice	Selected choice
+	 */
 	private void action(int choice) {
 		final PongScene pscene;
 		
 		switch (choice) {
+		// Player against computer
 		case CHOICE_VS_1P:
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
@@ -222,6 +263,7 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
+		// Local 2-players game
 		case CHOICE_VS_2P:
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL);
@@ -232,6 +274,7 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new NewGameDialog(pscene));
 			break;
 			
+		// Host a network game
 		case CHOICE_SERVER:
 			pscene = new PongScene();
 			pscene.setLeftPlayer(Player.PLAYER_LOCAL, true);
@@ -242,6 +285,7 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new NewGameDialog(pscene, true));
 			break;
 			
+		// Connect to a network game
 		case CHOICE_CLIENT:
 			pscene = new ShadowPongScene();
 			pscene.setLeftPlayer(Player.PLAYER_SHADOW, false);
@@ -252,24 +296,33 @@ public class TitleMenu extends GameObject {
 			GameEngine.launchDialog(new ConnectDialog(pscene));
 			break;
 			
+		// Options
 		case CHOICE_OPTIONS:
 			GameEngine.launchDialog(new OptionsDialog());
 			break;
-			
+		
+		// Help
 		case CHOICE_HELP:
 			GameEngine.setScene(new HelpScene());
 			break;
-			
+		
+		// About
 		case CHOICE_ABOUT:
 			GameEngine.setScene(new AboutScene());
 			break;
 		
+		// Exit
 		case CHOICE_EXIT:
 			GameEngine.exit();
 			break;
 		}
 	}
 	
+	/**
+	 * Is menu activated?
+	 * 
+	 * @return	True if menu is activated
+	 */
 	public boolean isActivated() {
 		return activated;
 	}

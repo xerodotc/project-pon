@@ -1,3 +1,11 @@
+/**
+ * HelpScene.java
+ * 
+ * A scene for showing "help" page
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.scenes;
 
 import java.awt.Graphics2D;
@@ -17,6 +25,7 @@ public class HelpScene extends GameScene {
 			public void eventPreUpdate() {
 				this.visible = true;
 				
+				// dismiss and return to title, if button pressed
 				switch (Configuration.get("inputPrimaryPlayer", "type")) {
 				case "mouse":
 					if (input.isMouseReleased(
@@ -36,6 +45,7 @@ public class HelpScene extends GameScene {
 			
 			@Override
 			public void draw(Graphics2D canvas) {
+				// draw "help" image
 				canvas.drawImage(GameImage.getImage("help"), null, 0, 0);
 			}
 		});

@@ -1,3 +1,11 @@
+/**
+ * ReplayController.java
+ * 
+ * A class for replayed game session controller
+ * 
+ * @author Visatouch Deeying [5631083121]
+ */
+
 package projectpon.game.objects.ingame.controllers;
 
 import java.awt.event.KeyEvent;
@@ -15,8 +23,13 @@ import projectpon.game.replay.ReplayFrame;
 import projectpon.game.scenes.ShadowPongScene;
 
 public class ReplayController extends LocalController {
-	private ReplayData replayData;
+	private ReplayData replayData; // loaded replay data
 	
+	/**
+	 * Load replay data from file
+	 * 
+	 * @param file		File name
+	 */
 	public ReplayController(String file) {
 		super();
 		
@@ -31,6 +44,9 @@ public class ReplayController extends LocalController {
 		}
 	}
 	
+	/**
+	 * Control objects' position according to replay file
+	 */
 	@Override
 	public void eventPreUpdate() {
 		if (replayData.isEOF()) {
@@ -46,7 +62,7 @@ public class ReplayController extends LocalController {
 			return;
 		}
 		
-		ReplayFrame frame = replayData.popNextFrame();
+		ReplayFrame frame = replayData.popNextFrame(); // get next frame
 		
 		ShadowPongScene spscene = (ShadowPongScene) pscene;
 		ShadowPlayer sPlayerLeft = (ShadowPlayer) spscene.playerLeft;
@@ -72,7 +88,7 @@ public class ReplayController extends LocalController {
 		spscene.setShadowItems(frame.fieldItems);
 		
 		if (frame.sound != null) {
-			GameSound.playSound(frame.sound);
+			GameSound.playSound(frame.sound); // play the sound
 		}
 		
 		if (frame.winner != null) {
