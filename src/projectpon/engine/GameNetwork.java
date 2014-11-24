@@ -23,6 +23,12 @@ public final class GameNetwork {
 	public static final int DEFAULT_TIMEOUT = 10000;
 	
 	/**
+	 * Prevent instance initialization
+	 */
+	private GameNetwork() {
+	}
+	
+	/**
 	 * A class for manager server subsystem
 	 */
 	public static class Server {
@@ -30,6 +36,12 @@ public final class GameNetwork {
 		private static Thread acceptThread; // thread for accepting client
 		private static AcceptListener acceptListener = null; // accept listener
 		private static boolean serverStarted = false; // is server started
+		
+		/**
+		 * Prevent instance initialization
+		 */
+		private Server() {
+		}
 		
 		/**
 		 * AcceptListener interface
@@ -120,6 +132,12 @@ public final class GameNetwork {
 		private static Socket remote; // socket connected to server
 		private static ConnectListener connectListener = null; // connect listener
 		private static Thread connectThread; // thread for connecting to server
+		
+		/**
+		 * Prevent instance initialization
+		 */
+		private Client() {
+		}
 		
 		/**
 		 * ConnectListener interface
