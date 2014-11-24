@@ -46,6 +46,7 @@ public class CheatOptionsPanel extends JPanel {
 		cheatsExplainText += "S - Obtain sticky paddle item<br>";
 		cheatsExplainText += "U - Revoke effects of the blind item<br>";
 		cheatsExplainText += "W - Obtain wall item<br>";
+		cheatsExplainText += "Y - Revoke effects of the invert item<br>";
 		cheatsExplainText += "1 - Shrink paddle<br>";
 		cheatsExplainText += "2 - Expand paddle<br>";
 		cheatsExplainText += "<br>";

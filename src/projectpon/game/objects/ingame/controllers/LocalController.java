@@ -88,6 +88,9 @@ public class LocalController extends Controller {
 		if (input.isKeyPressed(KeyEvent.VK_W)) {
 			pscene.myPlayer.setStatus(Player.STATUS_WALL);
 		}
+		if (input.isKeyPressed(KeyEvent.VK_Y)) {
+			pscene.myPlayer.uninvert();
+		}
 		if (input.isKeyPressed(KeyEvent.VK_1)) {
 			pscene.myPlayer.shrink();
 		}

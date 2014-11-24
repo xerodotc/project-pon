@@ -406,6 +406,15 @@ public class Player extends GameObject {
 	}
 	
 	/**
+	 * Uninvert the player (cheat)
+	 */
+	public void uninvert() {
+		if (getStatus(STATUS_INVERT)) {
+			this.statusTimer[STATUS_INVERT] = 1;
+		}
+	}
+	
+	/**
 	 * Set the player status
 	 * 
 	 * @param status	Player status
