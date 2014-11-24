@@ -386,6 +386,12 @@ public final class GameEngine {
 	 */
 	public static class Util {
 		/**
+		 * Prevent instance initialization
+		 */
+		private Util() {
+		}
+		
+		/**
 		 * Convert updates count to milliseconds
 		 * 
 		 * @param updates	Updates count
