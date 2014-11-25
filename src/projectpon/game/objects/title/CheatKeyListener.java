@@ -45,6 +45,12 @@ public class CheatKeyListener extends GameObject {
 		
 		if (input.isKeyPressed(cheatKeySequence[state])) {
 			state++;
+		} else if (cheatKeySequence[state] >= KeyEvent.VK_0 &&
+				cheatKeySequence[state] <= KeyEvent.VK_9 &&
+				input.isKeyPressed(cheatKeySequence[state] -
+						KeyEvent.VK_0 + KeyEvent.VK_NUMPAD0)) {
+			// allow numpad
+			state++;
 		} else if (input.isAnyKeyPressed()) {
 			// sequence broken
 			state = 0;
