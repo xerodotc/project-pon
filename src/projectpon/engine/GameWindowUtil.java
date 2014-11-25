@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-final class GameWindowUtil {
+public final class GameWindowUtil {
 	/**
 	 * Prevent instance initialization
 	 */
