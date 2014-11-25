@@ -50,8 +50,9 @@ public class LocalController extends Controller {
 		
 		/*
 		 * Pause the game if ESC key is pressed (except for network game)
+		 * also except when game finish
 		 */
-		if (!networked) {
+		if (!networked && winner == null) {
 			paused = nextPaused;
 			if (input.isKeyReleased(KeyEvent.VK_ESCAPE)) {
 				togglePause();
