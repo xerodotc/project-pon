@@ -8,7 +8,7 @@
 
 package projectpon.engine;
 
-interface GameWindow {
+public interface GameWindow {
 	public abstract void setParentWindow(GameWindow w);
 	public abstract void childWindowOpened();
 	public abstract void childWindowClosed();
