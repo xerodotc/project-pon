@@ -42,13 +42,13 @@ public class CheatOptionsPanel extends JPanel {
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		String cheatsExplainText = "<html>";
 		cheatsExplainText += "<u>Cheat hotkeys list</u><br>";
-		cheatsExplainText += "I - Spawn new item<br>";
-		cheatsExplainText += "S - Obtain sticky paddle item<br>";
-		cheatsExplainText += "U - Revoke effects of the blind item<br>";
-		cheatsExplainText += "W - Obtain wall item<br>";
-		cheatsExplainText += "Y - Revoke effects of the invert item<br>";
 		cheatsExplainText += "1 - Shrink paddle<br>";
 		cheatsExplainText += "2 - Expand paddle<br>";
+		cheatsExplainText += "Q - Revoke/obtain blind item<br>";
+		cheatsExplainText += "W - Obtain wall item<br>";
+		cheatsExplainText += "A - Revoke/obtain invert item<br>";
+		cheatsExplainText += "S - Obtain sticky item<br>";
+		cheatsExplainText += "F - Spawn new item<br>";
 		cheatsExplainText += "<br>";
 		cheatsExplainText += "These hotkeys only work in play against<br>computer mode.";
 		cheatsExplainText += "</html>";

@@ -76,26 +76,35 @@ public class LocalController extends Controller {
 	 * Cheat hotkeys function
 	 */
 	private void cheatKeysListener() {
-		if (input.isKeyPressed(KeyEvent.VK_I)) {
-			pscene.spawnItem();
-		}
-		if (input.isKeyPressed(KeyEvent.VK_S)) {
-			pscene.myPlayer.setStatus(Player.STATUS_STICKY);
-		}
-		if (input.isKeyPressed(KeyEvent.VK_U)) {
-			pscene.myPlayer.unblind();
+		if (input.isKeyPressed(KeyEvent.VK_Q)) {
+			if (pscene.myPlayer.getStatus(Player.STATUS_BLIND)) {
+				pscene.myPlayer.unblind();
+			} else {
+				pscene.myPlayer.setStatus(Player.STATUS_BLIND);
+			}
 		}
 		if (input.isKeyPressed(KeyEvent.VK_W)) {
 			pscene.myPlayer.setStatus(Player.STATUS_WALL);
 		}
-		if (input.isKeyPressed(KeyEvent.VK_Y)) {
-			pscene.myPlayer.uninvert();
+		if (input.isKeyPressed(KeyEvent.VK_A)) {
+			if (pscene.myPlayer.getStatus(Player.STATUS_INVERT)) {
+				pscene.myPlayer.uninvert();
+			} else {
+				pscene.myPlayer.setStatus(Player.STATUS_INVERT);
+			}
+		}
+		if (input.isKeyPressed(KeyEvent.VK_S)) {
+			pscene.myPlayer.setStatus(Player.STATUS_STICKY);
 		}
 		if (input.isKeyPressed(KeyEvent.VK_1)) {
 			pscene.myPlayer.shrink();
 		}
 		if (input.isKeyPressed(KeyEvent.VK_2)) {
 			pscene.myPlayer.expand();
+		}
+		
+		if (input.isKeyPressed(KeyEvent.VK_F)) {
+			pscene.spawnItem();
 		}
 	}
 	
