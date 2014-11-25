@@ -197,6 +197,9 @@ public class ClientController extends LocalController {
 							String sound = (String) container.get("sound");
 							if (sound != null) {
 								GameSound.playSound(sound);
+								if (saveReplay) {
+									replaySoundQueue.add(sound);
+								}
 							}
 							
 							if (GameEngine.isDebugOn()) {

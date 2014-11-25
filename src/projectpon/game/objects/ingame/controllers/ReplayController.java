@@ -89,6 +89,10 @@ public class ReplayController extends LocalController {
 		
 		if (frame.sound != null) {
 			GameSound.playSound(frame.sound); // play the sound
+			if (saveReplay) {
+				// its okay if you want to save replay from replay...
+				replaySoundQueue.add(frame.sound);
+			}
 		}
 		
 		if (frame.winner != null) {
