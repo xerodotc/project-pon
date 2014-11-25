@@ -12,9 +12,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import projectpon.engine.GameFont;
-import projectpon.game.Configuration;
 
 public class PausedOverlay extends Overlay {
 	private Font largeFont = GameFont.getFont("advocut").
@@ -51,45 +51,15 @@ public class PausedOverlay extends Overlay {
 		if (pscene.controller.isUserPaused()) {
 			this.visible = true;
 			
-			boolean select = false;
+			boolean select = input.isMouseReleased(MouseEvent.BUTTON1);
 			
-			/*
-			 * Listen for user input and choice selection
-			 */
-			switch (Configuration.get("inputPrimaryPlayer", "type")) {
-			case "mouse":
-				selectedOption = -1;
-				if (choiceRect[RETURN_TO_GAME] != null && choiceRect[RETURN_TO_GAME].
-						contains(input.getMouseCoordinate())) {
-					selectedOption = RETURN_TO_GAME;
-				} else if (choiceRect[RETURN_TO_GAME] != null && choiceRect[RETURN_TO_TITLE].
-						contains(input.getMouseCoordinate())) {
-					selectedOption = RETURN_TO_TITLE;
-				}
-				select = input.isMouseReleased(
-						Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
-				break;
-				
-			case "keyboard":
-				if (input.isKeyPressed(
-						Configuration.getInt("inputPrimaryPlayer", "keyUp"))) {
-					selectedOption--;
-				}
-				if (input.isKeyPressed(
-						Configuration.getInt("inputPrimaryPlayer", "keyDown"))) {
-					selectedOption++;
-				}
-				
-				if (selectedOption < 0) {
-					selectedOption = choiceRect.length - 1;
-				}
-				if (selectedOption >= choiceRect.length) {
-					selectedOption = 0;
-				}
-				
-				select = input.isKeyReleased(
-						Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
-				break;
+			selectedOption = -1;
+			if (choiceRect[RETURN_TO_GAME] != null && choiceRect[RETURN_TO_GAME].
+					contains(input.getMouseCoordinate())) {
+				selectedOption = RETURN_TO_GAME;
+			} else if (choiceRect[RETURN_TO_GAME] != null && choiceRect[RETURN_TO_TITLE].
+					contains(input.getMouseCoordinate())) {
+				selectedOption = RETURN_TO_TITLE;
 			}
 			
 			for (int i = 0; i < choiceColor.length; i++) {

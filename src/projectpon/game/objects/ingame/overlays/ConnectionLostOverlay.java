@@ -12,7 +12,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import projectpon.engine.GameFont;
-import projectpon.game.Configuration;
 
 public class ConnectionLostOverlay extends Overlay {
 	private Font font = GameFont.getFont("advocut").
@@ -30,18 +29,7 @@ public class ConnectionLostOverlay extends Overlay {
 	 */
 	@Override
 	public void eventPreUpdate() {
-		boolean dismiss = false;
-		switch (Configuration.get("inputPrimaryPlayer", "type")) {
-		case "mouse":
-			dismiss = input.isMouseReleased(
-					Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
-			break;
-			
-		case "keyboard":
-			dismiss = input.isKeyReleased(
-					Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
-			break;
-		}
+		boolean dismiss = input.isAnyMouseReleased() || input.isAnyKeyReleased();
 		
 		if (dismiss) {
 			pscene.goToTitle();

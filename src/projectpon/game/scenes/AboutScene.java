@@ -14,7 +14,6 @@ import projectpon.engine.GameEngine;
 import projectpon.engine.GameImage;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameScene;
-import projectpon.game.Configuration;
 
 public class AboutScene extends GameScene {
 
@@ -26,20 +25,8 @@ public class AboutScene extends GameScene {
 				this.visible = true;
 				
 				// dismiss and return to title, if button pressed
-				switch (Configuration.get("inputPrimaryPlayer", "type")) {
-				case "mouse":
-					if (input.isMouseReleased(
-							Configuration.getInt("inputPrimaryPlayer", "mbLaunch"))) {
-						GameEngine.setScene(new TitleScene());
-					}
-					break;
-					
-				case "keyboard":
-					if (input.isKeyReleased(
-							Configuration.getInt("inputPrimaryPlayer", "keyLaunch"))) {
-						GameEngine.setScene(new TitleScene());
-					}
-					break;
+				if (input.isAnyMouseReleased() || input.isAnyKeyReleased()) {
+					GameEngine.setScene(new TitleScene());
 				}
 			}
 			

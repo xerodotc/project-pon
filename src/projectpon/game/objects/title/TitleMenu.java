@@ -13,13 +13,13 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import projectpon.engine.GameEngine;
 import projectpon.engine.GameFont;
 import projectpon.engine.GameObject;
 import projectpon.engine.GameSound;
-import projectpon.game.Configuration;
 import projectpon.game.SessionConfiguration;
 import projectpon.game.dialogs.ConnectDialog;
 import projectpon.game.dialogs.NewGameDialog;
@@ -38,7 +38,7 @@ public class TitleMenu extends GameObject {
 	
 	// "press launch button" text font
 	private Font pressToActivateFont = GameFont.getFont("advocut").
-			deriveFont(Font.PLAIN, 64);
+			deriveFont(Font.PLAIN, 56);
 	// choices font
 	private Font menuFont = GameFont.getFont("advocut").
 			deriveFont(Font.PLAIN, 24);
@@ -121,52 +121,20 @@ public class TitleMenu extends GameObject {
 	 */
 	@Override
 	public void eventPreUpdate() {
-		boolean triggered = false;
-		
-		switch (Configuration.get("inputPrimaryPlayer", "type")) {
-		case "mouse":
-			triggered = input.isMouseReleased(
-					Configuration.getInt("inputPrimaryPlayer", "mbLaunch"));
-			
-			if (activated) {
-				selectedOption = -1;
-				for (int i = 0; i < choiceRect.length; i++) {
-					if (choiceRect[i] == null) {
-						continue;
-					}
-					if (choiceRect[i].contains(input.getMouseCoordinate())) {
-						selectedOption = i;
-						break;
-					}
-				}
-			}
-			break;
-			
-		case "keyboard":
-			triggered = input.isKeyReleased(
-					Configuration.getInt("inputPrimaryPlayer", "keyLaunch"));
-			
-			if (activated) {
-				if (input.isKeyPressed(
-						Configuration.getInt("inputPrimaryPlayer", "keyUp"))) {
-					selectedOption--;
-				}
-				if (input.isKeyPressed(
-						Configuration.getInt("inputPrimaryPlayer", "keyDown"))) {
-					selectedOption++;
-				}
-				
-				if (selectedOption < 0) {
-					selectedOption = choiceRect.length - 1;
-				}
-				if (selectedOption >= choiceRect.length) {
-					selectedOption = 0;
-				}
-			}
-			break;
-		}
+		boolean triggered = input.isMouseReleased(MouseEvent.BUTTON1);
 		
 		if (activated) {
+			selectedOption = -1;
+			for (int i = 0; i < choiceRect.length; i++) {
+				if (choiceRect[i] == null) {
+					continue;
+				}
+				if (choiceRect[i].contains(input.getMouseCoordinate())) {
+					selectedOption = i;
+					break;
+				}
+			}
+			
 			for (int i = 0; i < choiceColor.length; i++) {
 				if (i == selectedOption) {
 					choiceColor[i] = Color.RED;
@@ -207,7 +175,7 @@ public class TitleMenu extends GameObject {
 			if (pressToActivateVisible) {
 				canvas.setFont(pressToActivateFont);
 				canvas.setColor(Color.WHITE);
-				String text = "PRESS LAUNCH BUTTON";
+				String text = "PRESS LEFT MOUSE BUTTON";
 				FontMetrics metrics = canvas.getFontMetrics();
 				int width = metrics.stringWidth(text);
 				int height = metrics.getHeight();
