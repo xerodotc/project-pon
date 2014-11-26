@@ -33,10 +33,10 @@ import projectpon.game.scenes.ShadowPongScene;
 public class TitleMenu extends GameObject {
 	private boolean activated = false; // is the menu activated
 	
-	// is "press launch button" text visible
+	// is "press left mouse button" text visible
 	private boolean pressToActivateVisible = true; 
 	
-	// "press launch button" text font
+	// "press left mouse button" text font
 	private Font pressToActivateFont = GameFont.getFont("advocut").
 			deriveFont(Font.PLAIN, 56);
 	// choices font
@@ -49,9 +49,9 @@ public class TitleMenu extends GameObject {
 	private static final int MENU_HEIGHT = 340; // menu height
 	private static final int MENU_BORDER = 8; // menu border
 	
-	// "press launch button" visibility toggle initial ticks
+	// "press left mouse button" visibility toggle initial ticks
 	private static final int PRESS_TO_ACTIVATE_TICKS_INIT = 10;
-	// "press launch button" visibility toggle ticks
+	// "press left mouse button" visibility toggle ticks
 	private int pressToActivateTicks = PRESS_TO_ACTIVATE_TICKS_INIT;
 	
 	// choice rectangle bounds
