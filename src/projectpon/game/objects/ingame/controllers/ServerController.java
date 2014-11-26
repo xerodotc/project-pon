@@ -38,7 +38,7 @@ public class ServerController extends LocalController {
 	private String remoteInputType = ""; // remote input type (mouse/keyboard)
 	private int remoteKeySpeed; // remote keyboard speed
 	
-	private Boolean connectionLost = false; // connection lost flag
+	private boolean connectionLost = false; // connection lost flag
 	
 	/**
 	 * Initialize and set socket timeout
