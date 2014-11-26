@@ -36,7 +36,7 @@ import projectpon.game.objects.ingame.overlays.WinOverlay;
 public class PongScene extends GameScene {
 	public Player playerLeft; // left player
 	public Player playerRight; // right player
-	public Player myPlayer = null; // my palyer
+	public Player myPlayer = null; // my player
 	public Player starting = null; // starting player
 	protected Wall wallLeft; // left wall object
 	protected Wall wallRight; // right wall object
