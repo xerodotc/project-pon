@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+<class-diagram version="1.1.7" icons="false" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="false" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="projectpon.game.replay.ReplayData" project="ProjectPon" 
     file="/ProjectPon/src/projectpon/game/replay/ReplayData.java" binary="false" corner="BOTTOM_RIGHT">    
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="projectpon.game.replay.ReplayFrame" project="ProjectPon" 
     file="/ProjectPon/src/projectpon/game/replay/ReplayFrame.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="421" width="259" x="469" y="27"/>    
+    <position height="-1" width="-1" x="555" y="210"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

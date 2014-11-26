@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+<class-diagram version="1.1.7" icons="false" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="false" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="projectpon.engine.GameSound" project="ProjectPon" 
     file="/ProjectPon/src/projectpon/engine/GameSound.java" binary="false" corner="BOTTOM_RIGHT">    
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="projectpon.engine.GameImage" project="ProjectPon" 
     file="/ProjectPon/src/projectpon/engine/GameImage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="151" width="217" x="405" y="-43"/>    
+    <position height="-1" width="-1" x="468" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="projectpon.engine.GameFont" project="ProjectPon" 
     file="/ProjectPon/src/projectpon/engine/GameFont.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="151" width="157" x="662" y="-43"/>    
+    <position height="-1" width="-1" x="439" y="203"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

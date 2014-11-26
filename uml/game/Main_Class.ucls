@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+<class-diagram version="1.1.7" icons="false" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="false" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="projectpon.Main" project="ProjectPon" file="/ProjectPon/src/projectpon/Main.java" 
     binary="false" corner="BOTTOM_RIGHT">    
