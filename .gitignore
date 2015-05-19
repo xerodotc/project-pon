@@ -18,3 +18,7 @@ hs_err_pid*
 # Ignore IntelliJ IDEA file
 *.iml
 /.idea/
+
+# Don't ignore libraries
+!/lib/*.jar
+
