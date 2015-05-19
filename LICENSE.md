@@ -57,3 +57,32 @@ are covered by the license below:
 	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+AdvoCut font
+============
+
+The following file(s)
+
+* `src/main/resources/res/fonts/advocut.ttf`
+
+are covered by the license below:
+
+	This Font was brought to you by miepsfonts, a division of homebrainbox, and is free
+	for non-commercial use .
+	
+	The included files must not be modified and this readme file must be included with
+	each font. Fonts may not be included on any collections of public domain or shareware
+	with out our expressed permission. For more information please visit our homepage :
+	
+	www.homebrainbox.com
+	
+	Or mail me:
+	
+	mieps@homebrainbox.com
+	
+	Thanks for your interest. Feel free to send me money, drugs, women or any kind of
+	feedback.
+	
+	mieps
+	
+	Copyright © 2001 Marc André Misman. All rights reserved.

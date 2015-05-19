@@ -10,6 +10,3 @@ build/
 *.ipr
 *.iws
 .idea/
-
-# Ignore fonts (copyright issue)
-src/main/resources/res/fonts/*.ttf
