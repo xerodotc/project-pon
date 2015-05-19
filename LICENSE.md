@@ -76,7 +76,7 @@ ini4j is covered by the following notice:
 Resources
 =========
 
-AdvoCut font is covered by the following notice:
+AdvoCut font is covered by the following notice from `miepsfonts.htm` file at the fonts directory:
 
 	This Font was brought to you by miepsfonts, a division of homebrainbox, and is free
 	for non-commercial use .
