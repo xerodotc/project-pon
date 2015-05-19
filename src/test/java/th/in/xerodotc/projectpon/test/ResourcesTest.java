@@ -22,9 +22,6 @@ public class ResourcesTest {
 	public void testLoadFont() throws Exception {
 		String resPath = "res/fonts/advocut.ttf";
 		InputStream istream = ResourcesTest.class.getClassLoader().getResourceAsStream(resPath);
-		if (istream == null) {
-			istream = new FileInputStream(new File(resPath));
-		}
 		assertNotNull(istream);
 	}
 
@@ -36,9 +33,6 @@ public class ResourcesTest {
 
 		for (String resPath : resPaths) {
 			InputStream istream = ResourcesTest.class.getClassLoader().getResourceAsStream(resPath);
-			if (istream == null) {
-				istream = new FileInputStream(new File(resPath));
-			}
 			assertNotNull(istream);
 		}
 	}
