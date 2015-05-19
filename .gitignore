@@ -14,3 +14,7 @@ hs_err_pid*
 # Ignore Gradle file 
 /build/
 /.gradle/
+
+# Ignore IntelliJ IDEA file
+*.iml
+/.idea/
