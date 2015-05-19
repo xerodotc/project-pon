@@ -19,6 +19,9 @@ hs_err_pid*
 *.iml
 /.idea/
 
+# Ignore AdvoCut font (copyright issue)
+/src/main/resources/res/fonts/advocut.ttf
+
 # Don't ignore libraries
 !/lib/*.jar
 
