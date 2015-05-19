@@ -1,27 +1,14 @@
 *.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# Ignore Gradle file 
-/build/
-/.gradle/
+# Ignore Gradle file
+build/
+.gradle/
 
 # Ignore IntelliJ IDEA file
 *.iml
-/.idea/
+*.ipr
+*.iws
+.idea/
 
-# Ignore AdvoCut font (copyright issue)
-/src/main/resources/res/fonts/advocut.ttf
-
-# Don't ignore libraries
-!/lib/*.jar
-
+# Ignore fonts (copyright issue)
+src/main/resources/res/fonts/*.ttf
