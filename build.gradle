@@ -20,9 +20,21 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 jar {
-	from configurations.compile.collect { zipTree it }
 	manifest {
 		attributes 'Main-Class': 'th.in.xerodotc.projectpon.Main'
+		attributes 'Class-Path': configurations.compile.collect { "libs/" + it.getName() }.join(' ')
 	}
 }
 
+task copyLibs(type: Copy) {
+	into "$buildDir/libs/libs"
+	from configurations.runtime
+}
+
+task copyLicenses(type: Copy) {
+	into "$buildDir/libs"
+	from "LICENSE.md", "lgpl-2.1.txt"
+}
+
+build.dependsOn(copyLibs)
+build.dependsOn(copyLicenses)
