@@ -38,4 +38,4 @@ License
 -------
 
 This project itself (excluding its dependencies and resources) is licensed under MIT License.
-For more information please see [LICENSE.md](LICENSE.md).
+For more information please see [COPYRIGHTS.md](COPYRIGHTS.md).
